@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>宝物日記</title>
+<meta name="description" content="Takara Nikki — タカラ的 App 總站">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="宝物日記">
+<meta name="theme-color" content="#161311">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;600;700&family=IBM+Plex+Mono:wght@500&family=Noto+Sans+TC:wght@400;700&family=Yuji+Syuku&display=swap">
+<style>
+/* 版型：單欄總站；勇者試煉／妖怪天国同一套夜版墨色＋朱印 */
+:root{--bg:#161311;--panel:#1F1B18;--ink:#F2ECE4;--dim:#B3A797;--line:#3A322B;--seal:#E06A55;--gold:#D4A54A;
+  --fs:"IBM Plex Sans JP","Noto Sans TC",system-ui,sans-serif;--fm:"IBM Plex Mono",ui-monospace,monospace;--fb:"Yuji Syuku","Noto Sans TC",serif;color-scheme:dark}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0 auto;max-width:560px;min-height:100vh;background:var(--bg) radial-gradient(70% 40% at 100% 0%,rgba(224,106,85,.16),transparent 70%) fixed;color:var(--ink);font-family:var(--fs);font-size:17px;line-height:1.5;
+  padding-top:max(28px,env(safe-area-inset-top));padding-bottom:max(40px,env(safe-area-inset-bottom));padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+header{display:grid;grid-template-columns:64px 1fr;gap:4px 16px;align-items:center;margin-bottom:28px}
+.seal{grid-row:span 2;width:64px;height:64px;border:3px double var(--seal);border-radius:10px;display:grid;place-items:center;font-family:var(--fb);font-size:34px;color:var(--seal);transform:rotate(-5deg)}
+h1{margin:0;font-size:28px;line-height:1.1}
+.en{font-family:var(--fm);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+h2{font-size:13px;font-weight:600;letter-spacing:.14em;color:var(--dim);margin:26px 2px 10px}
+.apps{display:grid;gap:12px}
+a.app{display:grid;grid-template-columns:64px 1fr 20px;gap:16px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:18px;background:var(--panel);color:inherit;text-decoration:none;transition:transform .15s,border-color .2s}
+a.app:hover,a.app:focus-visible{border-color:var(--seal);outline:none}
+a.app:active{transform:scale(.98)}
+a.app img{width:64px;height:64px;border-radius:15px;display:block}
+.t{font-size:19px;font-weight:700;line-height:1.25}
+.t small{display:block;font-family:var(--fm);font-size:10.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+.d{font-size:14px;color:var(--dim);margin-top:4px;line-height:1.4}
+.go{width:20px;height:20px;stroke:var(--dim);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.soon{opacity:.55;border-style:dashed;pointer-events:none}
+.soon .ph{width:64px;height:64px;border-radius:15px;border:1.5px dashed var(--line);display:grid;place-items:center;font-family:var(--fb);font-size:26px;color:var(--dim)}
+footer{margin-top:34px;font-size:13px;color:var(--dim);text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <div class="seal">宝</div>
+  <h1>宝物日記</h1>
+  <div class="en">Takara Nikki · Apps</div>
+</header>
+
+<h2>日本語の学び｜日文學習</h2>
+<div class="apps">
+  <a class="app" href="yokai-paradise/">
+    <img src="yokai-paradise/icon-192.png" alt="">
+    <div><div class="t">妖怪天国<small>Yokai Paradise</small></div><div class="d">手寫單字封印妖怪、唸日文消岩漿方塊、動詞化け術。</div></div>
+    <svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+  </a>
+  <a class="app" href="hero-trial/">
+    <img src="hero-trial/icon-192.png" alt="">
+    <div><div class="t">タカラの勇者試煉<small>Hero Trial · N4</small></div><div class="d">JLPT N4 衝刺：單字、文法、讀解、聽解。</div></div>
+    <svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+  </a>
+</div>
+
+<h2>まもなく｜之後會放在這裡</h2>
+<div class="apps">
+  <div class="app soon"><div class="ph">遊</div><div><div class="t">下一個 App</div><div class="d">新的作品做好就會出現在這裡。</div></div><span></span></div>
+</div>
+
+<footer>每個 App 都可以各自「加入主畫面」。</footer>
+</body>
+</html>
