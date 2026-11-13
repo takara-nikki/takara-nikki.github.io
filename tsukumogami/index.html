@@ -102,8 +102,8 @@ video.mirror{transform:scaleX(-1)}
 @keyframes blink{50%{transform:translateY(3px);opacity:.4}}
 
 /* 底部操作列 */
-#ctrl{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 16px);z-index:5;display:flex;align-items:center;justify-content:center;gap:26px}
-#ctrl .pbtn{width:92px;height:46px;font-size:15px}
+#ctrl{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 16px);z-index:5;display:flex;align-items:center;justify-content:center;gap:12px}
+#ctrl .pbtn{width:84px;height:46px;font-size:15px;padding:0 10px}
 #ctrl .pbtn b{color:var(--shu);font-size:13px}
 #shut{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,#4c4641,#2f2a26);color:#f5eee2;
   box-shadow:0 10px 24px rgba(20,14,8,.45);transition:transform .35s var(--spring)}
@@ -234,6 +234,28 @@ body.japan .jpb{display:flex}
 .stamp.goshu{top:auto;bottom:70px;right:26px;width:70px;height:70px;border-radius:50%;font-size:12px}
 .stamp.goshu span{font-size:26px}
 
+/* AI 查詢 */
+#askBtn{position:relative;width:62px;height:62px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;background:var(--paperbg);background-size:200px,400px,auto;color:var(--ink);font-size:10.5px;font-weight:700;box-shadow:0 8px 18px rgba(20,14,8,.32);transition:transform .35s var(--spring)}
+#askBtn svg{width:22px;height:22px}
+#askBtn:active{transform:scale(.9)}
+#askBtn kbd{position:absolute;top:-2px;right:-6px}
+#askBtn.busy svg{animation:sp 1s linear infinite}
+#aim{position:fixed;left:50%;top:46%;width:56vmin;height:56vmin;transform:translate(-50%,-50%) scale(.9);z-index:4;pointer-events:none;opacity:0;transition:opacity .3s,transform .4s var(--spring)}
+#aim.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+#aim::before{content:"";position:absolute;inset:0;border-radius:28px;box-shadow:0 0 0 2000px rgba(20,14,8,.28);}
+#aim span{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px;border-radius:50%;background:var(--lamp);box-shadow:0 0 14px var(--lamp)}
+#aim.scan::after{content:"";position:absolute;left:0;right:0;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,var(--lamp),transparent);animation:aimscan 1.1s ease-in-out infinite alternate}
+@keyframes aimscan{from{top:6%}to{top:94%}}
+#aiset .st{font-size:19px;font-weight:900}
+.sp{margin-top:10px;font-size:14px;line-height:1.65;color:var(--ink2)}
+ol.sp{padding-left:20px}
+.sp.small{font-size:12px;color:var(--mute)}
+#keyIn{display:block;width:100%;margin-top:12px;height:46px;padding:0 14px;border:0;border-radius:12px;background:rgba(93,87,82,.1);font:600 15px/1 -apple-system,sans-serif;color:var(--ink);outline:none}
+#keyIn:focus{background:rgba(239,160,76,.18)}
+.no.ai{background:#4f6b8a}
+.dfoot{display:flex;justify-content:flex-end;margin-top:8px}
+.dfoot button{font-size:12.5px;color:var(--mute);font-weight:700;padding:4px 6px}
+
 /* 撮影結果 */
 #photo .pv{display:block;width:100%;max-height:56vh;object-fit:contain;border-radius:12px;box-shadow:0 10px 24px rgba(20,14,8,.25);background:#2a2622}
 #photo h3{font-size:19px;font-weight:900;margin-bottom:12px}
@@ -311,6 +333,7 @@ body.japan .jpb{display:flex}
 
 <nav id="ctrl">
   <button class="pbtn paper" id="dexBtn"><svg class="i" viewBox="0 0 24 24"><path d="M4 5.5c3-1.3 5.7-1 8 1 2.3-2 5-2.3 8-1v13c-3-1.3-5.7-1-8 1-2.3-2-5-2.3-8-1z"/><path d="M12 6.5v13"/></svg><span class="jp">図鑑</span><b id="cnt">0</b><kbd>B</kbd></button>
+  <button id="askBtn" aria-label="這是什麼"><svg class="i" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/><path d="M8.7 8.9a2 2 0 1 1 2.6 2c-.5.3-.8.6-.8 1.2"/><path d="M10.5 14.2v.2"/></svg><span>這是什麼</span><kbd>Q</kbd></button>
   <button id="shut" aria-label="撮影"><svg class="i" viewBox="0 0 24 24"><path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.4"/></svg><kbd>P</kbd></button>
   <button class="pbtn paper" id="bookBtn"><svg class="i" viewBox="0 0 24 24"><path d="M6 4.5h11a2 2 0 0 1 2 2v13H8a2 2 0 0 1-2-2z"/><path d="M6 17.5a2 2 0 0 1 2-2h11"/><path d="M10 8.5h5M10 11.5h3"/></svg>單字<kbd>V</kbd></button>
 </nav>
@@ -354,6 +377,7 @@ body.japan .jpb{display:flex}
   <p class="dsub" id="dsub"></p>
   <div class="grid" id="grid"></div>
   <div class="wlist" id="wlist" hidden></div>
+  <div class="dfoot"><button id="aiSetBtn">AI 查詢設定</button></div>
 </section>
 
 <section class="sheet paper frame" id="quiz">
@@ -370,6 +394,25 @@ body.japan .jpb{display:flex}
   <p class="qmsg" id="qMsg"></p>
   <div class="stamp goshu" id="qStamp"><div><span>合</span>格</div></div>
 </section>
+
+<section class="sheet paper frame" id="aiset">
+  <button class="x" data-close aria-label="關閉"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <h3 class="st">AI 查詢設定</h3>
+  <p class="sp">「這是什麼？」會把畫面中央拍一張，問 Google 的 Gemini AI。需要一組你自己的免費金鑰：</p>
+  <ol class="sp">
+    <li>打開 <b>aistudio.google.com/apikey</b></li>
+    <li>登入後按「Create API key」，複製金鑰</li>
+    <li>貼到下面，按儲存</li>
+  </ol>
+  <input id="keyIn" type="password" autocomplete="off" placeholder="貼上金鑰（AIza 開頭）">
+  <p class="sp small">金鑰只存在這支手機的瀏覽器裡，不會上傳到別的地方。畫面會傳到 Google 來辨識。</p>
+  <div class="acts">
+    <button class="btn ghost" id="keyClear">清除金鑰</button>
+    <button class="btn main" id="keySave">儲存</button>
+  </div>
+</section>
+
+<div id="aim"><span></span></div>
 
 <section class="sheet paper frame" id="photo">
   <svg class="cloud" style="right:-20px;top:-20px;width:96px;height:48px;transform:scaleX(-1)"><use href="#cloud"/></svg>
@@ -409,6 +452,7 @@ const DATA = {
   "bed":{k:"ベッド",r:"べっど",zh:"床",ja:"もう昼だよ。まだ寝たいの？…わたしも。",jz:"已經中午了，你還想睡？…我也是。"},
   "dining table":{k:"テーブル",r:"てーぶる",zh:"桌子",ja:"わたしの上は、いつも物でいっぱい。少し片付けて！",jz:"我上面總是堆滿東西，整理一下吧！"},
   "potted plant":{k:"植木",r:"うえき",zh:"盆栽",ja:"水をください…三日ももらっていません。",jz:"請給我水…我已經三天沒喝了。"},
+  "monitor":{k:"モニター",r:"もにたー",zh:"電腦螢幕",ja:"わたしはテレビじゃないよ。仕事用のモニターだよ。",jz:"我不是電視，是工作用的螢幕喔。"},
   "tv":{k:"テレビ",r:"てれび",zh:"電視",ja:"最近わたしを見ないね。スマホばかり…",jz:"你最近都不看我，只看手機…"},
   "laptop":{k:"パソコン",r:"ぱそこん",zh:"筆電",ja:"書き出し中です。あと三時間…うそです。",jz:"輸出中，還要三小時…騙你的。"},
   "keyboard":{k:"キーボード",r:"きーぼーど",zh:"鍵盤",ja:"コマンドS、押した？ちゃんと保存した？",jz:"按 Command+S 了嗎？有好好存檔嗎？"},
@@ -484,6 +528,7 @@ const WORDS = {
   "bed":[["夢","ゆめ","夢"],["寝坊","ねぼう","睡過頭"],["布団","ふとん","被子"],["起こす","おこす","叫醒"],["枕", "まくら", "枕頭"]],
   "dining table":[["並べる","ならべる","排列"],["準備","じゅんび","準備"],["食事","しょくじ","用餐"],["皆", "みんな", "大家"],["会話", "かいわ", "聊天"]],
   "potted plant":[["育てる","そだてる","培養"],["植える","うえる","種植"],["葉","は","葉子"],["枯れる", "かれる", "枯萎"],["日当たり", "ひあたり", "日照"]],
+  "monitor":[["画面","がめん","畫面"],["明るさ","あかるさ","亮度"],["電源","でんげん","電源"],["映す","うつす","顯示"],["目薬","めぐすり","眼藥水"]],
   "tv":[["番組","ばんぐみ","節目"],["放送","ほうそう","播放"],["映る","うつる","映出"],["消す", "けす", "關掉"],["音", "おと", "聲音"]],
   "laptop":[["調べる","しらべる","查詢"],["送る","おくる","寄送"],["失敗","しっぱい","失敗"],["画面", "がめん", "螢幕"],["保存", "ほぞん", "存檔"]],
   "keyboard":[["間違える","まちがえる","弄錯"],["字","じ","字"],["指","ゆび","手指"],["打つ", "うつ", "打（字）"],["入力", "にゅうりょく", "輸入"]],
@@ -642,7 +687,7 @@ const GROUP = {
   tourou:["clock","traffic light","microwave","oven","toaster","hair drier","fire hydrant"],
   fushigami:["person@home","person@shop","person@street","stop sign","parking meter"],
   tsunotsuno:["dog","horse","sheep","cow","elephant","bear","zebra","giraffe","bird"],
-  dokugan:["tv","laptop","cell phone"],
+  dokugan:["tv","monitor","laptop","cell phone"],
   chahai:["cup","bowl","bottle","wine glass","fork","knife","spoon","banana","apple","orange","cake","sandwich","broccoli","carrot","hot dog","pizza","donut"],
   hyakume:["keyboard","mouse","remote","book"],
   kage:["chair","dining table","refrigerator","toilet","sink","potted plant","vase","bench"],
@@ -661,6 +706,14 @@ const KEYS = Object.keys(DATA).filter(k=>!isJP(k)&&!isRate(k)).sort((a,b)=>Objec
 const sprURL = k => `ghosts/${GH[k]}-s.webp`;
 const avURL = k => `ghosts/${GH[k]}-s.webp`;
 const $ = s => document.querySelector(s);
+
+/* ---------- AI 查到的付喪神（存在這支手機） ---------- */
+let AI=[];
+try{AI=JSON.parse(localStorage.getItem("tsukumo-ai")||"[]")}catch(e){}
+const isAI = k => k.startsWith("ai:");
+function regAI(e){DATA[e.key]={k:e.k,r:e.r,zh:e.zh,t:"AI が見つけた付喪神",ja:e.ja,jz:e.jz};WORDS[e.key]=e.w;GH[e.key]=GHOSTS[e.g]?e.g:"yuneko"}
+AI.forEach(regAI);
+function saveAI(){try{localStorage.setItem("tsukumo-ai",JSON.stringify(AI))}catch(e){}}
 
 /* ---------- 狀態 ---------- */
 let model=null, video=$("#cam"), running=false, mirror=false;
@@ -878,9 +931,13 @@ function makeTag(key){
   $("#labels").append(box,el);
   const o={box,el,last:0};tags.set(key,o);return o;
 }
+let deskSeen=0;
 function render(preds){
   const items=[];
-  for(const p of preds){ let k=p.class==="person"?"person@"+scene:p.class; if(inJapan&&DATA["jp:"+k])k="jp:"+k; if(!DATA[k])continue; items.push({key:k,...mapBox(p.bbox),score:p.score}) }
+  // 同時看到鍵盤、滑鼠或筆電時，「電視」其實是電腦螢幕（5 秒內都算，避免跳來跳去）
+  if(preds.some(p=>["keyboard","mouse","laptop"].includes(p.class)))deskSeen=performance.now();
+  const desk=performance.now()-deskSeen<5000;
+  for(const p of preds){ let k=p.class==="person"?"person@"+scene:p.class==="tv"&&desk?"monitor":p.class; if(inJapan&&DATA["jp:"+k])k="jp:"+k; if(!DATA[k])continue; items.push({key:k,...mapBox(p.bbox),score:p.score}) }
   placeItems(items);
 }
 function placeItems(items){
@@ -926,8 +983,8 @@ function placeItems(items){
 function openCard(key){
   if(isJP(key)&&!found.has(key)){openQuiz(key);return}
   const d=DATA[key],g=GHOSTS[GH[key]];current=key;
-  $("#cNo").textContent=isJP(key)?"日本限定":"No."+String(KEYS.indexOf(key)+1).padStart(2,"0");
-  $("#cNo").classList.toggle("lim",isJP(key));$("#vTxt").textContent=isJP(key)?"N3 單字":"N4 單字";
+  $("#cNo").textContent=isJP(key)?"日本限定":isAI(key)?"AI 發現":"No."+String(KEYS.indexOf(key)+1).padStart(2,"0");
+  $("#cNo").classList.toggle("lim",isJP(key));$("#cNo").classList.toggle("ai",isAI(key));$("#vTxt").textContent=isJP(key)?"N3 單字":"N4 單字";
   $("#cWho").innerHTML=`${g.n}<small>${g.r}</small>`;
   $("#cSpr").src=sprURL(key);
   $("#card").classList.remove("talking");
@@ -955,7 +1012,7 @@ function closeSheet(sel,keepScrim){
   if(sel==="#card"){current=null;speechSynthesis?.cancel()}
   if(!keepScrim && !document.querySelector(".sheet.on"))$("#scrim").classList.remove("on");
 }
-function closeAll(){["#card","#dex","#photo","#quiz"].forEach(s=>closeSheet(s))}
+function closeAll(){["#card","#dex","#photo","#quiz","#aiset"].forEach(s=>closeSheet(s))}
 document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>closeSheet("#"+b.closest(".sheet").id)));
 $("#scrim").addEventListener("click",closeAll);
 $("#sayWord").addEventListener("click",()=>current&&say(DATA[current].r,current));
@@ -1010,7 +1067,8 @@ function openDex(tab){
   if(tab)dexTab=tab;
   document.querySelectorAll(".dtabs button").forEach(b=>b.classList.toggle("on",b.dataset.tab===dexTab));
   document.querySelectorAll("#filt button").forEach(b=>b.classList.toggle("on",b.dataset.g===dexFilt));
-  const base=dexTab==="jp"?JKEYS:dexTab==="wd"?[...KEYS,...JKEYS]:KEYS;
+  const aiK=AI.map(a=>a.key);
+  const base=dexTab==="jp"?JKEYS:dexTab==="wd"?[...KEYS,...JKEYS,...aiK]:[...KEYS,...aiK];
   const keys=base.filter(k=>dexFilt==="all"||GH[k]===dexFilt);
   const isYo=dexTab!=="wd";
   $("#grid").hidden=!isYo;$("#wlist").hidden=isYo;
@@ -1049,7 +1107,67 @@ $("#dexBtn").addEventListener("click",()=>openDex("yo"));
 $("#bookBtn").addEventListener("click",()=>openDex("wd"));
 $("#autoBtn").addEventListener("click",toggleAuto);
 $("#flipBtn").addEventListener("click",flipCam);
+$("#aiSetBtn").addEventListener("click",openKeySheet);
 function toggleAuto(){autoSpeak=!autoSpeak;try{localStorage.setItem("tsukumo-auto",autoSpeak?"1":"0")}catch(e){}refreshAuto();guide(autoSpeak?"新發現的單字，我會自動唸出來":"好，先安靜不唸了")}
+
+/* ---------- 這是什麼？（Gemini AI 即時查詢） ---------- */
+let gKey="";try{gKey=localStorage.getItem("tsukumo-gkey")||""}catch(e){}
+let asking=false;
+function openKeySheet(){closeAll();$("#keyIn").value=gKey;$("#scrim").classList.add("on");$("#aiset").classList.add("on")}
+$("#keySave").addEventListener("click",()=>{gKey=$("#keyIn").value.trim();try{localStorage.setItem("tsukumo-gkey",gKey)}catch(e){}closeSheet("#aiset");guide(gKey?"金鑰存好了！對準東西按「這是什麼」":"還沒有金鑰喔")});
+$("#keyClear").addEventListener("click",()=>{gKey="";$("#keyIn").value="";try{localStorage.removeItem("tsukumo-gkey")}catch(e){}guide("金鑰清除了")});
+function grabCenter(){
+  const W=innerWidth,H=innerHeight,iw=video.videoWidth,ih=video.videoHeight,s=Math.max(W/iw,H/ih);
+  const side=Math.min(W,H)*.56,cx=W/2,cy=H*.46;
+  // 螢幕座標換回影片座標
+  let vx=(cx-(W-iw*s)/2)/s, vy=(cy-(H-ih*s)/2)/s, vs=side/s;
+  if(mirror)vx=iw-vx;
+  const cv=document.createElement("canvas");cv.width=cv.height=512;const c=cv.getContext("2d");
+  c.drawImage(video,vx-vs/2,vy-vs/2,vs,vs,0,0,512,512);
+  return cv.toDataURL("image/jpeg",.85).split(",")[1];
+}
+const GHOST_IDS=Object.keys(GHOSTS);
+const PROMPT=`あなたは日本語学習アプリの先生です。画像の中央にある一番目立つ物（人なら服装や表情ではなく「人」）を一つ選んでください。
+台湾人の日本語学習者（JLPT N4程度）向けに、次のJSONだけを返してください：
+k: その物の一般的な日本語の名詞（普段漢字で書くなら漢字、外来語ならカタカナ）
+r: kのひらがな読み
+zh: 繁體中文の意味（短く）
+ja: その物が「付喪神」になって自己紹介する、少しふざけた一言。N4程度、40字以内。
+jz: jaの繁體中文訳
+w: その物に関連するN4程度の単語5つ。各要素は[単語, ひらがな読み, 繁體中文]
+g: 次の妖怪から一番合うものを一つ：${GHOST_IDS.join(", ")}（yuneko=柔らかい物・動物, tourou=光る・熱い物, fushigami=人・標識, tsunotsuno=動物, dokugan=画面, chahai=食べ物・飲み物・食器, hyakume=ボタンや文字が多い物, kage=家具, kasabou=乗り物・外出用品, enja=細長い物）
+何も写っていない、または判別できない場合は k を空文字にしてください。`;
+const SCHEMA={type:"OBJECT",properties:{k:{type:"STRING"},r:{type:"STRING"},zh:{type:"STRING"},ja:{type:"STRING"},jz:{type:"STRING"},
+  w:{type:"ARRAY",items:{type:"ARRAY",items:{type:"STRING"}}},g:{type:"STRING",enum:GHOST_IDS}},required:["k","r","zh","ja","jz","w","g"]};
+async function gemini(model,img){
+  const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(gKey)}`,{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({contents:[{parts:[{text:PROMPT},{inline_data:{mime_type:"image/jpeg",data:img}}]}],generationConfig:{responseMimeType:"application/json",responseSchema:SCHEMA,temperature:.7}})});
+  if(!r.ok){const t=await r.text();const e=new Error(t);e.status=r.status;throw e}
+  const j=await r.json();return JSON.parse(j.candidates?.[0]?.content?.parts?.[0]?.text||"{}");
+}
+async function askAI(){
+  if(!running||asking)return;
+  if(!gKey){openKeySheet();return}
+  asking=true;closeAll();
+  const aim=$("#aim"),btn=$("#askBtn");aim.classList.add("on","scan");btn.classList.add("busy");
+  guide("我看看喔…這是什麼呢？");
+  try{
+    const img=grabCenter();let res;
+    try{res=await gemini("gemini-flash-latest",img)}catch(e){if(e.status===404)res=await gemini("gemini-2.5-flash",img);else throw e}
+    if(!res.k){guide("看不太出來耶，靠近一點再試一次");return}
+    const w=(res.w||[]).filter(x=>Array.isArray(x)&&x.length>=3).slice(0,5).map(x=>x.slice(0,3));
+    let e=AI.find(a=>a.k===res.k);
+    if(!e){e={key:"ai:"+Date.now().toString(36),k:res.k,r:res.r,zh:res.zh,ja:res.ja,jz:res.jz,w,g:res.g};AI.push(e);saveAI();regAI(e)}
+    const g=GHOSTS[GH[e.key]];
+    guide(found.has(e.key)?`這是「${e.k}」，之前查過囉`:`AI 發現了新的 <em>${g.n}</em>！是「${e.k}」`);
+    openCard(e.key);
+  }catch(err){
+    const m=String(err.message||"");
+    guide(err.status===400&&/API key/i.test(m)||err.status===403?"金鑰好像不對，請重新設定":err.status===429?"今天問太多次了，等一下再試":"查詢失敗，請確認網路後再試");
+    if(err.status===400&&/API key/i.test(m)||err.status===403)setTimeout(openKeySheet,800);
+  }finally{asking=false;aim.classList.remove("on","scan");btn.classList.remove("busy")}
+}
+$("#askBtn").addEventListener("click",askAI);
 
 /* ---------- 撮影 ---------- */
 let photoBlob=null, photoURL=null;
@@ -1125,7 +1243,7 @@ setInterval(()=>{if(running&&!document.hidden)safety()},180000);
 
 /* ---------- 快捷鍵 ---------- */
 addEventListener("keydown",e=>{
-  if(!$("#start").classList.contains("out"))return;
+  if(!$("#start").classList.contains("out")||e.target.tagName==="INPUT")return;
   const k=e.key.toLowerCase();
   if($("#quiz").classList.contains("on")){
     if(/^[1-3]$/.test(k))answer($("#qOpts").children[+k-1]);
@@ -1139,6 +1257,7 @@ addEventListener("keydown",e=>{
   else if(k==="a")toggleAuto();
   else if(k==="s")cycleScene();
   else if(k==="f")flipCam();
+  else if(k==="q")askAI();
   else if(k==="p")takePhoto();
   else if(k==="b")($("#dex").classList.contains("on")&&dexTab==="yo"?closeSheet("#dex"):openDex("yo"));
   else if(k==="v")($("#dex").classList.contains("on")&&dexTab==="wd"?closeSheet("#dex"):openDex("wd"));
