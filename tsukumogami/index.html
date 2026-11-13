@@ -59,20 +59,21 @@ video.mirror{transform:scaleX(-1)}
 /* 妖怪＋標籤 */
 .yk{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;pointer-events:auto;opacity:0;transition:transform .32s var(--ease),opacity .35s}
 .yk.on{opacity:1}
-.yk .spr{width:var(--s,96px);height:auto;filter:drop-shadow(0 8px 10px rgba(20,14,8,.35));animation:float 3.2s ease-in-out infinite;transform-origin:50% 90%}
-.yk .bub{position:absolute;top:-4px;right:-10px;width:30px;height:30px;border-radius:50%;background:var(--shu);color:#fff;font:900 18px/30px "Noto Serif JP",serif;text-align:center;box-shadow:0 0 0 2.5px #fbf7ef,0 4px 10px rgba(0,0,0,.3);animation:pop .5s var(--spring) both}
-.yk .bub::after{content:"";position:absolute;left:4px;bottom:-5px;border:6px solid transparent;border-top-color:var(--shu);transform:rotate(25deg)}
-.tag{margin-top:-6px;display:flex;align-items:center;gap:8px;padding:6px 14px 6px 12px;border-radius:999px;white-space:nowrap;
+.yk .av{width:42px;height:42px;object-fit:contain;margin:-12px -4px -8px -8px;filter:drop-shadow(0 3px 4px rgba(20,14,8,.35));transform-origin:50% 90%}
+.yk .bub{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--shu);color:#fff;font:900 12px/20px "Noto Serif JP",serif;text-align:center;box-shadow:0 0 0 2px #fbf7ef,0 3px 6px rgba(0,0,0,.3);animation:pop .5s var(--spring) both}
+.yk.jpx .tag{box-shadow:0 0 0 2px var(--shu),0 0 0 3.5px rgba(251,247,239,.7),0 8px 18px rgba(0,0,0,.3)}
+.yk .lim{position:absolute;z-index:2;top:-10px;left:34px;padding:1px 7px;border-radius:6px;background:var(--shu);color:#fbf1e4;font:700 10px/1.5 "Noto Serif JP",serif;letter-spacing:.08em;box-shadow:0 0 0 1.5px #fbf7ef}
+.tag{position:relative;display:flex;align-items:center;gap:8px;padding:6px 14px 6px 12px;border-radius:999px;white-space:nowrap;
   background:rgba(52,47,43,.86);color:#f5eee2;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 0 0 1.5px rgba(251,247,239,.7),0 8px 18px rgba(0,0,0,.3)}
 .tag .k{font-size:19px;font-weight:700;line-height:1}
 .tag .sub{display:flex;flex-direction:column;line-height:1.15}
 .tag .r{font-size:10.5px;color:#f3c98c;letter-spacing:.05em}
 .tag .z{font-size:10.5px;color:rgba(245,238,226,.7)}
-.yk:active .spr{transform:scale(.94)}
+.yk:active .tag{transform:scale(.95)}
 @keyframes float{50%{transform:translateY(-6px) rotate(-2deg)}}
 @keyframes pop{from{transform:scale(0)}}
 /* 說話中：彈跳＋發光 */
-.talking .spr{animation:talk .3s ease-in-out infinite alternate!important;filter:drop-shadow(0 0 14px rgba(255,214,150,.95)) drop-shadow(0 8px 10px rgba(20,14,8,.3))!important}
+.talking .av{animation:talk .3s ease-in-out infinite alternate;filter:drop-shadow(0 0 8px rgba(255,214,150,.95)) drop-shadow(0 3px 4px rgba(20,14,8,.3))}
 .yk.talking .tag{box-shadow:0 0 0 1.5px var(--lamp),0 0 18px rgba(239,160,76,.6)}
 @keyframes talk{from{transform:translateY(0) scale(1,1) rotate(-2deg)}to{transform:translateY(-6px) scale(1.05,.95) rotate(2deg)}}
 
@@ -182,11 +183,11 @@ video.mirror{transform:scaleX(-1)}
 .filt button.on{background:rgba(239,160,76,.18);box-shadow:0 0 0 2px #d98a3a}
 .filt button.on::after{content:"";position:absolute;top:-6px;left:-6px;width:14px;height:14px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%23c4432f'><circle cx='12' cy='6' r='4.4'/><circle cx='17.7' cy='10.2' r='4.4'/><circle cx='15.5' cy='17' r='4.4'/><circle cx='8.5' cy='17' r='4.4'/><circle cx='6.3' cy='10.2' r='4.4'/></g><circle cx='12' cy='12' r='2.6' fill='%23f3d9a0'/></svg>") center/contain no-repeat}
 .dsub{margin-top:10px;font-size:12.5px;color:var(--mute);white-space:nowrap}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;max-height:44vh;overflow:auto;padding:2px 2px 6px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px;max-height:44vh;overflow:auto;padding:2px 2px 6px}
 .cell{position:relative;aspect-ratio:1/1.08;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:rgba(93,87,82,.07);box-shadow:inset 0 0 0 1.5px var(--line)}
 .cell img{width:58%;height:52%;object-fit:contain}
 .cell .kk{font-size:clamp(11px,3.6vw,15px);font-weight:700;white-space:nowrap;max-width:92%;overflow:hidden}
-.cell small{font-size:10px;color:var(--mute);white-space:nowrap}
+.cell small{font-size:10px;color:var(--mute);white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis}
 .cell.got{background:rgba(251,247,239,.85);box-shadow:inset 0 0 0 1.5px rgba(93,87,82,.35),0 2px 0 rgba(93,87,82,.12)}
 .cell.got:active{transform:scale(.94)}
 .cell:not(.got) img{filter:brightness(0);opacity:.16}
@@ -198,6 +199,33 @@ video.mirror{transform:scaleX(-1)}
 .wrow span i{font-style:normal;color:var(--shu2);margin-right:7px}
 .wrow img{width:30px}
 .empty{padding:30px 0;text-align:center;font-size:13px;color:var(--mute)}
+
+/* 日本限定 */
+.no.lim{background:var(--shu)}
+.jpb{display:none;align-items:center;padding:0 9px;border-radius:9px;background:var(--shu);color:#fbf1e4;font-size:12px;font-weight:700;white-space:nowrap}
+body.japan .jpb{display:flex}
+.dtabs button.tjp.on{background:var(--shu)}
+.cell.lim::after{content:"限定";position:absolute;top:4px;right:4px;padding:0 4px;border-radius:4px;background:var(--shu);color:#fbf1e4;font-size:9px;line-height:1.5}
+@media (max-width:420px){.dhead .cnt{display:none}.dtabs button{padding:0 11px;font-size:14px}}
+.qtop{display:flex;align-items:center;gap:12px;margin-top:10px}
+#qSpr{width:96px;flex:none;filter:drop-shadow(0 8px 10px rgba(20,14,8,.3))}
+#quiz.on #qSpr{animation:popin .6s var(--spring) both}
+.qbox{flex:1;min-width:0}
+.qp{font-size:14px;color:var(--ink2);font-weight:700}
+.qk{margin-top:4px;font-size:40px;font-weight:900;line-height:1.1;white-space:nowrap}
+.qk small{display:block;font-size:14px;color:var(--mute);font-weight:500;letter-spacing:.06em;margin-top:2px}
+.qplay{margin-top:8px;height:38px;padding:0 14px;border-radius:12px;display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;box-shadow:0 0 0 2px var(--ink2)}
+.qopts{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.qo{display:flex;align-items:center;gap:10px;min-height:50px;padding:8px 14px;border-radius:14px;text-align:left;font-size:18px;font-weight:700;background:rgba(251,247,239,.75);box-shadow:0 0 0 1.5px var(--line),0 2px 0 rgba(93,87,82,.12);transition:transform .35s var(--spring),box-shadow .25s,opacity .25s}
+.qo:active{transform:scale(.97)}
+.qo kbd{margin:0}
+.qo.ok{background:#fdf3df;box-shadow:0 0 0 2.5px #d98a3a,0 0 18px rgba(239,160,76,.5)}
+.qo.ng{opacity:.4;box-shadow:0 0 0 2px var(--shu);animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.qmsg{margin-top:12px;font-size:13px;color:var(--mute);text-align:center;font-weight:700}
+.qmsg.good{color:#b5651d}.qmsg.bad{color:var(--shu)}
+.stamp.goshu{top:auto;bottom:70px;right:26px;width:70px;height:70px;border-radius:50%;font-size:12px}
+.stamp.goshu span{font-size:26px}
 
 /* 撮影結果 */
 #photo .pv{display:block;width:100%;max-height:56vh;object-fit:contain;border-radius:12px;box-shadow:0 0 0 1.5px var(--line),0 10px 24px rgba(20,14,8,.25);background:#2a2622}
@@ -257,6 +285,7 @@ video.mirror{transform:scaleX(-1)}
   <button data-s="home"><svg class="i" viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5v8.5H4z"/><path d="M10 19.5v-5h4v5"/></svg>家裡</button>
   <button data-s="shop"><svg class="i" viewBox="0 0 24 24"><path d="M4 9.5 5.5 5h13L20 9.5"/><path d="M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5.5 12v7.5h13V12M10 19.5v-4h4v4"/></svg>店裡</button>
   <button data-s="street"><svg class="i" viewBox="0 0 24 24"><path d="M8 4 5 20M16 4l3 16M12 5v2.5M12 11v2.5M12 17v2.5"/></svg>街上</button>
+  <span class="jpb">日本限定</span>
   <kbd>S</kbd>
 </div>
 
@@ -292,7 +321,7 @@ video.mirror{transform:scaleX(-1)}
   <div class="rule"></div>
   <p class="quote jp" id="cQ"></p>
   <p class="quote-zh" id="cQz"></p>
-  <div class="vlabel">N4 單字<small>點一下聽發音</small><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div>
+  <div class="vlabel"><span id="vTxt">N4 單字</span><small>點一下聽發音</small><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div>
   <div class="chips" id="cW"></div>
   <div class="acts">
     <button class="btn ghost" id="sayWord"><svg class="i" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/></svg>唸單字<kbd>W</kbd></button>
@@ -308,6 +337,7 @@ video.mirror{transform:scaleX(-1)}
     <div class="dtabs">
       <button data-tab="yo"><svg class="i" viewBox="0 0 24 24"><path d="M4 5.5c3-1.3 5.7-1 8 1 2.3-2 5-2.3 8-1v13c-3-1.3-5.7-1-8 1-2.3-2-5-2.3-8-1z"/><path d="M12 6.5v13"/></svg><span class="jp">図鑑</span></button>
       <button data-tab="wd">單字本</button>
+      <button data-tab="jp" class="tjp">日本限定</button>
     </div>
     <span class="cnt"><img src="ghosts/yuneko.webp" alt=""><span id="dexCnt"></span></span>
   </div>
@@ -315,6 +345,21 @@ video.mirror{transform:scaleX(-1)}
   <p class="dsub" id="dsub"></p>
   <div class="grid" id="grid"></div>
   <div class="wlist" id="wlist" hidden></div>
+</section>
+
+<section class="sheet paper frame" id="quiz">
+  <svg class="plum" style="right:-9px;bottom:-9px"><use href="#plum"/></svg>
+  <svg class="cloud" style="left:-22px;top:-20px;width:96px;height:48px"><use href="#cloud"/></svg>
+  <button class="x" data-close aria-label="關閉"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <div class="chead"><span class="no lim">日本限定・挑戰</span><span class="who jp" id="qWho"></span></div>
+  <div class="qtop">
+    <img id="qSpr" alt="">
+    <div class="qbox"><p class="qp" id="qPrompt"></p><div class="qk jp" id="qK"></div>
+      <button class="qplay" id="qPlay"><svg class="i" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>再聽一次<kbd>R</kbd></button></div>
+  </div>
+  <div class="qopts" id="qOpts"></div>
+  <p class="qmsg" id="qMsg"></p>
+  <div class="stamp goshu" id="qStamp"><div><span>合</span>格</div></div>
 </section>
 
 <section class="sheet paper frame" id="photo">
@@ -337,7 +382,7 @@ video.mirror{transform:scaleX(-1)}
   <button id="go"><svg class="i" viewBox="0 0 24 24"><path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.4"/></svg><span id="goTxt">打開鏡頭，召喚付喪神</span></button>
   <p id="safeNote"><svg viewBox="0 0 24 24"><path d="M12 3.5 2.5 20h19z"/><path d="M12 10v4.5M12 17.2v.3"/></svg>走路時不要一直看手機，停下來再掃</p>
   <p id="err"></p>
-  <p id="note">需要允許使用相機・iPhone 請用 Safari 開啟</p>
+  <p id="note">需要允許使用相機・iPhone 請用 Safari 開啟<br>允許定位可解鎖日本限定（只判斷是否在日本）</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
@@ -373,7 +418,6 @@ const DATA = {
   "suitcase":{k:"スーツケース",r:"すーつけーす",zh:"行李箱",ja:"次の旅行はいつ？日本に行きたいなあ。",jz:"下次旅行是什麼時候？好想去日本喔。"},
   "umbrella":{k:"傘",r:"かさ",zh:"雨傘",t:"から傘おばけ",ja:"雨の日しか外に出してくれないね。さびしいよ。",jz:"你只有下雨天才帶我出門，好寂寞。"},
   "tie":{k:"ネクタイ",r:"ねくたい",zh:"領帶",ja:"わたしの仕事は、月曜日の朝に首をしめることです。",jz:"我的工作是星期一早上勒住你的脖子。"},
-  "sports ball":{k:"ボール",r:"ぼーる",zh:"球",ja:"けらないで！…やっぱりけって。外で遊ぼう！",jz:"不要踢我！…算了還是踢吧，去外面玩！"},
   "bicycle":{k:"自転車",r:"じてんしゃ",zh:"腳踏車",ja:"最後にわたしに乗ったのは、いつ？",jz:"你上次騎我是什麼時候？"},
   "bottle":{k:"瓶",r:"びん",zh:"瓶子",ja:"水を飲んだ？今日はまだ一杯だけだよ。",jz:"喝水了嗎？今天才喝一杯喔。"},
   "wine glass":{k:"ワイングラス",r:"わいんぐらす",zh:"紅酒杯",ja:"買ってから、まだ水しか入れたことがない。",jz:"買回來之後只裝過水。"},
@@ -412,15 +456,6 @@ const DATA = {
   "bear":{k:"熊",r:"くま",zh:"熊",ja:"森で会ったら、静かに逃げてください。",jz:"在森林遇到我的話，請安靜地逃走。"},
   "zebra":{k:"シマウマ",r:"しまうま",zh:"斑馬",ja:"白と黒、どちらが本当の色か、わたしも知らない。",jz:"白色和黑色哪個才是真的，我也不知道。"},
   "giraffe":{k:"キリン",r:"きりん",zh:"長頸鹿",ja:"高いところの物なら、取ってあげるよ。",jz:"高處的東西我幫你拿。"},
-  "frisbee":{k:"フリスビー",r:"ふりすびー",zh:"飛盤",ja:"わたしを投げたら、犬が追いかけてくるよ。",jz:"丟出我的話，狗會追過來喔。"},
-  "skis":{k:"スキー",r:"すきー",zh:"滑雪板",ja:"雪の国へ行きたいなあ。北海道とか。",jz:"好想去下雪的地方喔，像北海道。"},
-  "snowboard":{k:"スノボ",r:"すのぼ",zh:"單板滑雪",ja:"転んでも大丈夫。雪はやわらかいから。",jz:"跌倒也沒關係，雪很軟。"},
-  "kite":{k:"凧",r:"たこ",zh:"風箏",ja:"風が強い日は、わたしの出番だよ！",jz:"風大的日子就輪到我上場！"},
-  "baseball bat":{k:"バット",r:"ばっと",zh:"球棒",ja:"ホームランを打ちたい？まず練習しよう。",jz:"想打全壘打？先練習吧。"},
-  "baseball glove":{k:"グローブ",r:"ぐろーぶ",zh:"棒球手套",ja:"ボールは全部、わたしが受けるよ。",jz:"球全部由我來接。"},
-  "skateboard":{k:"スケボー",r:"すけぼー",zh:"滑板",ja:"転ばないように、気をつけてね。",jz:"小心不要跌倒喔。"},
-  "surfboard":{k:"サーフボード",r:"さーふぼーど",zh:"衝浪板",ja:"大きい波が来たよ！準備はできた？",jz:"大浪來了！準備好了嗎？"},
-  "tennis racket":{k:"ラケット",r:"らけっと",zh:"網球拍",ja:"わたしを使う前に、準備運動をしてね。",jz:"用我之前先做暖身運動。"},
   "sandwich":{k:"サンドイッチ",r:"さんどいっち",zh:"三明治",ja:"急いでいる朝は、わたしを食べてね。",jz:"趕時間的早上就吃我吧。"},
   "broccoli":{k:"ブロッコリー",r:"ぶろっこりー",zh:"花椰菜",ja:"わたしは小さい木じゃないよ。野菜だよ！",jz:"我不是小樹，是蔬菜！"},
   "carrot":{k:"人参",r:"にんじん",zh:"紅蘿蔔",ja:"馬はわたしが大好き。あなたは？",jz:"馬超愛我的。你呢？"},
@@ -458,7 +493,6 @@ const WORDS = {
   "suitcase":[["空港","くうこう","機場"],["予約","よやく","預約"],["出発","しゅっぱつ","出發"]],
   "umbrella":[["天気予報","てんきよほう","天氣預報"],["止む","やむ","（雨）停"],["貸す","かす","借出"]],
   "tie":[["締める","しめる","繫"],["会議","かいぎ","會議"],["社長","しゃちょう","社長"]],
-  "sports ball":[["試合","しあい","比賽"],["勝つ","かつ","贏"],["負ける","まける","輸"]],
   "bicycle":[["止める","とめる","停放"],["途中","とちゅう","途中"],["交通","こうつう","交通"]],
   "bottle":[["足りる","たりる","足夠"],["運ぶ","はこぶ","搬運"],["水道","すいどう","自來水"]],
   "wine glass":[["酔う","よう","喝醉"],["気分","きぶん","心情"],["大人","おとな","大人"]],
@@ -497,15 +531,6 @@ const WORDS = {
   "bear":[["逃げる","にげる","逃跑"],["静か","しずか","安靜"],["驚く","おどろく","嚇一跳"]],
   "zebra":[["線","せん","線條"],["似る","にる","相像"],["珍しい","めずらしい","稀奇"]],
   "giraffe":[["首","くび","脖子"],["届く","とどく","搆到"],["背","せ","身高"]],
-  "frisbee":[["投げる","なげる","丟"],["追いかける","おいかける","追"],["拾う","ひろう","撿"]],
-  "skis":[["雪","ゆき","雪"],["滑る","すべる","滑"],["寒い","さむい","冷"]],
-  "snowboard":[["転ぶ","ころぶ","跌倒"],["上手","じょうず","厲害"],["経験","けいけん","經驗"]],
-  "kite":[["糸","いと","線"],["強い","つよい","強"],["引く","ひく","拉"]],
-  "baseball bat":[["打つ","うつ","打"],["野球","やきゅう","棒球"],["練習","れんしゅう","練習"]],
-  "baseball glove":[["受ける","うける","接"],["捕まえる","つかまえる","抓住"],["選手","せんしゅ","選手"]],
-  "skateboard":[["坂","さか","坡道"],["曲がる","まがる","轉彎"],["危険","きけん","危險"]],
-  "surfboard":[["海岸","かいがん","海岸"],["泳ぐ","およぐ","游泳"],["浅い","あさい","淺"]],
-  "tennis racket":[["運動","うんどう","運動"],["汗","あせ","汗"],["続ける","つづける","持續"]],
   "sandwich":[["簡単","かんたん","簡單"],["弁当","べんとう","便當"],["昼ご飯","ひるごはん","午餐"]],
   "broccoli":[["野菜","やさい","蔬菜"],["残す","のこす","剩下（不吃）"],["嫌い","きらい","討厭"]],
   "carrot":[["細い","ほそい","細"],["甘い","あまい","甜"],["畑","はたけ","田地"]],
@@ -513,7 +538,35 @@ const WORDS = {
   "pizza":[["届ける","とどける","送達"],["分ける","わける","分"],["頼む","たのむ","點（餐）／拜託"]],
   "donut":[["穴","あな","洞"],["真ん中","まんなか","正中間"],["お菓子","おかし","點心"]]
 };
-const ALL_WORDS = new Set(Object.values(WORDS).flat().map(w=>w[0]));
+
+/* ---------- 日本限定：人在日本時出現（N3 程度生活用語，答對才收服） ---------- */
+const JP = {
+  "bottle":{k:"自販機",r:"じはんき",zh:"自動販賣機",ja:"冷たいのも温かいのもあるよ。百円玉、持ってる？",jz:"冰的熱的都有喔。有一百圓硬幣嗎？",w:[["硬貨","こうか","硬幣"],["お釣り","おつり","找零"],["品切れ","しなぎれ","賣完"]]},
+  "bus":{k:"整理券",r:"せいりけん",zh:"號碼票",ja:"乗る時に整理券を取って、降りる時に運賃と一緒に出してね。",jz:"上車時抽號碼票，下車時連同車資一起投喔。",w:[["運賃","うんちん","車資"],["両替","りょうがえ","換零錢"],["降車ボタン","こうしゃぼたん","下車鈴"]]},
+  "train":{k:"改札",r:"かいさつ",zh:"剪票口",ja:"ICカードをタッチしてから通ってください。",jz:"請先感應 IC 卡再通過。",w:[["乗り越し精算","のりこしせいさん","補票"],["定期券","ていきけん","定期票"],["残高","ざんだか","餘額"]]},
+  "traffic light":{k:"横断歩道",r:"おうだんほどう",zh:"斑馬線",ja:"青になっても、左右を確認してから渡ろう。",jz:"就算變綠燈，也要先看左右再過。",w:[["歩行者","ほこうしゃ","行人"],["優先","ゆうせん","優先"],["左側通行","ひだりがわつうこう","靠左通行"]]},
+  "person@street":{k:"駅員",r:"えきいん",zh:"站務員",t:"駅の付喪神たち",ja:"お困りですか？乗り換えなら、三番線ですよ。",jz:"有什麼困擾嗎？要轉乘的話在三號月台喔。",w:[["乗り換え","のりかえ","轉乘"],["番線","ばんせん","第〜月台"],["遅延","ちえん","誤點"]]},
+  "person@shop":{k:"温めますか",r:"あたためますか",zh:"要幫你加熱嗎",t:"コンビニの付喪神たち",ja:"お弁当、温めますか？袋はご利用ですか？",jz:"便當要加熱嗎？需要袋子嗎？",w:[["お箸","おはし","筷子"],["袋","ふくろ","袋子"],["ポイントカード","ぽいんとかーど","集點卡"]]},
+  "person@home":{k:"お邪魔します",r:"おじゃまします",zh:"打擾了",t:"日本の家の付喪神たち",ja:"日本の家に入る時は、「お邪魔します」と言ってね。",jz:"進日本人家裡時，要說「打擾了」喔。",w:[["玄関","げんかん","玄關"],["靴を脱ぐ","くつをぬぐ","脫鞋"],["手土産","てみやげ","伴手禮"]]},
+  "cup":{k:"お冷",r:"おひや",zh:"冰開水",ja:"日本の店では、お冷は無料だよ。何杯でもどうぞ。",jz:"在日本的店裡冰水是免費的，要幾杯都可以。",w:[["無料","むりょう","免費"],["おしぼり","おしぼり","濕毛巾"],["注ぐ","つぐ","倒（水）"]]},
+  "bowl":{k:"定食",r:"ていしょく",zh:"套餐",ja:"ご飯と味噌汁は、おかわり自由です。",jz:"白飯和味噌湯可以免費續。",w:[["味噌汁","みそしる","味噌湯"],["おかわり","おかわり","再來一碗"],["食券","しょっけん","餐券"]]},
+  "car":{k:"自動ドア",r:"じどうどあ",zh:"自動門（計程車）",ja:"タクシーのドアは自動で開くから、触らないでね。",jz:"計程車的門會自動打開，不要自己去拉喔。",w:[["行き先","いきさき","目的地"],["領収書","りょうしゅうしょ","收據"],["初乗り","はつのり","起跳價"]]},
+  "umbrella":{k:"傘立て",r:"かさたて",zh:"傘架",ja:"店に入る前に、傘は傘立てに入れてね。",jz:"進店之前，傘要放進傘架喔。",w:[["傘袋","かさぶくろ","傘套"],["濡れる","ぬれる","淋濕"],["盗まれる","ぬすまれる","被偷"]]},
+  "bench":{k:"ホーム",r:"ほーむ",zh:"月台",ja:"黄色い線の内側で、お待ちください。",jz:"請在黃線內側等候。",w:[["黄色い線","きいろいせん","黃線"],["快速","かいそく","快速車"],["各駅停車","かくえきていしゃ","每站停"]]},
+  "handbag":{k:"小銭入れ",r:"こぜにいれ",zh:"零錢包",ja:"日本ではまだ現金をよく使うよ。小銭がたまるね。",jz:"日本還是常用現金，零錢會越來越多喔。",w:[["小銭","こぜに","零錢"],["現金","げんきん","現金"],["割り勘","わりかん","各付各的"]]},
+  "backpack":{k:"網棚",r:"あみだな",zh:"行李架",ja:"重い荷物は網棚にのせてね。リュックは前に抱えよう。",jz:"重的行李放上行李架，後背包要背到前面喔。",w:[["優先席","ゆうせんせき","博愛座"],["混雑","こんざつ","擁擠"],["車内","しゃない","車廂內"]]},
+  "cell phone":{k:"マナーモード",r:"まなーもーど",zh:"靜音模式",ja:"電車の中では、マナーモードにしてください。",jz:"在電車裡請切成靜音模式。",w:[["通話","つうわ","講電話"],["控える","ひかえる","避免"],["迷惑","めいわく","困擾"]]},
+  "toilet":{k:"音姫",r:"おとひめ",zh:"流水聲裝置",ja:"わたしは音姫。恥ずかしい音を隠してあげる。",jz:"我是音姬，幫你蓋掉害羞的聲音。",w:[["洗浄","せんじょう","沖洗"],["恥ずかしい","はずかしい","害羞"],["個室","こしつ","隔間"]]},
+  "bicycle":{k:"駐輪場",r:"ちゅうりんじょう",zh:"腳踏車停車場",ja:"自転車は駐輪場にとめてね。道にとめると、持っていかれるよ。",jz:"腳踏車要停在停車場，停路邊會被拖走喔。",w:[["撤去","てっきょ","拖走"],["違反","いはん","違規"],["有料","ゆうりょう","收費"]]},
+  "dining table":{k:"いただきます",r:"いただきます",zh:"開動了",ja:"食べる前に、手を合わせて言おうね。",jz:"吃飯前，雙手合十說這句吧。",w:[["ごちそうさま","ごちそうさま","謝謝招待"],["合わせる","あわせる","合起來"],["感謝","かんしゃ","感謝"]]},
+  "potted plant":{k:"盆栽",r:"ぼんさい",zh:"盆栽",ja:"わたしは百年生きているよ。手入れはやさしくね。",jz:"我已經活了一百年，照顧要溫柔一點喔。",w:[["枝","えだ","樹枝"],["手入れ","ていれ","照料"],["伝統","でんとう","傳統"]]},
+  "clock":{k:"終電",r:"しゅうでん",zh:"末班電車",ja:"あと十分で終電だよ！乗り遅れたら、タクシーだよ！",jz:"再十分鐘就是末班車！沒趕上就只能搭計程車了！",w:[["乗り遅れる","のりおくれる","沒趕上"],["始発","しはつ","首班車"],["終点","しゅうてん","終點站"]]},
+  "refrigerator":{k:"賞味期限",r:"しょうみきげん",zh:"賞味期限",ja:"この牛乳、賞味期限が切れているよ。",jz:"這瓶牛奶已經過了賞味期限喔。",w:[["切れる","きれる","過期"],["消費期限","しょうひきげん","有效期限"],["割引","わりびき","打折"]]},
+  "sink":{k:"分別",r:"ぶんべつ",zh:"垃圾分類",ja:"燃えるゴミと燃えないゴミ、ちゃんと分けてね。",jz:"可燃和不可燃垃圾要好好分開喔。",w:[["燃えるゴミ","もえるごみ","可燃垃圾"],["資源ゴミ","しげんごみ","資源回收"],["収集日","しゅうしゅうび","收垃圾日"]]},
+  "stop sign":{k:"一時停止",r:"いちじていし",zh:"暫停（標誌）",ja:"「止まれ」は一時停止という意味だよ。",jz:"「止まれ」就是暫停一下的意思喔。",w:[["標識","ひょうしき","標誌"],["徐行","じょこう","慢行"],["確認","かくにん","確認"]]}
+};
+for(const b in JP){const j=JP[b];DATA["jp:"+b]={k:j.k,r:j.r,zh:j.zh,t:j.t,ja:j.ja,jz:j.jz};WORDS["jp:"+b]=j.w}
+
 
 /* ---------- 10 隻妖怪 ---------- */
 const GHOSTS = {
@@ -531,10 +584,13 @@ const GROUP = {
   hyakume:["keyboard","mouse","remote","book"],
   kage:["chair","dining table","refrigerator","toilet","sink","potted plant","vase","bench"],
   kasabou:["car","motorcycle","airplane","bus","train","truck","boat","bicycle","umbrella","suitcase","backpack","handbag"],
-  enja:["tie","scissors","toothbrush","baseball bat","tennis racket","skateboard","surfboard","skis","snowboard","kite","frisbee","baseball glove","sports ball"]
+  enja:["tie","scissors","toothbrush"]
 };
 const GH = {}; for(const g in GROUP) for(const k of GROUP[g]) GH[k]=g;
-const KEYS = Object.keys(DATA).sort((a,b)=>Object.keys(GROUP).indexOf(GH[a])-Object.keys(GROUP).indexOf(GH[b]));
+for(const b in JP) GH["jp:"+b]=GH[b];
+const isJP = k => k.startsWith("jp:");
+const JKEYS = Object.keys(DATA).filter(isJP).sort((a,b)=>Object.keys(GROUP).indexOf(GH[a])-Object.keys(GROUP).indexOf(GH[b]));
+const KEYS = Object.keys(DATA).filter(k=>!isJP(k)).sort((a,b)=>Object.keys(GROUP).indexOf(GH[a])-Object.keys(GROUP).indexOf(GH[b]));
 const sprURL = k => `ghosts/${GH[k]}.webp`;
 const $ = s => document.querySelector(s);
 
@@ -589,6 +645,21 @@ function refreshCount(){$("#cnt").textContent=found.size}
 function refreshAuto(){$("#autoBtn").classList.toggle("off",!autoSpeak);$("#autoTxt").textContent=autoSpeak?"自動唸":"靜音"}
 refreshCount(); refreshAuto();
 
+/* ---------- 日本定位（只判斷是不是在日本，不記錄位置） ---------- */
+let inJapan=false, geoState="off";
+const FORCE_JP=/[?&]japan=1/.test(location.search);
+function isJapan(la,lo){return (la>=34&&la<=45.6&&lo>=132&&lo<=146)||(la>=30.9&&la<=35.5&&lo>=129.4&&lo<132)||(la>=24&&la<30.9&&lo>=122.9&&lo<=131.5)}
+function setJapan(v){
+  const was=inJapan;inJapan=v;geoState=v?"jp":"tw";document.body.classList.toggle("japan",v);
+  if(v&&!was&&running)guide(`你在日本！<em>日本限定</em>的付喪神出沒中，答對題目才能收服`);
+}
+function checkGeo(){
+  if(FORCE_JP){setJapan(true);return}
+  if(!navigator.geolocation)return;
+  navigator.geolocation.getCurrentPosition(p=>setJapan(isJapan(p.coords.latitude,p.coords.longitude)),()=>{geoState="denied"},{maximumAge:600000,timeout:15000});
+}
+setInterval(()=>{if(running)checkGeo()},600000);
+
 /* ---------- 開始 ---------- */
 $("#go").addEventListener("click",async()=>{
   const go=$("#go"); go.disabled=true; $("#err").textContent="";
@@ -612,7 +683,7 @@ $("#go").addEventListener("click",async()=>{
     model=await cocoSsd.load({base:"lite_mobilenet_v2"});
   }catch(e){resetGo();$("#err").textContent="AI 模型載入失敗，請確認網路後重試";return}
   $("#start").classList.add("out");
-  running=true; loop();
+  running=true; loop(); checkGeo();
 });
 function resetGo(){const go=$("#go");go.disabled=false;go.querySelector(".spin")?.remove();go.querySelector("svg").style.display="";$("#goTxt").textContent="打開鏡頭，召喚付喪神"}
 
@@ -635,23 +706,23 @@ function makeTag(key){
   const d=DATA[key];
   const box=document.createElement("div");box.className="box";
   const el=document.createElement("button");el.className="yk";
-  el.innerHTML=`<img class="spr" src="${sprURL(key)}" alt="">${found.has(key)?"":'<span class="bub">!</span>'}<span class="tag"><span class="k jp">${d.k}</span><span class="sub"><span class="r jp">${d.r}</span><span class="z">${d.zh}</span></span></span>`;
+  const jpx=key.startsWith("jp:");if(jpx)el.classList.add("jpx");
+  el.innerHTML=`<span class="tag">${jpx?'<span class="lim">日本限定</span>':""}<img class="av" src="${sprURL(key)}" alt=""><span class="k jp">${d.k}</span><span class="sub"><span class="r jp">${d.r}</span><span class="z">${d.zh}</span></span>${found.has(key)?"":'<span class="bub">!</span>'}</span>`;
   el.addEventListener("click",e=>{e.stopPropagation();openCard(key)});
   $("#labels").append(box,el);
   const o={box,el,last:0};tags.set(key,o);return o;
 }
 function render(preds){
   const now=performance.now(),best=new Map();
-  for(const p of preds){ const k=p.class==="person"?"person@"+scene:p.class; if(!DATA[k])continue; const b=best.get(k); if(!b||p.score>b.score)best.set(k,p) }
+  for(const p of preds){ let k=p.class==="person"?"person@"+scene:p.class; if(inJapan&&DATA["jp:"+k])k="jp:"+k; if(!DATA[k])continue; const b=best.get(k); if(!b||p.score>b.score)best.set(k,p) }
   const TOP=$("#scene").getBoundingClientRect().bottom+8, BOT=$("#guide").getBoundingClientRect().top-8, placed=[];
   for(const [key,p] of [...best].sort((a,b)=>b[1].score-a[1].score)){
     const o=tags.get(key)||makeTag(key);
     const {X,Y,W,H}=mapBox(p.bbox);
     o.box.style.transform=`translate(${X}px,${Y}px)`;o.box.style.width=W+"px";o.box.style.height=H+"px";
-    const sz=Math.round(Math.max(64,Math.min(120,Math.min(W,H)*.55)));
-    if(o.sz!==sz){o.sz=sz;o.el.style.setProperty("--s",sz+"px")}
-    const ew=o.el.offsetWidth||140, eh=o.el.offsetHeight||sz+40;
-    let tx=X+W/2-ew/2, ty=Y+H*.45-eh/2;
+    const ew=o.el.offsetWidth||150, eh=o.el.offsetHeight||44;
+    let tx=X+W/2-ew/2, ty=Y-eh-8;
+    if(ty<TOP) ty=Y+10;
     tx=Math.max(20,Math.min(innerWidth-ew-22,tx));
     for(let n=0;n<6;n++){const h=placed.find(r=>tx<r.x+r.w+4&&tx+ew+4>r.x&&ty<r.y+r.h+4&&ty+eh+4>r.y);if(!h)break;ty=h.y+h.h+6}
     ty=Math.max(TOP,Math.min(BOT-eh,ty));placed.push({x:tx,y:ty,w:ew,h:eh});
@@ -660,7 +731,7 @@ function render(preds){
     if(!seenSession.has(key)){
       seenSession.add(key);
       const g=GHOSTS[GH[key]];
-      if(!current) guide(found.has(key)?`又見到 <em>${g.n}</em> 了！「${DATA[key].k}」`:`發現了 <em>${g.n}</em>！是「${DATA[key].k}」喔`);
+      if(!current) guide(isJP(key)&&!found.has(key)?`日本限定 <em>${g.n}</em> 出現！點它挑戰`:found.has(key)?`又見到 <em>${g.n}</em> 了！「${DATA[key].k}」`:`發現了 <em>${g.n}</em>！是「${DATA[key].k}」喔`);
       if(autoSpeak && !current && now-lastAuto>2200){lastAuto=now;say(DATA[key].r,key)}
     }
   }
@@ -671,8 +742,10 @@ function render(preds){
 
 /* ---------- 卡片 ---------- */
 function openCard(key){
+  if(isJP(key)&&!found.has(key)){openQuiz(key);return}
   const d=DATA[key],g=GHOSTS[GH[key]];current=key;
-  $("#cNo").textContent="No."+String(KEYS.indexOf(key)+1).padStart(2,"0");
+  $("#cNo").textContent=isJP(key)?"日本限定":"No."+String(KEYS.indexOf(key)+1).padStart(2,"0");
+  $("#cNo").classList.toggle("lim",isJP(key));$("#vTxt").textContent=isJP(key)?"N3 單字":"N4 單字";
   $("#cWho").innerHTML=`${g.n}<small>${g.r}</small>`;
   $("#cSpr").src=sprURL(key);
   $("#card").classList.remove("talking");
@@ -683,7 +756,7 @@ function openCard(key){
   $("#cW").innerHTML=(WORDS[key]||[]).map((w,i)=>`<button class="chip" data-i="${i}"><b class="jp${w[0].length>=4?" l":""}">${w[0]}</b><span class="rz"><i class="jp">${w[1]}</i><span>${w[2]}</span></span></button>`).join("");
   $("#cW").querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>sayChip(key,+c.dataset.i)));
   const st=$("#stamp");st.classList.remove("hit");
-  closeSheet("#dex",true);closeSheet("#photo",true);
+  closeSheet("#dex",true);closeSheet("#photo",true);closeSheet("#quiz",true);
   $("#scrim").classList.add("on");$("#card").classList.add("on");
   if(!found.has(key)){
     found.add(key);saveFound();refreshCount();
@@ -700,11 +773,51 @@ function closeSheet(sel,keepScrim){
   if(sel==="#card"){current=null;speechSynthesis?.cancel()}
   if(!keepScrim && !document.querySelector(".sheet.on"))$("#scrim").classList.remove("on");
 }
-function closeAll(){["#card","#dex","#photo"].forEach(s=>closeSheet(s))}
+function closeAll(){["#card","#dex","#photo","#quiz"].forEach(s=>closeSheet(s))}
 document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>closeSheet("#"+b.closest(".sheet").id)));
 $("#scrim").addEventListener("click",closeAll);
 $("#sayWord").addEventListener("click",()=>current&&say(DATA[current].r,current));
 $("#sayLine").addEventListener("click",()=>current&&say(DATA[current].ja,current));
+
+/* ---------- 日本限定題目（三選一） ---------- */
+let quiz=null;
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+function openQuiz(key){
+  const d=DATA[key],g=GHOSTS[GH[key]],pool=JKEYS.filter(k=>k!==key);
+  const kata=/^[\u30A0-\u30FFー]+$/.test(d.k)||d.k===d.r;
+  const types=kata?["mean","listen"]:["read","mean","listen"];
+  const type=types[Math.random()*types.length|0];
+  const pick=f=>{const v=shuffle([...new Set(pool.map(k=>f(DATA[k])))].filter(x=>x!==f(d)));return shuffle([f(d),v[0],v[1]])};
+  let prompt,show="",opts,ans;
+  if(type==="read"){prompt="這個字怎麼唸？";show=d.k;ans=d.r;opts=pick(x=>x.r)}
+  else if(type==="mean"){prompt="這是什麼意思？";show=`${d.k}<small>${d.r}</small>`;ans=d.zh;opts=pick(x=>x.zh)}
+  else{prompt="聽日文，選出正確的字";ans=d.k;opts=pick(x=>x.k)}
+  quiz={key,ans,type,done:false};
+  $("#qWho").innerHTML=`${g.n}<small>${g.r}</small>`;$("#qSpr").src=sprURL(key);
+  $("#qPrompt").textContent=prompt;$("#qK").innerHTML=show;$("#qK").hidden=!show;$("#qPlay").hidden=type!=="listen";
+  $("#qMsg").textContent="答對就能收服・答錯可以再試";$("#qMsg").className="qmsg";
+  $("#qStamp").classList.remove("hit");
+  $("#qOpts").innerHTML=opts.map((o,i)=>`<button class="qo jp" data-v="${o}"><kbd>${i+1}</kbd><span>${o}</span></button>`).join("");
+  $("#qOpts").querySelectorAll(".qo").forEach(b=>b.addEventListener("click",()=>answer(b)));
+  closeSheet("#card",true);closeSheet("#dex",true);closeSheet("#photo",true);
+  $("#scrim").classList.add("on");$("#quiz").classList.add("on");
+  if(type==="listen")setTimeout(()=>say(d.r,key),450);
+}
+function answer(b){
+  if(!quiz||quiz.done||b.disabled)return;
+  if(b.dataset.v===quiz.ans){
+    quiz.done=true;b.classList.add("ok");const key=quiz.key,g=GHOSTS[GH[key]];
+    found.add(key);saveFound();refreshCount();tags.get(key)?.el.querySelector(".bub")?.remove();
+    $("#qMsg").textContent="答對了！收服日本限定";$("#qMsg").className="qmsg good";
+    const st=$("#qStamp");void st.offsetWidth;st.classList.add("hit");navigator.vibrate?.([30,40,60]);
+    say(DATA[key].r,key);guide(`收服了日本限定的 <em>${g.n}</em>！`);
+    setTimeout(()=>{if($("#quiz").classList.contains("on"))openCard(key)},1500);
+  }else{
+    b.disabled=true;b.classList.add("ng");navigator.vibrate?.(80);
+    $("#qMsg").textContent="不對喔，再試一次";$("#qMsg").className="qmsg bad";
+  }
+}
+$("#qPlay").addEventListener("click",()=>quiz&&say(DATA[quiz.key].r,quiz.key));
 
 /* ---------- 圖鑑 / 單字本 ---------- */
 let dexTab="yo", dexFilt="all";
@@ -715,11 +828,20 @@ function openDex(tab){
   if(tab)dexTab=tab;
   document.querySelectorAll(".dtabs button").forEach(b=>b.classList.toggle("on",b.dataset.tab===dexTab));
   document.querySelectorAll("#filt button").forEach(b=>b.classList.toggle("on",b.dataset.g===dexFilt));
-  const keys=KEYS.filter(k=>dexFilt==="all"||GH[k]===dexFilt);
-  const isYo=dexTab==="yo";
+  const base=dexTab==="jp"?JKEYS:dexTab==="wd"?[...KEYS,...JKEYS]:KEYS;
+  const keys=base.filter(k=>dexFilt==="all"||GH[k]===dexFilt);
+  const isYo=dexTab!=="wd";
   $("#grid").hidden=!isYo;$("#wlist").hidden=isYo;
   const g=GHOSTS[dexFilt];
-  if(isYo){
+  if(dexTab==="jp"){
+    const got=keys.filter(k=>found.has(k)).length;
+    $("#dexCnt").textContent=`${found.size} / ${KEYS.length+JKEYS.length}`;
+    $("#dsub").textContent=({jp:"你在日本！掃到這些東西就能挑戰",tw:"目前不在日本・到日本才會出現",denied:"沒有開啟定位・允許定位才能解鎖",off:"開始掃描後會判斷位置"})[geoState]+`（${got}/${keys.length}）`;
+    $("#grid").innerHTML=keys.map(k=>found.has(k)
+      ?`<button class="cell got lim" data-k="${k}"><img src="${sprURL(k)}" alt=""><span class="kk jp">${DATA[k].k}</span><small>${DATA[k].zh}</small></button>`
+      :`<div class="cell"><img src="${sprURL(k)}" alt=""><span class="q">?</span><span class="kk" style="color:rgba(93,87,82,.35)">？</span><small>${DATA[k].zh}</small></div>`).join("");
+    $("#grid").querySelectorAll(".got").forEach(c=>c.addEventListener("click",()=>openCard(c.dataset.k)));
+  }else if(isYo){
     const got=keys.filter(k=>found.has(k)).length;
     $("#dexCnt").textContent=`${found.size} / ${KEYS.length}`;
     $("#dsub").textContent=g?`${g.n}（${g.r}）收服 ${got} / ${keys.length}`:`全部的付喪神・收服 ${got} / ${keys.length}`;
@@ -735,7 +857,7 @@ function renderWords(keys,g){
   for(const k of keys){if(!found.has(k))continue;for(const w of WORDS[k]||[])if(!book.has(w[0]))book.set(w[0],{w,k})}
   const total=new Set(keys.flatMap(k=>(WORDS[k]||[]).map(w=>w[0]))).size;
   $("#dexCnt").textContent=`${found.size} / ${KEYS.length}`;
-  $("#dsub").textContent=`${g?g.n+"的":"已收集的"} N4 單字 ${book.size} / ${total}`;
+  $("#dsub").textContent=`${g?g.n+"的":"已收集的"}單字 ${book.size} / ${total}`;
   if(!book.size){$("#wlist").innerHTML='<div class="empty">還沒收服付喪神，去四周掃一掃吧</div>';return}
   $("#wlist").innerHTML=[...book.values()].map(({w,k})=>`<button class="wrow" data-k="${k}" data-r="${w[1]}"><b class="jp">${w[0]}</b><span><i class="jp">${w[1]}</i>${w[2]}</span><img src="${sprURL(k)}" alt=""></button>`).join("");
   $("#wlist").querySelectorAll(".wrow").forEach(r=>r.addEventListener("click",()=>{flash(r);say(r.dataset.r,r.dataset.k)}));
@@ -760,16 +882,16 @@ async function takePhoto(){
   c.save();if(mirror){c.translate(W,0);c.scale(-1,1)}c.drawImage(video,(W-iw*s)/2,(H-ih*s)/2,iw*s,ih*s);c.restore();
   for(const [key,o] of tags){
     if(!o.el.classList.contains("on"))continue;
-    const sp=o.el.querySelector(".spr").getBoundingClientRect(), tg=o.el.querySelector(".tag").getBoundingClientRect();
-    const im=await loadImg(sprURL(key));
-    if(im){c.save();c.shadowColor="rgba(20,14,8,.35)";c.shadowBlur=10;c.shadowOffsetY=6;c.drawImage(im,sp.x,sp.y,sp.width,sp.height);c.restore()}
+    const tg=o.el.querySelector(".tag").getBoundingClientRect(),av=o.el.querySelector(".av").getBoundingClientRect(),kr=o.el.querySelector(".k").getBoundingClientRect();
     c.fillStyle="rgba(52,47,43,.88)";rr(c,tg.x,tg.y,tg.width,tg.height,tg.height/2);c.fill();
-    c.strokeStyle="rgba(251,247,239,.7)";c.lineWidth=1.5;c.stroke();
+    c.strokeStyle=key.startsWith("jp:")?"#c4432f":"rgba(251,247,239,.7)";c.lineWidth=key.startsWith("jp:")?2:1.5;c.stroke();
+    const im=await loadImg(sprURL(key));
+    if(im){c.save();c.shadowColor="rgba(20,14,8,.35)";c.shadowBlur=5;c.shadowOffsetY=3;c.drawImage(im,av.x,av.y,av.width,av.height);c.restore()}
     const d=DATA[key];c.textBaseline="middle";
-    c.fillStyle="#f5eee2";c.font='700 19px "Noto Serif JP",serif';c.fillText(d.k,tg.x+12,tg.y+tg.height/2);
-    const kw=c.measureText(d.k).width;
-    c.font='500 10.5px "Noto Serif JP",serif';c.fillStyle="#f3c98c";c.fillText(d.r,tg.x+20+kw,tg.y+tg.height/2-6);
-    c.fillStyle="rgba(245,238,226,.75)";c.fillText(d.zh,tg.x+20+kw,tg.y+tg.height/2+7);
+    c.fillStyle="#f5eee2";c.font='700 19px "Noto Serif JP",serif';c.fillText(d.k,kr.x,tg.y+tg.height/2);
+    const sx=kr.right+8;
+    c.font='500 10.5px "Noto Serif JP",serif';c.fillStyle="#f3c98c";c.fillText(d.r,sx,tg.y+tg.height/2-6);
+    c.fillStyle="rgba(245,238,226,.75)";c.fillText(d.zh,sx,tg.y+tg.height/2+7);
   }
   // 浮水印
   c.fillStyle="rgba(241,233,218,.92)";rr(c,W-148,H-58,132,40,12);c.fill();
@@ -815,6 +937,12 @@ setInterval(()=>{if(running&&!document.hidden)safety()},180000);
 addEventListener("keydown",e=>{
   if(!$("#start").classList.contains("out"))return;
   const k=e.key.toLowerCase();
+  if($("#quiz").classList.contains("on")){
+    if(/^[1-3]$/.test(k))answer($("#qOpts").children[+k-1]);
+    else if(k==="r"&&quiz)say(DATA[quiz.key].r,quiz.key);
+    else if(k==="escape")closeAll();
+    return;
+  }
   if(e.code==="Space"){e.preventDefault(); if(current)say(DATA[current].ja,current); else if(lastTouched&&tags.get(lastTouched)?.el.classList.contains("on"))openCard(lastTouched)}
   else if(k==="w"&&current)say(DATA[current].r,current);
   else if(/^[1-4]$/.test(k)&&current)sayChip(current,+k-1);
