@@ -16,6 +16,8 @@
   --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+.cl{display:inline-block;max-width:100%}
 html,body{height:100%;background:var(--ink);color:var(--paper);font-family:"Noto Sans TC",-apple-system,"PingFang TC",sans-serif;overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
 .jp{font-family:"Noto Serif JP","Hiragino Mincho ProN",serif}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
@@ -128,9 +130,38 @@ kbd{display:inline-block;min-width:20px;padding:2px 6px;margin-right:4px;border-
 .rule{position:relative;height:1px;margin:16px 0;background:linear-gradient(90deg,transparent,var(--gold-soft) 12%,var(--gold-soft) 88%,transparent)}
 .rule::before,.rule::after{content:"";position:absolute;top:-3px;width:7px;height:7px;transform:rotate(45deg);background:var(--gold)}
 .rule::before{left:8%}.rule::after{right:8%}
-.quote{font-size:17px;line-height:1.65;letter-spacing:.02em;text-wrap:balance}
+.quote{font-size:16.5px;line-height:1.65;letter-spacing:.02em;text-wrap:balance}
 .quote-zh{font-size:13.5px;color:var(--mute);margin-top:6px;line-height:1.6;text-wrap:balance}
-.acts{display:grid;grid-template-columns:1fr 1.3fr;gap:10px;margin-top:20px}
+.acts{display:grid;grid-template-columns:1fr 1.3fr;gap:10px;margin-top:16px}
+.vocab{margin-top:14px}
+.vlabel{font-size:11.5px;color:var(--gold);letter-spacing:.1em;display:flex;align-items:center;gap:8px;margin-bottom:8px;white-space:nowrap}
+.vlabel::before{content:"";width:5px;height:5px;transform:rotate(45deg);background:var(--gold)}
+.vlabel small{color:var(--mute);letter-spacing:.04em;font-size:11px}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chip{display:flex;align-items:center;gap:9px;min-width:0;text-align:left;padding:8px 10px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
+  box-shadow:inset 0 0 0 1px rgba(217,180,106,.22),inset 0 1px 0 rgba(255,255,255,.08);transition:transform .35s var(--spring),box-shadow .25s}
+.chip b{font-family:"Noto Serif JP",serif;font-size:18px;font-weight:700;white-space:nowrap;line-height:1.15}
+.chip b.l{font-size:15px}
+.chip .rz{min-width:0;flex:1 1 auto;overflow:hidden;display:flex;flex-direction:column;gap:1px;line-height:1.2}
+.chip .rz i{font-style:normal;font-size:10.5px;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip .rz span{font-size:10.5px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip kbd{margin:0 0 0 auto;display:none;min-width:17px;padding:1px 4px;font-size:10px}
+.vlabel kbd{display:none;margin:0 0 0 2px;font-size:10px;padding:0 4px}
+@media (hover:hover) and (pointer:fine){.vlabel kbd{display:inline-block}}
+.chip:active{transform:scale(.95)}
+.chip.say,.wrow.say{box-shadow:inset 0 0 0 1px rgba(255,180,92,.85),0 0 16px rgba(255,180,92,.3)}
+.seg{display:inline-flex;padding:4px;border-radius:999px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.seg button{height:34px;padding:0 15px;border-radius:999px;font-size:14px;font-weight:700;color:var(--mute);white-space:nowrap;display:flex;align-items:center;gap:6px;transition:background .3s,color .3s}
+.seg button.on{color:#1b1608;background:linear-gradient(180deg,#f6e3b4,var(--gold))}
+.seg kbd{display:none;margin:0;min-width:16px;padding:0 4px;font-size:10px}
+@media (hover:hover) and (pointer:fine){.seg kbd{display:inline-block}}
+.wlist{margin-top:14px;max-height:52vh;overflow:auto;display:flex;flex-direction:column;gap:6px}
+.wrow{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);text-align:left;transition:box-shadow .25s}
+.wrow b{font-family:"Noto Serif JP",serif;font-size:19px;white-space:nowrap}
+.wrow span{font-size:12.5px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wrow span i{font-style:normal;color:var(--gold);margin-right:7px}
+.wrow em{font-style:normal;font-size:11px;color:rgba(243,234,216,.42);white-space:nowrap}
+.empty{padding:30px 0;text-align:center;font-size:13px;color:var(--mute)}
 .btn{height:50px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:700;transition:transform .35s var(--spring)}
 .btn:active{transform:scale(.95)}
 .btn.ghost{background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
@@ -205,7 +236,7 @@ kbd{display:inline-block;min-width:20px;padding:2px 6px;margin-right:4px;border-
 
 <div id="hint">
   <p id="hintTxt">鏡頭慢慢掃過房間，點標籤聽付喪神說話</p>
-  <div class="keys"><span><kbd>空白</kbd>聽它說話</span><span><kbd>A</kbd>自動唸</span><span><kbd>B</kbd>圖鑑</span><span><kbd>Esc</kbd>關閉</span></div>
+  <div class="keys"><span><kbd>空白</kbd>聽它說話</span><span><kbd>A</kbd>自動唸</span><span><kbd>B</kbd>圖鑑</span><span><kbd>V</kbd>單字本</span><span><kbd>Esc</kbd>關閉</span></div>
 </div>
 
 <div id="scrim"></div>
@@ -221,6 +252,7 @@ kbd{display:inline-block;min-width:20px;padding:2px 6px;margin-right:4px;border-
   <div class="rule"></div>
   <p class="quote jp" id="cQ"></p>
   <p class="quote-zh" id="cQz"></p>
+  <div class="vocab"><div class="vlabel">N4 單字<small>點一下聽發音</small><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div><div class="chips" id="cW"></div></div>
   <div class="acts">
     <button class="btn ghost" id="sayWord">
       <svg class="i" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/></svg>唸單字<kbd>W</kbd>
@@ -234,9 +266,10 @@ kbd{display:inline-block;min-width:20px;padding:2px 6px;margin-right:4px;border-
 
 <section class="sheet" id="dex">
   <button class="x" data-close aria-label="關閉"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  <h3>付喪神圖鑑</h3>
+  <div class="seg"><button data-tab="yo">付喪神圖鑑<kbd>B</kbd></button><button data-tab="wd">收服單字本<kbd>V</kbd></button></div>
   <p class="cnt" id="dexCnt"></p>
   <div class="grid" id="grid"></div>
+  <div class="wlist" id="wlist" hidden></div>
 </section>
 
 <div class="toast" id="toast"></div>
@@ -278,7 +311,7 @@ const DATA = {
   "chair":{k:"椅子",r:"いす",zh:"椅子",ja:"今日はもう六時間すわっているよ。ちょっと立って！",jz:"你今天已經坐了六小時，站起來一下！"},
   "couch":{k:"ソファ",r:"そふぁ",zh:"沙發",ja:"ここで寝ると、また首が痛くなるよ。",jz:"在這裡睡，脖子又會痛喔。"},
   "bed":{k:"ベッド",r:"べっど",zh:"床",ja:"もう昼だよ。まだ寝たいの？…わたしも。",jz:"已經中午了，你還想睡？…我也是。"},
-  "dining table":{k:"机",r:"つくえ",zh:"桌子",ja:"わたしの上は、いつも物でいっぱい。少し片付けて！",jz:"我上面總是堆滿東西，整理一下吧！"},
+  "dining table":{k:"テーブル",r:"てーぶる",zh:"桌子",ja:"わたしの上は、いつも物でいっぱい。少し片付けて！",jz:"我上面總是堆滿東西，整理一下吧！"},
   "potted plant":{k:"植木",r:"うえき",zh:"盆栽",ja:"水をください…三日ももらっていません。",jz:"請給我水…我已經三天沒喝了。"},
   "tv":{k:"テレビ",r:"てれび",zh:"電視",ja:"最近わたしを見ないね。スマホばかり…",jz:"你最近都不看我，只看手機…"},
   "laptop":{k:"パソコン",r:"ぱそこん",zh:"筆電",ja:"書き出し中です。あと三時間…うそです。",jz:"輸出中，還要三小時…騙你的。"},
@@ -319,6 +352,55 @@ const DATA = {
   "toilet":{k:"トイレ",r:"といれ",zh:"馬桶",ja:"すわる前に、紙があるか確認してね。",jz:"坐下前先確認有沒有衛生紙喔。"}
 };
 const KEYS = Object.keys(DATA);
+/* N4 相關單字：[漢字, 讀音, 中文] */
+const WORDS = {
+  "person":[["会う","あう","見面"],["紹介","しょうかい","介紹"],["優しい","やさしい","溫柔"]],
+  "cat":[["飼う","かう","飼養"],["眠る","ねむる","睡覺"],["触る","さわる","摸"]],
+  "dog":[["連れて行く","つれていく","帶去"],["喜ぶ","よろこぶ","高興"],["世話","せわ","照顧"]],
+  "chair":[["座る","すわる","坐"],["壊れる","こわれる","壞掉"],["動かす","うごかす","移動"]],
+  "couch":[["眠い","ねむい","想睡"],["柔らかい","やわらかい","柔軟"],["気持ち","きもち","心情"]],
+  "bed":[["夢","ゆめ","夢"],["寝坊","ねぼう","睡過頭"],["布団","ふとん","被子"],["起こす","おこす","叫醒"]],
+  "dining table":[["並べる","ならべる","排列"],["準備","じゅんび","準備"],["食事","しょくじ","用餐"]],
+  "potted plant":[["育てる","そだてる","培養"],["植える","うえる","種植"],["葉","は","葉子"]],
+  "tv":[["番組","ばんぐみ","節目"],["放送","ほうそう","播放"],["映る","うつる","映出"]],
+  "laptop":[["調べる","しらべる","查詢"],["送る","おくる","寄送"],["失敗","しっぱい","失敗"]],
+  "keyboard":[["打つ","うつ","打"],["間違える","まちがえる","弄錯"],["字","じ","字"]],
+  "mouse":[["選ぶ","えらぶ","選擇"],["押す","おす","按"],["止まる","とまる","停止"]],
+  "remote":[["探す","さがす","找"],["見つかる","みつかる","找到"],["失くす","なくす","弄丟"]],
+  "cell phone":[["連絡","れんらく","聯絡"],["返事","へんじ","回覆"],["落とす","おとす","掉落"]],
+  "book":[["小説","しょうせつ","小說"],["返す","かえす","歸還"],["興味","きょうみ","興趣"]],
+  "clock":[["遅れる","おくれる","遲到"],["間に合う","まにあう","來得及"],["急ぐ","いそぐ","趕快"]],
+  "vase":[["飾る","かざる","裝飾"],["美しい","うつくしい","美麗"],["割れる","われる","破掉"]],
+  "scissors":[["切る","きる","剪"],["細かい","こまかい","細小"],["気をつける","きをつける","小心"]],
+  "teddy bear":[["大切","たいせつ","珍惜"],["怖い","こわい","可怕"],["夜中","よなか","半夜"]],
+  "hair drier":[["乾く","かわく","變乾"],["風","かぜ","風"],["髪","かみ","頭髮"]],
+  "toothbrush":[["磨く","みがく","刷"],["歯医者","はいしゃ","牙醫"],["習慣","しゅうかん","習慣"]],
+  "backpack":[["荷物","にもつ","行李"],["捨てる","すてる","丟掉"],["忘れ物","わすれもの","遺失物"]],
+  "handbag":[["財布","さいふ","錢包"],["鍵","かぎ","鑰匙"],["片付ける","かたづける","整理"]],
+  "suitcase":[["空港","くうこう","機場"],["予約","よやく","預約"],["出発","しゅっぱつ","出發"]],
+  "umbrella":[["天気予報","てんきよほう","天氣預報"],["止む","やむ","（雨）停"],["貸す","かす","借出"]],
+  "tie":[["締める","しめる","繫"],["会議","かいぎ","會議"],["社長","しゃちょう","社長"]],
+  "sports ball":[["投げる","なげる","丟"],["試合","しあい","比賽"],["勝つ","かつ","贏"]],
+  "bicycle":[["止める","とめる","停放"],["途中","とちゅう","途中"],["交通","こうつう","交通"]],
+  "bottle":[["足りる","たりる","足夠"],["運ぶ","はこぶ","搬運"],["水道","すいどう","自來水"]],
+  "wine glass":[["酔う","よう","喝醉"],["気分","きぶん","心情"],["大人","おとな","大人"]],
+  "cup":[["残る","のこる","剩下"],["味","あじ","味道"],["苦い","にがい","苦"]],
+  "bowl":[["米","こめ","米"],["空く","すく","（肚子）餓"],["用意","ようい","準備"]],
+  "fork":[["箸","はし","筷子"],["慣れる","なれる","習慣"],["比べる","くらべる","比較"]],
+  "knife":[["怪我","けが","受傷"],["注意","ちゅうい","注意"],["肉","にく","肉"]],
+  "spoon":[["辛い","からい","辣"],["熱い","あつい","燙"],["一杯","いっぱい","滿滿"]],
+  "banana":[["果物","くだもの","水果"],["変わる","かわる","改變"],["黄色い","きいろい","黃色的"]],
+  "apple":[["医者","いしゃ","醫生"],["丈夫","じょうぶ","強壯"],["熱","ねつ","發燒"]],
+  "orange":[["冬","ふゆ","冬天"],["暖房","だんぼう","暖氣"],["季節","きせつ","季節"]],
+  "cake":[["誕生日","たんじょうび","生日"],["太る","ふとる","變胖"],["お祝い","おいわい","慶祝"]],
+  "microwave":[["温める","あたためる","加熱"],["便利","べんり","方便"],["秒","びょう","秒"]],
+  "oven":[["焼く","やく","烤"],["作り方","つくりかた","做法"],["待つ","まつ","等"]],
+  "toaster":[["朝ご飯","あさごはん","早餐"],["匂い","におい","味道"],["毎朝","まいあさ","每天早上"]],
+  "sink":[["皿","さら","盤子"],["洗う","あらう","洗"],["汚れる","よごれる","弄髒"]],
+  "refrigerator":[["冷やす","ひやす","冰鎮"],["冷たい","つめたい","冰的"],["牛乳","ぎゅうにゅう","牛奶"]],
+  "toilet":[["紙","かみ","紙"],["流す","ながす","沖"],["掃除","そうじ","打掃"]]
+};
+const ALL_WORDS = new Set(Object.values(WORDS).flat().map(w=>w[0]));
 const $ = s => document.querySelector(s);
 
 /* ---------- 狀態 ---------- */
@@ -472,7 +554,9 @@ function openCard(key){
   $("#cYo").innerHTML=yoSVG(key,"gc");
   $("#card").classList.remove("talking");
   $("#cK").textContent=d.k;$("#cK").className="k jp"+(d.k.length>=5?" l":d.k.length>=3?" m":"");$("#cR").textContent=d.r;$("#cZ").textContent=d.zh;
-  $("#cQ").textContent=d.ja;$("#cQz").textContent=d.jz;
+  $("#cQ").innerHTML=d.ja.split(/(?<=[。、！？…])/).map(c=>`<span class="cl">${c}</span>`).join("");$("#cQz").textContent=d.jz;
+  $("#cW").innerHTML=(WORDS[key]||[]).map((w,i)=>`<button class="chip" data-i="${i}"><b class="jp${w[0].length>=4?" l":""}">${w[0]}</b><span class="rz"><i class="jp">${w[1]}</i><span>${w[2]}</span></span><kbd>${i+1}</kbd></button>`).join("");
+  $("#cW").querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>sayChip(key,+c.dataset.i)));
   const st=$("#stamp");st.classList.remove("hit");
   closeSheet("#dex",true);
   $("#scrim").classList.add("on");$("#card").classList.add("on");
@@ -483,6 +567,8 @@ function openCard(key){
   }
   say(d.ja,key);
 }
+function flash(el){if(!el)return;el.classList.add("say");setTimeout(()=>el.classList.remove("say"),1300)}
+function sayChip(key,i){const w=(WORDS[key]||[])[i];if(!w)return;flash($("#cW").children[i]);say(w[1],key)}
 function closeSheet(sel,keepScrim){
   $(sel).classList.remove("on");
   if(sel==="#card"){current=null;speechSynthesis?.cancel()}
@@ -494,16 +580,31 @@ $("#sayWord").addEventListener("click",()=>current&&say(DATA[current].r,current)
 $("#sayLine").addEventListener("click",()=>current&&say(DATA[current].ja,current));
 
 /* ---------- 圖鑑 ---------- */
-function openDex(){
+let dexTab="yo";
+function openDex(tab){
   closeSheet("#card",true);
-  $("#dexCnt").textContent=`已收服 ${found.size} 隻，共 ${KEYS.length} 隻・找到房間裡的東西就能收服`;
+  if(tab)dexTab=tab;
+  document.querySelectorAll(".seg button").forEach(b=>b.classList.toggle("on",b.dataset.tab===dexTab));
+  const isYo=dexTab==="yo";
+  $("#grid").hidden=!isYo;$("#wlist").hidden=isYo;
+  if(!isYo){renderWords();$("#scrim").classList.add("on");$("#dex").classList.add("on");return}
+  $("#dexCnt").textContent=`已收服 ${found.size} 隻，共 ${KEYS.length} 隻`;
   $("#grid").innerHTML=KEYS.map(k=>found.has(k)
     ?`<button class="cell got" data-k="${k}"><span class="kk jp">${DATA[k].k}</span><small>${DATA[k].zh}</small></button>`
     :`<div class="cell">？<small>${DATA[k].zh}</small></div>`).join("");
   $("#grid").querySelectorAll(".got").forEach(c=>c.addEventListener("click",()=>openCard(c.dataset.k)));
   $("#scrim").classList.add("on");$("#dex").classList.add("on");
 }
-$("#dexBtn").addEventListener("click",openDex);
+$("#dexBtn").addEventListener("click",()=>openDex());
+document.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>openDex(b.dataset.tab)));
+function renderWords(){
+  const book=new Map();
+  for(const k of KEYS){if(!found.has(k))continue;for(const w of WORDS[k]||[])if(!book.has(w[0]))book.set(w[0],{w,k})}
+  $("#dexCnt").textContent=`已收集 ${book.size} 個 N4 單字，共 ${ALL_WORDS.size} 個`;
+  if(!book.size){$("#wlist").innerHTML='<div class="empty">還沒收服付喪神，去房間掃一掃吧</div>';return}
+  $("#wlist").innerHTML=[...book.values()].map(({w,k})=>`<button class="wrow" data-k="${k}" data-r="${w[1]}"><b class="jp">${w[0]}</b><span><i class="jp">${w[1]}</i>${w[2]}</span><em class="jp">${DATA[k].k}</em></button>`).join("");
+  $("#wlist").querySelectorAll(".wrow").forEach(r=>r.addEventListener("click",()=>{flash(r);say(r.dataset.r,r.dataset.k)}));
+}
 $("#autoBtn").addEventListener("click",toggleAuto);
 function toggleAuto(){autoSpeak=!autoSpeak;try{localStorage.setItem("tsukumo-auto",autoSpeak?"1":"0")}catch(e){}refreshAuto();toast(autoSpeak?"新發現的單字會自動唸出來":"已關閉自動唸")}
 
@@ -514,7 +615,9 @@ addEventListener("keydown",e=>{
   if(e.code==="Space"){e.preventDefault(); if(current)say(DATA[current].ja,current); else if(lastTouched&&tags.get(lastTouched)?.tag.classList.contains("on"))openCard(lastTouched)}
   else if(k==="w"&&current)say(DATA[current].r,current);
   else if(k==="a")toggleAuto();
-  else if(k==="b")($("#dex").classList.contains("on")?closeSheet("#dex"):openDex());
+  else if(/^[1-4]$/.test(k)&&current)sayChip(current,+k-1);
+  else if(k==="b")($("#dex").classList.contains("on")&&dexTab==="yo"?closeSheet("#dex"):openDex("yo"));
+  else if(k==="v")($("#dex").classList.contains("on")&&dexTab==="wd"?closeSheet("#dex"):openDex("wd"));
   else if(k==="escape"){closeSheet("#card");closeSheet("#dex")}
 });
 document.addEventListener("visibilitychange",()=>{if(document.hidden)speechSynthesis?.cancel()});
