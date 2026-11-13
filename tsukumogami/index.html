@@ -196,6 +196,17 @@ video.mirror{transform:scaleX(-1)}
 .wrow img{width:30px}
 .empty{padding:30px 0;text-align:center;font-size:13px;color:var(--mute)}
 
+/* 身體模式、翻轉、顏值 */
+.tr{display:flex;gap:10px}
+#flipBtn{display:none}
+body.bodymode #flipBtn{display:inline-flex}
+.yk .lim.gold{background:#b5832f;color:#fff8ea}
+.yk.rt .tag{background:rgba(60,46,24,.9)}
+.yk.rt .k{color:#ffe0a6}
+/* 圖鑑固定高度，內容在裡面捲動 */
+#dex{height:min(74vh,640px);display:flex;flex-direction:column}
+#dex .grid,#dex .wlist{flex:1;min-height:0;max-height:none;align-content:start}
+
 /* 日本限定 */
 .no.lim{background:var(--shu)}
 .jpb{display:none;align-items:center;padding:0 9px;border-radius:9px;background:var(--shu);color:#fbf1e4;font-size:12px;font-weight:700;white-space:nowrap}
@@ -270,16 +281,20 @@ body.japan .jpb{display:flex}
 
 <header id="top">
   <div class="brand paper frame"><b class="brush">付喪神</b><span class="seal">タカラ</span></div>
+  <div class="tr">
+  <button class="pbtn paper" id="flipBtn" title="切換前後鏡頭"><svg class="i" viewBox="0 0 24 24"><path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3v10H4z"/><path d="M9.5 12.5a2.6 2.6 0 0 1 4.6-1.4M14.5 14a2.6 2.6 0 0 1-4.6 1.4"/><path d="M14.4 9.8v1.5h-1.5M9.6 16.7v-1.5h1.5"/></svg>翻轉<kbd>F</kbd></button>
   <button class="pbtn paper" id="autoBtn" title="自動唸出新發現的單字">
     <svg class="i" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="wave" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
     <span id="autoTxt">自動唸</span><kbd>A</kbd>
   </button>
+  </div>
 </header>
 
 <div id="scene" class="paper">
   <button data-s="home"><svg class="i" viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5v8.5H4z"/><path d="M10 19.5v-5h4v5"/></svg>家裡</button>
   <button data-s="shop"><svg class="i" viewBox="0 0 24 24"><path d="M4 9.5 5.5 5h13L20 9.5"/><path d="M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5.5 12v7.5h13V12M10 19.5v-4h4v4"/></svg>店裡</button>
   <button data-s="street"><svg class="i" viewBox="0 0 24 24"><path d="M8 4 5 20M16 4l3 16M12 5v2.5M12 11v2.5M12 17v2.5"/></svg>街上</button>
+  <button data-s="body"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="5.5" r="2.5"/><path d="M7 21l2-8-3-3.5 3-1.5h6l3 1.5-3 3.5 2 8"/></svg>身體</button>
   <span class="jpb">日本限定</span>
   <kbd>S</kbd>
 </div>
@@ -315,7 +330,7 @@ body.japan .jpb{display:flex}
   <div class="rule"></div>
   <p class="quote jp" id="cQ"></p>
   <p class="quote-zh" id="cQz"></p>
-  <div class="vlabel"><span id="vTxt">N4 單字</span><small>點一下聽發音</small><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div>
+  <div class="vlabel"><span id="vTxt">N4 單字</span><small>點一下聽發音</small><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd><kbd>5</kbd></div>
   <div class="chips" id="cW"></div>
   <div class="acts">
     <button class="btn ghost" id="sayWord"><svg class="i" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/></svg>唸單字<kbd>W</kbd></button>
@@ -459,78 +474,78 @@ const DATA = {
 };
 /* N4 相關單字：[漢字, 讀音, 中文] */
 const WORDS = {
-  "person@home":[["手伝う","てつだう","幫忙"],["両親","りょうしん","父母"],["留守","るす","不在家"]],
-  "person@shop":[["注文","ちゅうもん","點餐"],["お会計","おかいけい","結帳"],["おすすめ","おすすめ","推薦"],["込む","こむ","擁擠"]],
-  "person@street":[["交差点","こうさてん","十字路口"],["案内","あんない","帶路"],["近所","きんじょ","附近"],["会う","あう","見面"]],
-  "cat":[["飼う","かう","飼養"],["眠る","ねむる","睡覺"],["触る","さわる","摸"]],
-  "dog":[["連れて行く","つれていく","帶去"],["喜ぶ","よろこぶ","高興"],["世話","せわ","照顧"]],
-  "chair":[["座る","すわる","坐"],["壊れる","こわれる","壞掉"],["動かす","うごかす","移動"]],
-  "couch":[["眠い","ねむい","想睡"],["柔らかい","やわらかい","柔軟"],["気持ち","きもち","心情"]],
-  "bed":[["夢","ゆめ","夢"],["寝坊","ねぼう","睡過頭"],["布団","ふとん","被子"],["起こす","おこす","叫醒"]],
-  "dining table":[["並べる","ならべる","排列"],["準備","じゅんび","準備"],["食事","しょくじ","用餐"]],
-  "potted plant":[["育てる","そだてる","培養"],["植える","うえる","種植"],["葉","は","葉子"]],
-  "tv":[["番組","ばんぐみ","節目"],["放送","ほうそう","播放"],["映る","うつる","映出"]],
-  "laptop":[["調べる","しらべる","查詢"],["送る","おくる","寄送"],["失敗","しっぱい","失敗"]],
-  "keyboard":[["間違える","まちがえる","弄錯"],["字","じ","字"],["指","ゆび","手指"]],
-  "mouse":[["選ぶ","えらぶ","選擇"],["押す","おす","按"],["動く","うごく","動"]],
-  "remote":[["探す","さがす","找"],["見つかる","みつかる","找到"],["失くす","なくす","弄丟"]],
-  "cell phone":[["連絡","れんらく","聯絡"],["返事","へんじ","回覆"],["落とす","おとす","掉落"]],
-  "book":[["小説","しょうせつ","小說"],["返す","かえす","歸還"],["興味","きょうみ","興趣"]],
-  "clock":[["遅れる","おくれる","遲到"],["間に合う","まにあう","來得及"],["急ぐ","いそぐ","趕快"]],
-  "vase":[["飾る","かざる","裝飾"],["美しい","うつくしい","美麗"],["割れる","われる","破掉"]],
-  "scissors":[["切る","きる","剪"],["細かい","こまかい","細小"],["気をつける","きをつける","小心"]],
-  "teddy bear":[["大切","たいせつ","珍惜"],["怖い","こわい","可怕"],["夜中","よなか","半夜"]],
-  "hair drier":[["乾く","かわく","變乾"],["風","かぜ","風"],["髪","かみ","頭髮"]],
-  "toothbrush":[["磨く","みがく","刷"],["歯医者","はいしゃ","牙醫"],["習慣","しゅうかん","習慣"]],
-  "backpack":[["荷物","にもつ","行李"],["捨てる","すてる","丟掉"],["忘れ物","わすれもの","遺失物"]],
-  "handbag":[["財布","さいふ","錢包"],["鍵","かぎ","鑰匙"],["片付ける","かたづける","整理"]],
-  "suitcase":[["空港","くうこう","機場"],["予約","よやく","預約"],["出発","しゅっぱつ","出發"]],
-  "umbrella":[["天気予報","てんきよほう","天氣預報"],["止む","やむ","（雨）停"],["貸す","かす","借出"]],
-  "tie":[["締める","しめる","繫"],["会議","かいぎ","會議"],["社長","しゃちょう","社長"]],
-  "bicycle":[["止める","とめる","停放"],["途中","とちゅう","途中"],["交通","こうつう","交通"]],
-  "bottle":[["足りる","たりる","足夠"],["運ぶ","はこぶ","搬運"],["水道","すいどう","自來水"]],
-  "wine glass":[["酔う","よう","喝醉"],["気分","きぶん","心情"],["大人","おとな","大人"]],
-  "cup":[["残る","のこる","剩下"],["味","あじ","味道"],["苦い","にがい","苦"]],
-  "bowl":[["米","こめ","米"],["空く","すく","（肚子）餓"],["用意","ようい","準備"]],
-  "fork":[["箸","はし","筷子"],["慣れる","なれる","習慣"],["比べる","くらべる","比較"]],
-  "knife":[["怪我","けが","受傷"],["注意","ちゅうい","注意"],["肉","にく","肉"]],
-  "spoon":[["辛い","からい","辣"],["熱い","あつい","燙"],["一杯","いっぱい","滿滿"]],
-  "banana":[["果物","くだもの","水果"],["変わる","かわる","改變"],["黄色い","きいろい","黃色的"]],
-  "apple":[["医者","いしゃ","醫生"],["丈夫","じょうぶ","強壯"],["熱","ねつ","發燒"]],
-  "orange":[["冬","ふゆ","冬天"],["暖房","だんぼう","暖氣"],["季節","きせつ","季節"]],
-  "cake":[["誕生日","たんじょうび","生日"],["太る","ふとる","變胖"],["お祝い","おいわい","慶祝"]],
-  "microwave":[["温める","あたためる","加熱"],["便利","べんり","方便"],["秒","びょう","秒"]],
-  "oven":[["焼く","やく","烤"],["作り方","つくりかた","做法"],["待つ","まつ","等"]],
-  "toaster":[["朝ご飯","あさごはん","早餐"],["匂い","におい","味道"],["毎朝","まいあさ","每天早上"]],
-  "sink":[["皿","さら","盤子"],["洗う","あらう","洗"],["汚れる","よごれる","弄髒"]],
-  "refrigerator":[["冷やす","ひやす","冰鎮"],["冷たい","つめたい","冰的"],["牛乳","ぎゅうにゅう","牛奶"]],
-  "toilet":[["紙","かみ","紙"],["流す","ながす","沖"],["掃除","そうじ","打掃"]],
-  "car":[["運転","うんてん","開車"],["駐車場","ちゅうしゃじょう","停車場"],["事故","じこ","事故"]],
-  "motorcycle":[["乗せる","のせる","載"],["危ない","あぶない","危險"],["遠く","とおく","遠處"]],
-  "airplane":[["飛ぶ","とぶ","飛"],["席","せき","座位"],["着く","つく","抵達"]],
-  "bus":[["乗り換える","のりかえる","轉乘"],["降りる","おりる","下車"],["込む","こむ","擁擠"]],
-  "train":[["閉まる","しまる","關上"],["特急","とっきゅう","特快車"],["駅","えき","車站"]],
-  "truck":[["引っ越し","ひっこし","搬家"],["運転手","うんてんしゅ","司機"],["大きな","おおきな","大的"]],
-  "boat":[["港","みなと","港口"],["島","しま","島"],["海","うみ","海"]],
-  "traffic light":[["渡る","わたる","過（馬路）"],["規則","きそく","規則"],["青","あお","綠燈／藍"]],
-  "fire hydrant":[["火事","かじ","火災"],["燃える","もえる","燃燒"],["安全","あんぜん","安全"]],
-  "stop sign":[["止まる","とまる","停下"],["確かめる","たしかめる","確認"],["必ず","かならず","一定"]],
-  "parking meter":[["払う","はらう","付錢"],["料金","りょうきん","費用"],["過ぎる","すぎる","超過"]],
-  "bench":[["公園","こうえん","公園"],["景色","けしき","風景"],["疲れる","つかれる","累"]],
-  "bird":[["空","そら","天空"],["森","もり","森林"],["鳴く","なく","鳴叫"]],
-  "horse":[["背中","せなか","背"],["速い","はやい","快"],["競争","きょうそう","競爭"]],
-  "sheep":[["数える","かぞえる","數"],["毛","け","毛"],["暖かい","あたたかい","溫暖"]],
-  "cow":[["田舎","いなか","鄉下"],["育つ","そだつ","長大"],["草","くさ","草"]],
-  "elephant":[["動物園","どうぶつえん","動物園"],["生まれる","うまれる","出生"],["力","ちから","力量"]],
-  "bear":[["逃げる","にげる","逃跑"],["静か","しずか","安靜"],["驚く","おどろく","嚇一跳"]],
-  "zebra":[["線","せん","線條"],["似る","にる","相像"],["珍しい","めずらしい","稀奇"]],
-  "giraffe":[["首","くび","脖子"],["届く","とどく","搆到"],["背","せ","身高"]],
-  "sandwich":[["簡単","かんたん","簡單"],["弁当","べんとう","便當"],["昼ご飯","ひるごはん","午餐"]],
-  "broccoli":[["野菜","やさい","蔬菜"],["残す","のこす","剩下（不吃）"],["嫌い","きらい","討厭"]],
-  "carrot":[["細い","ほそい","細"],["甘い","あまい","甜"],["畑","はたけ","田地"]],
-  "hot dog":[["売る","うる","賣"],["祭り","まつり","祭典"],["並ぶ","ならぶ","排隊"]],
-  "pizza":[["届ける","とどける","送達"],["分ける","わける","分"],["頼む","たのむ","點（餐）／拜託"]],
-  "donut":[["穴","あな","洞"],["真ん中","まんなか","正中間"],["お菓子","おかし","點心"]]
+  "person@home":[["手伝う","てつだう","幫忙"],["両親","りょうしん","父母"],["留守","るす","不在家"],["帰る", "かえる", "回家"],["晩ご飯", "ばんごはん", "晚餐"]],
+  "person@shop":[["注文","ちゅうもん","點餐"],["お会計","おかいけい","結帳"],["おすすめ","おすすめ","推薦"],["込む","こむ","擁擠"],["品物", "しなもの", "商品"]],
+  "person@street":[["交差点","こうさてん","十字路口"],["案内","あんない","帶路"],["近所","きんじょ","附近"],["会う","あう","見面"],["地図", "ちず", "地圖"]],
+  "cat":[["飼う","かう","飼養"],["眠る","ねむる","睡覺"],["触る","さわる","摸"],["可愛がる", "かわいがる", "疼愛"],["尻尾", "しっぽ", "尾巴"]],
+  "dog":[["連れて行く","つれていく","帶去"],["喜ぶ","よろこぶ","高興"],["世話","せわ","照顧"],["散歩", "さんぽ", "散步"],["噛む", "かむ", "咬"]],
+  "chair":[["座る","すわる","坐"],["壊れる","こわれる","壞掉"],["動かす","うごかす","移動"],["机", "つくえ", "書桌"],["低い", "ひくい", "矮"]],
+  "couch":[["眠い","ねむい","想睡"],["柔らかい","やわらかい","柔軟"],["気持ち","きもち","心情"],["横になる", "よこになる", "躺下"],["楽", "らく", "輕鬆"]],
+  "bed":[["夢","ゆめ","夢"],["寝坊","ねぼう","睡過頭"],["布団","ふとん","被子"],["起こす","おこす","叫醒"],["枕", "まくら", "枕頭"]],
+  "dining table":[["並べる","ならべる","排列"],["準備","じゅんび","準備"],["食事","しょくじ","用餐"],["皆", "みんな", "大家"],["会話", "かいわ", "聊天"]],
+  "potted plant":[["育てる","そだてる","培養"],["植える","うえる","種植"],["葉","は","葉子"],["枯れる", "かれる", "枯萎"],["日当たり", "ひあたり", "日照"]],
+  "tv":[["番組","ばんぐみ","節目"],["放送","ほうそう","播放"],["映る","うつる","映出"],["消す", "けす", "關掉"],["音", "おと", "聲音"]],
+  "laptop":[["調べる","しらべる","查詢"],["送る","おくる","寄送"],["失敗","しっぱい","失敗"],["画面", "がめん", "螢幕"],["保存", "ほぞん", "存檔"]],
+  "keyboard":[["間違える","まちがえる","弄錯"],["字","じ","字"],["指","ゆび","手指"],["打つ", "うつ", "打（字）"],["入力", "にゅうりょく", "輸入"]],
+  "mouse":[["選ぶ","えらぶ","選擇"],["押す","おす","按"],["動く","うごく","動"],["置く", "おく", "放"],["手", "て", "手"]],
+  "remote":[["探す","さがす","找"],["見つかる","みつかる","找到"],["失くす","なくす","弄丟"],["電池", "でんち", "電池"],["隠れる", "かくれる", "躲"]],
+  "cell phone":[["連絡","れんらく","聯絡"],["返事","へんじ","回覆"],["落とす","おとす","掉落"],["番号", "ばんごう", "號碼"],["充電", "じゅうでん", "充電"]],
+  "book":[["小説","しょうせつ","小說"],["返す","かえす","歸還"],["興味","きょうみ","興趣"],["図書館", "としょかん", "圖書館"],["意味", "いみ", "意思"]],
+  "clock":[["遅れる","おくれる","遲到"],["間に合う","まにあう","來得及"],["急ぐ","いそぐ","趕快"],["起きる", "おきる", "起床"],["約束", "やくそく", "約定"]],
+  "vase":[["飾る","かざる","裝飾"],["美しい","うつくしい","美麗"],["割れる","われる","破掉"],["花見", "はなみ", "賞花"],["色", "いろ", "顏色"]],
+  "scissors":[["切る","きる","剪"],["細かい","こまかい","細小"],["気をつける","きをつける","小心"],["糸", "いと", "線"],["危険", "きけん", "危險"]],
+  "teddy bear":[["大切","たいせつ","珍惜"],["怖い","こわい","可怕"],["夜中","よなか","半夜"],["抱く", "だく", "抱"],["寂しい", "さびしい", "寂寞"]],
+  "hair drier":[["乾く","かわく","變乾"],["風","かぜ","風"],["髪","かみ","頭髮"],["乾かす", "かわかす", "吹乾"],["美容院", "びよういん", "美容院"]],
+  "toothbrush":[["磨く","みがく","刷"],["歯医者","はいしゃ","牙醫"],["習慣","しゅうかん","習慣"],["歯", "は", "牙齒"],["痛い", "いたい", "痛"]],
+  "backpack":[["荷物","にもつ","行李"],["捨てる","すてる","丟掉"],["忘れ物","わすれもの","遺失物"],["背負う", "せおう", "背"],["遠足", "えんそく", "遠足"]],
+  "handbag":[["財布","さいふ","錢包"],["鍵","かぎ","鑰匙"],["片付ける","かたづける","整理"],["化粧", "けしょう", "化妝"],["重い", "おもい", "重"]],
+  "suitcase":[["空港","くうこう","機場"],["予約","よやく","預約"],["出発","しゅっぱつ","出發"],["旅館", "りょかん", "旅館"],["外国", "がいこく", "外國"]],
+  "umbrella":[["天気予報","てんきよほう","天氣預報"],["止む","やむ","（雨）停"],["貸す","かす","借出"],["濡れる", "ぬれる", "淋濕"],["台風", "たいふう", "颱風"]],
+  "tie":[["締める","しめる","繫"],["会議","かいぎ","會議"],["社長","しゃちょう","社長"],["背広", "せびろ", "西裝"],["面接", "めんせつ", "面試"]],
+  "bicycle":[["止める","とめる","停放"],["途中","とちゅう","途中"],["交通","こうつう","交通"],["坂", "さか", "坡道"],["盗む", "ぬすむ", "偷"]],
+  "bottle":[["足りる","たりる","足夠"],["運ぶ","はこぶ","搬運"],["水道","すいどう","自來水"],["冷える", "ひえる", "變冰"],["半分", "はんぶん", "一半"]],
+  "wine glass":[["酔う","よう","喝醉"],["気分","きぶん","心情"],["大人","おとな","大人"],["乾杯", "かんぱい", "乾杯"],["二十歳", "はたち", "二十歲"]],
+  "cup":[["残る","のこる","剩下"],["味","あじ","味道"],["苦い","にがい","苦"],["入れる", "いれる", "倒入"],["お茶", "おちゃ", "茶"]],
+  "bowl":[["米","こめ","米"],["空く","すく","（肚子）餓"],["用意","ようい","準備"],["ご飯", "ごはん", "飯"],["温かい", "あたたかい", "溫熱"]],
+  "fork":[["箸","はし","筷子"],["慣れる","なれる","習慣"],["比べる","くらべる","比較"],["刺す", "さす", "叉"],["洋食", "ようしょく", "西餐"]],
+  "knife":[["怪我","けが","受傷"],["注意","ちゅうい","注意"],["肉","にく","肉"],["料理", "りょうり", "料理"],["切れる", "きれる", "鋒利"]],
+  "spoon":[["辛い","からい","辣"],["熱い","あつい","燙"],["一杯","いっぱい","滿滿"],["混ぜる", "まぜる", "攪拌"],["スープ", "すーぷ", "湯"]],
+  "banana":[["果物","くだもの","水果"],["変わる","かわる","改變"],["黄色い","きいろい","黃色的"],["皮", "かわ", "皮"],["安い", "やすい", "便宜"]],
+  "apple":[["医者","いしゃ","醫生"],["丈夫","じょうぶ","強壯"],["熱","ねつ","發燒"],["赤い", "あかい", "紅色的"],["健康", "けんこう", "健康"]],
+  "orange":[["冬","ふゆ","冬天"],["暖房","だんぼう","暖氣"],["季節","きせつ","季節"],["酸っぱい", "すっぱい", "酸"],["剥く", "むく", "剝"]],
+  "cake":[["誕生日","たんじょうび","生日"],["太る","ふとる","變胖"],["お祝い","おいわい","慶祝"],["苺", "いちご", "草莓"],["ろうそく", "ろうそく", "蠟燭"]],
+  "microwave":[["温める","あたためる","加熱"],["便利","べんり","方便"],["秒","びょう","秒"],["冷凍", "れいとう", "冷凍"],["時間", "じかん", "時間"]],
+  "oven":[["焼く","やく","烤"],["作り方","つくりかた","做法"],["待つ","まつ","等"],["温度", "おんど", "溫度"],["焦げる", "こげる", "燒焦"]],
+  "toaster":[["朝ご飯","あさごはん","早餐"],["匂い","におい","味道"],["毎朝","まいあさ","每天早上"],["パン", "ぱん", "麵包"],["焼ける", "やける", "烤好"]],
+  "sink":[["皿","さら","盤子"],["洗う","あらう","洗"],["汚れる","よごれる","弄髒"],["台所", "だいどころ", "廚房"],["流れる", "ながれる", "流"]],
+  "refrigerator":[["冷やす","ひやす","冰鎮"],["冷たい","つめたい","冰的"],["牛乳","ぎゅうにゅう","牛奶"],["卵", "たまご", "蛋"],["腐る", "くさる", "腐壞"]],
+  "toilet":[["紙","かみ","紙"],["流す","ながす","沖"],["掃除","そうじ","打掃"],["我慢", "がまん", "忍耐"],["手を洗う", "てをあらう", "洗手"]],
+  "car":[["運転","うんてん","開車"],["駐車場","ちゅうしゃじょう","停車場"],["事故","じこ","事故"],["渋滞", "じゅうたい", "塞車"],["免許", "めんきょ", "駕照"]],
+  "motorcycle":[["乗せる","のせる","載"],["危ない","あぶない","危險"],["遠く","とおく","遠處"],["速度", "そくど", "速度"],["道", "みち", "路"]],
+  "airplane":[["飛ぶ","とぶ","飛"],["席","せき","座位"],["着く","つく","抵達"],["窓側", "まどがわ", "靠窗"],["到着", "とうちゃく", "抵達"]],
+  "bus":[["乗り換える","のりかえる","轉乘"],["降りる","おりる","下車"],["込む","こむ","擁擠"],["停留所", "ていりゅうじょ", "公車站"],["時刻表", "じこくひょう", "時刻表"]],
+  "train":[["閉まる","しまる","關上"],["特急","とっきゅう","特快車"],["駅","えき","車站"],["満員", "まんいん", "客滿"],["線路", "せんろ", "鐵軌"]],
+  "truck":[["引っ越し","ひっこし","搬家"],["運転手","うんてんしゅ","司機"],["大きな","おおきな","大的"],["積む", "つむ", "裝載"],["重さ", "おもさ", "重量"]],
+  "boat":[["港","みなと","港口"],["島","しま","島"],["海","うみ","海"],["揺れる", "ゆれる", "搖晃"],["釣り", "つり", "釣魚"]],
+  "traffic light":[["渡る","わたる","過（馬路）"],["規則","きそく","規則"],["青","あお","綠燈／藍"],["赤", "あか", "紅燈"],["横断", "おうだん", "橫越"]],
+  "fire hydrant":[["火事","かじ","火災"],["燃える","もえる","燃燒"],["安全","あんぜん","安全"],["消防車", "しょうぼうしゃ", "消防車"],["煙", "けむり", "煙"]],
+  "stop sign":[["止まる","とまる","停下"],["確かめる","たしかめる","確認"],["必ず","かならず","一定"],["標識", "ひょうしき", "標誌"],["角", "かど", "轉角"]],
+  "parking meter":[["払う","はらう","付錢"],["料金","りょうきん","費用"],["過ぎる","すぎる","超過"],["駐車", "ちゅうしゃ", "停車"],["罰金", "ばっきん", "罰款"]],
+  "bench":[["公園","こうえん","公園"],["景色","けしき","風景"],["疲れる","つかれる","累"],["休む", "やすむ", "休息"],["待ち合わせ", "まちあわせ", "約碰面"]],
+  "bird":[["空","そら","天空"],["森","もり","森林"],["鳴く","なく","鳴叫"],["羽", "はね", "翅膀"],["巣", "す", "巢"]],
+  "horse":[["背中","せなか","背"],["速い","はやい","快"],["競争","きょうそう","競爭"],["乗る", "のる", "騎"],["牧場", "ぼくじょう", "牧場"]],
+  "sheep":[["数える","かぞえる","數"],["毛","け","毛"],["暖かい","あたたかい","溫暖"],["群れ", "むれ", "群"],["白い", "しろい", "白色的"]],
+  "cow":[["田舎","いなか","鄉下"],["育つ","そだつ","長大"],["草","くさ","草"],["のんびり", "のんびり", "悠閒"],["広い", "ひろい", "寬廣"]],
+  "elephant":[["動物園","どうぶつえん","動物園"],["生まれる","うまれる","出生"],["力","ちから","力量"],["鼻", "はな", "鼻子"],["大きい", "おおきい", "大"]],
+  "bear":[["逃げる","にげる","逃跑"],["静か","しずか","安靜"],["驚く","おどろく","嚇一跳"],["冬眠", "とうみん", "冬眠"],["山", "やま", "山"]],
+  "zebra":[["線","せん","線條"],["似る","にる","相像"],["珍しい","めずらしい","稀奇"],["縞", "しま", "條紋"],["走る", "はしる", "跑"]],
+  "giraffe":[["首","くび","脖子"],["届く","とどく","搆到"],["背","せ","身高"],["足", "あし", "腳"],["高い", "たかい", "高"]],
+  "sandwich":[["簡単","かんたん","簡單"],["弁当","べんとう","便當"],["昼ご飯","ひるごはん","午餐"],["挟む", "はさむ", "夾"],["ハム", "はむ", "火腿"]],
+  "broccoli":[["野菜","やさい","蔬菜"],["残す","のこす","剩下（不吃）"],["嫌い","きらい","討厭"],["栄養", "えいよう", "營養"],["茹でる", "ゆでる", "水煮"]],
+  "carrot":[["細い","ほそい","細"],["甘い","あまい","甜"],["畑","はたけ","田地"],["苦手", "にがて", "不喜歡"],["馬", "うま", "馬"]],
+  "hot dog":[["売る","うる","賣"],["祭り","まつり","祭典"],["並ぶ","ならぶ","排隊"],["ソーセージ", "そーせーじ", "香腸"],["屋台", "やたい", "攤販"]],
+  "pizza":[["届ける","とどける","送達"],["分ける","わける","分"],["頼む","たのむ","點（餐）／拜託"],["焼きたて", "やきたて", "剛烤好"],["チーズ", "ちーず", "起司"]],
+  "donut":[["穴","あな","洞"],["真ん中","まんなか","正中間"],["お菓子","おかし","點心"],["揚げる", "あげる", "炸"],["砂糖", "さとう", "糖"]]
 };
 
 /* ---------- 日本限定：人在日本時出現（N3 程度生活用語，答對才收服） ---------- */
@@ -561,6 +576,60 @@ const JP = {
 };
 for(const b in JP){const j=JP[b];DATA["jp:"+b]={k:j.k,r:j.r,zh:j.zh,t:j.t,ja:j.ja,jz:j.jz};WORDS["jp:"+b]=j.w}
 
+/* ---------- 身體部位（身體模式） ---------- */
+const BODY = {
+  head:{k:"頭",r:"あたま",zh:"頭",ja:"頭を使って、日本語を覚えよう！",jz:"動動腦，把日文記起來吧！",w:[["考える","かんがえる","思考"],["帽子","ぼうし","帽子"],["覚える","おぼえる","記住"]]},
+  face:{k:"顔",r:"かお",zh:"臉",ja:"顔を洗った？まだ眠そうだよ。",jz:"洗臉了嗎？看起來還很睏耶。",w:[["笑う","わらう","笑"],["表情","ひょうじょう","表情"],["鏡","かがみ","鏡子"]]},
+  eye:{k:"目",r:"め",zh:"眼睛",ja:"スマホを見すぎだよ。目を休ませて。",jz:"手機看太多了，讓眼睛休息一下。",w:[["眼鏡","めがね","眼鏡"],["涙","なみだ","眼淚"],["閉じる","とじる","閉上"]]},
+  ear:{k:"耳",r:"みみ",zh:"耳朵",ja:"わたしの話、ちゃんと聞いてる？",jz:"我說的話你有在聽嗎？",w:[["聞こえる","きこえる","聽得到"],["声","こえ","聲音"],["騒ぐ","さわぐ","吵鬧"]]},
+  nose:{k:"鼻",r:"はな",zh:"鼻子",ja:"いい匂いがする…カレーかな？",jz:"好香喔…是咖哩嗎？",w:[["嗅ぐ","かぐ","聞"],["風邪","かぜ","感冒"],["くしゃみ","くしゃみ","噴嚏"]]},
+  mouth:{k:"口",r:"くち",zh:"嘴巴",ja:"食べながら話さないでね。",jz:"不要邊吃邊說話喔。",w:[["話す","はなす","說話"],["歌う","うたう","唱歌"],["開ける","あける","張開"]]},
+  neck:{k:"首",r:"くび",zh:"脖子",ja:"スマホばかり見ると、首が痛くなるよ。",jz:"一直看手機脖子會痛喔。",w:[["回す","まわす","轉動"],["曲げる","まげる","彎"],["マフラー","まふらー","圍巾"]]},
+  shoulder:{k:"肩",r:"かた",zh:"肩膀",ja:"肩がこってるね。たまには休もう。",jz:"肩膀很僵硬耶，偶爾休息一下吧。",w:[["揉む","もむ","按摩"],["凝る","こる","僵硬痠痛"],["叩く","たたく","拍打"]]},
+  chest:{k:"胸",r:"むね",zh:"胸",ja:"ドキドキしてる？好きな人がいるの？",jz:"心跳很快？有喜歡的人嗎？",w:[["息","いき","呼吸"],["心","こころ","心"],["張る","はる","挺起"]]},
+  belly:{k:"お腹",r:"おなか",zh:"肚子",ja:"グーって鳴ったよ。お腹すいた？",jz:"咕嚕叫了喔，肚子餓了嗎？",w:[["減る","へる","減少（餓）"],["満腹","まんぷく","吃飽"],["壊す","こわす","吃壞"]]},
+  waist:{k:"腰",r:"こし",zh:"腰",ja:"重い物を持つ時は、腰に気をつけて。",jz:"搬重物時要小心腰。",w:[["伸ばす","のばす","伸展"],["姿勢","しせい","姿勢"],["痛める","いためる","弄傷"]]},
+  arm:{k:"腕",r:"うで",zh:"手臂",ja:"腕を上げて、ストレッチしよう。",jz:"把手臂舉起來，伸展一下吧。",w:[["上げる","あげる","舉起"],["筋肉","きんにく","肌肉"],["組む","くむ","交叉"]]},
+  elbow:{k:"肘",r:"ひじ",zh:"手肘",ja:"机に肘をつくのは、行儀が悪いよ。",jz:"手肘撐在桌上很沒禮貌喔。",w:[["つく","つく","撐"],["行儀","ぎょうぎ","規矩"],["ぶつける","ぶつける","撞到"]]},
+  wrist:{k:"手首",r:"てくび",zh:"手腕",ja:"腕時計、似合ってるね。",jz:"手錶很適合你耶。",w:[["腕時計","うでどけい","手錶"],["脈","みゃく","脈搏"],["太い","ふとい","粗"]]},
+  hand:{k:"手",r:"て",zh:"手",ja:"手を振って！こんにちは！",jz:"揮揮手！你好！",w:[["振る","ふる","揮"],["握る","にぎる","握"],["手袋","てぶくろ","手套"]]},
+  thumb:{k:"親指",r:"おやゆび",zh:"大拇指",ja:"いいね！わたしを立ててね。",jz:"讚！把我豎起來吧。",w:[["立てる","たてる","豎起"],["指紋","しもん","指紋"],["爪","つめ","指甲"]]},
+  index:{k:"人差し指",r:"ひとさしゆび",zh:"食指",ja:"人を指でさすのは、失礼だよ。",jz:"用手指指人很沒禮貌喔。",w:[["指す","さす","指"],["失礼","しつれい","失禮"],["方向","ほうこう","方向"]]},
+  pinky:{k:"小指",r:"こゆび",zh:"小指",ja:"約束だよ。指切りげんまん！",jz:"說好了喔，打勾勾！",w:[["指切り","ゆびきり","打勾勾"],["嘘","うそ","謊話"],["守る","まもる","遵守"]]},
+  knee:{k:"膝",r:"ひざ",zh:"膝蓋",ja:"正座は三分が限界だよね。",jz:"跪坐三分鐘就是極限了吧。",w:[["正座","せいざ","跪坐"],["しびれる","しびれる","發麻"],["転ぶ","ころぶ","跌倒"]]},
+  foot:{k:"足",r:"あし",zh:"腳",ja:"今日は一万歩、歩いた？",jz:"今天走一萬步了嗎？",w:[["歩く","あるく","走路"],["靴","くつ","鞋子"],["踏む","ふむ","踩"]]},
+  ankle:{k:"足首",r:"あしくび",zh:"腳踝",ja:"走る前に、足首を回してね。",jz:"跑步前先轉轉腳踝喔。",w:[["ひねる","ひねる","扭到"],["準備運動","じゅんびうんどう","暖身"],["腫れる","はれる","腫"]]},
+  heel:{k:"かかと",r:"かかと",zh:"腳跟",ja:"靴のかかと、踏まないで！",jz:"不要踩鞋跟！",w:[["靴下","くつした","襪子"],["ヒール","ひーる","高跟鞋"],["擦れる","すれる","磨到"]]}
+};
+for(const b in BODY){const j=BODY[b];DATA["body:"+b]={k:j.k,r:j.r,zh:j.zh,t:"体の付喪神たち",ja:j.ja,jz:j.jz};WORDS["body:"+b]=j.w}
+
+/* ---------- 顏值判定（照朋友時隨機，不收集） ---------- */
+const RATES = [
+  {k:"かっこいい",r:"かっこいい",zh:"帥",ja:"この人、かっこいいね！モテるでしょう？",jz:"這個人好帥！很受歡迎吧？"},
+  {k:"きれい",r:"きれい",zh:"漂亮",ja:"きれいな人だね。写真を撮ってあげよう！",jz:"好漂亮的人，幫你拍張照吧！"},
+  {k:"かわいい",r:"かわいい",zh:"可愛",ja:"かわいい！笑顔がいいね。",jz:"好可愛！笑容很棒。"},
+  {k:"美しい",r:"うつくしい",zh:"美麗",ja:"美しい…モデルさんですか？",jz:"好美…你是模特兒嗎？"},
+  {k:"優しそう",r:"やさしそう",zh:"看起來很溫柔",ja:"優しそうな人だね。友達になりたいな。",jz:"看起來好溫柔，好想當朋友。"},
+  {k:"頭がよさそう",r:"あたまがよさそう",zh:"看起來很聰明",ja:"頭がよさそう。テストはいつも百点かな？",jz:"看起來很聰明，考試都一百分嗎？"},
+  {k:"眠そう",r:"ねむそう",zh:"看起來很睏",ja:"眠そうだね。昨日何時に寝たの？",jz:"看起來好睏，昨天幾點睡？"},
+  {k:"お腹すいてそう",r:"おなかすいてそう",zh:"看起來很餓",ja:"お腹すいてそう。何か食べに行こう！",jz:"看起來好餓，去吃點東西吧！"},
+  {k:"変な顔",r:"へんなかお",zh:"怪臉",ja:"変な顔！わざとでしょう？",jz:"好怪的臉！是故意的吧？"},
+  {k:"ブサかわいい",r:"ぶさかわいい",zh:"醜萌",ja:"ブサかわいいね。それも魅力だよ。",jz:"醜萌醜萌的，這也是魅力喔。"},
+  {k:"怪しい",r:"あやしい",zh:"可疑",ja:"怪しい…何か隠してない？",jz:"好可疑…是不是藏了什麼？"}
+];
+RATES.forEach((r,i)=>{DATA["rate:"+i]={k:r.k,r:r.r,zh:r.zh,ja:r.ja,jz:r.jz}});
+
+/* ---------- 日本地標與神社（靠近才出現，答題收服） ---------- */
+const PLACES = {
+  "lm-tower":{lat:35.6586,lon:139.7454,km:1.2,g:"tourou",k:"東京タワー",r:"とうきょうたわー",zh:"東京鐵塔",ja:"わたしは333メートル。スカイツリーには負けないよ！",jz:"我有 333 公尺，才不會輸給晴空塔！",w:[["展望台","てんぼうだい","展望台"],["夜景","やけい","夜景"],["高さ","たかさ","高度"],["ライトアップ","らいとあっぷ","點燈"],["階段","かいだん","樓梯"]]},
+  "lm-skytree":{lat:35.7101,lon:139.8107,km:1.5,g:"tourou",k:"スカイツリー",r:"すかいつりー",zh:"晴空塔",ja:"634メートル。「むさし」って覚えてね。",jz:"634 公尺，用「武藏」的諧音記起來吧。",w:[["世界一","せかいいち","世界第一"],["眺め","ながめ","景色"],["揺れる","ゆれる","搖晃"],["行列","ぎょうれつ","排隊人龍"],["入場券","にゅうじょうけん","門票"]]},
+  "lm-kaminarimon":{lat:35.7112,lon:139.7963,km:.4,g:"tourou",k:"雷門",r:"かみなりもん",zh:"雷門",ja:"大きい提灯の下で、写真を撮ろう！",jz:"在大燈籠下面拍張照吧！",w:[["提灯","ちょうちん","燈籠"],["参道","さんどう","參道"],["仲見世","なかみせ","淺草商店街"],["人力車","じんりきしゃ","人力車"],["浴衣","ゆかた","浴衣"]]},
+  "lm-shibuya":{lat:35.6595,lon:139.7005,km:.35,g:"kasabou",k:"渋谷交差点",r:"しぶやこうさてん",zh:"澀谷十字路口",ja:"一度に三千人が渡るよ。ぶつからないでね！",jz:"一次有三千人過馬路，不要撞到喔！",w:[["人込み","ひとごみ","人潮"],["若者","わかもの","年輕人"],["待ち合わせ","まちあわせ","約碰面"],["忠犬","ちゅうけん","忠犬"],["流行","りゅうこう","流行"]]},
+  "lm-fuji":{lat:35.3606,lon:138.7274,km:30,g:"kasabou",k:"富士山",r:"ふじさん",zh:"富士山",ja:"晴れた日しか、顔を見せないよ。",jz:"只有晴天才會露臉喔。",w:[["頂上","ちょうじょう","山頂"],["登山","とざん","登山"],["噴火","ふんか","噴發"],["山小屋","やまごや","山屋"],["日の出","ひので","日出"]]},
+  "shrine":{g:"fushigami",k:"神社",r:"じんじゃ",zh:"神社",ja:"鳥居をくぐる時は、真ん中を歩かないでね。神様の道だから。",jz:"穿過鳥居時不要走正中間喔，那是神明走的路。",w:[["鳥居","とりい","鳥居"],["狛犬","こまいぬ","石獅（狛犬）"],["お賽銭","おさいせん","香油錢"],["おみくじ","おみくじ","籤詩"],["お守り","おまもり","御守"],["絵馬","えま","繪馬"]]}
+};
+for(const b in PLACES){const j=PLACES[b];DATA["jp:"+b]={k:j.k,r:j.r,zh:j.zh,t:"名所の付喪神",ja:j.ja,jz:j.jz};WORDS["jp:"+b]=j.w}
+
 
 /* ---------- 10 隻妖怪 ---------- */
 const GHOSTS = {
@@ -582,9 +651,13 @@ const GROUP = {
 };
 const GH = {}; for(const g in GROUP) for(const k of GROUP[g]) GH[k]=g;
 for(const b in JP) GH["jp:"+b]=GH[b];
+for(const b in BODY) GH["body:"+b]="fushigami";
+for(const b in PLACES) GH["jp:"+b]=PLACES[b].g;
+RATES.forEach((r,i)=>GH["rate:"+i]="fushigami");
+const isRate = k => k.startsWith("rate:");
 const isJP = k => k.startsWith("jp:");
 const JKEYS = Object.keys(DATA).filter(isJP).sort((a,b)=>Object.keys(GROUP).indexOf(GH[a])-Object.keys(GROUP).indexOf(GH[b]));
-const KEYS = Object.keys(DATA).filter(k=>!isJP(k)).sort((a,b)=>Object.keys(GROUP).indexOf(GH[a])-Object.keys(GROUP).indexOf(GH[b]));
+const KEYS = Object.keys(DATA).filter(k=>!isJP(k)&&!isRate(k)).sort((a,b)=>Object.keys(GROUP).indexOf(GH[a])-Object.keys(GROUP).indexOf(GH[b]));
 const sprURL = k => `ghosts/${GH[k]}-s.webp`;
 const avURL = k => `ghosts/${GH[k]}-s.webp`;
 const $ = s => document.querySelector(s);
@@ -594,8 +667,8 @@ let model=null, video=$("#cam"), running=false, mirror=false;
 let autoSpeak=true, lastAuto=0, current=null, lastTouched=null;
 const tags=new Map(), seenSession=new Set(), streak=new Map();
 let scene="home";
-try{const sc=localStorage.getItem("tsukumo-scene");if(["home","shop","street"].includes(sc))scene=sc}catch(e){}
-const SCENE_ZH={home:"家裡",shop:"店裡",street:"街上"};
+try{const sc=localStorage.getItem("tsukumo-scene");if(["home","shop","street","body"].includes(sc))scene=sc}catch(e){}
+const SCENE_ZH={home:"家裡",shop:"店裡",street:"街上",body:"身體"};
 let found=new Set();
 try{found=new Set(JSON.parse(localStorage.getItem("tsukumo-found")||"[]").map(k=>k==="person"?"person@home":k).filter(k=>DATA[k]))}catch(e){}
 try{const a=localStorage.getItem("tsukumo-auto"); if(a!==null) autoSpeak=a==="1"}catch(e){}
@@ -620,12 +693,15 @@ function setTalking(key){
 function say(text,key){
   if(!("speechSynthesis" in window))return;
   speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang="ja-JP"; if(jaVoice)u.voice=jaVoice;
-  u.rate=.9; u.pitch=key?pitchOf(GH[key]||key):1;
-  u.onstart=()=>setTalking(key);
-  u.onend=u.onerror=()=>{if(talkKey===key)setTalking(null)};
-  speechSynthesis.speak(u);
+  const list=Array.isArray(text)?text:[text];
+  list.forEach((t,i)=>{
+    const u=new SpeechSynthesisUtterance(t);
+    u.lang="ja-JP"; if(jaVoice)u.voice=jaVoice;
+    u.rate=.9; u.pitch=key?pitchOf(GH[key]||key):1;
+    u.onstart=()=>setTalking(key);
+    if(i===list.length-1)u.onend=u.onerror=()=>{if(talkKey===key)setTalking(null)};
+    speechSynthesis.speak(u);
+  });
   setTalking(key);
 }
 
@@ -648,12 +724,34 @@ function setJapan(v){
   const was=inJapan;inJapan=v;geoState=v?"jp":"tw";document.body.classList.toggle("japan",v);
   if(v&&!was&&running)guide(`你在日本！<em>日本限定</em>的付喪神出沒中，答對題目才能收服`);
 }
-function checkGeo(){
-  if(FORCE_JP){setJapan(true);return}
-  if(!navigator.geolocation)return;
-  navigator.geolocation.getCurrentPosition(p=>setJapan(isJapan(p.coords.latitude,p.coords.longitude)),()=>{geoState="denied"},{maximumAge:600000,timeout:15000});
+// 附近的地標與神社（網址加 ?near=lm-fuji,shrine 可以測試）
+const FORCE_NEAR=(location.search.match(/[?&]near=([^&]+)/)||[])[1]?.split(",").filter(k=>PLACES[k])||[];
+let nearPlaces=new Set(FORCE_NEAR), lastShrineQ=null;
+function km(a,b,c,d){const r=Math.PI/180,x=(d-b)*r*Math.cos((a+c)/2*r),y=(c-a)*r;return Math.hypot(x,y)*6371}
+async function shrineNear(la,lo){
+  if(lastShrineQ&&km(la,lo,lastShrineQ.la,lastShrineQ.lo)<.08&&Date.now()-lastShrineQ.t<180000)return lastShrineQ.v;
+  try{
+    const q=`[out:json][timeout:10];nwr(around:120,${la},${lo})["amenity"="place_of_worship"]["religion"="shinto"];out ids 1;`;
+    const j=await (await fetch("https://overpass-api.de/api/interpreter?data="+encodeURIComponent(q))).json();
+    const v=(j.elements||[]).length>0;lastShrineQ={la,lo,t:Date.now(),v};return v;
+  }catch(e){return lastShrineQ?.v||false}
 }
-setInterval(()=>{if(running)checkGeo()},600000);
+async function onPos(p){
+  const la=p.coords.latitude,lo=p.coords.longitude;
+  setJapan(isJapan(la,lo));
+  if(!inJapan){nearPlaces=new Set(FORCE_NEAR);return}
+  const n=new Set(FORCE_NEAR);
+  for(const k in PLACES){const pl=PLACES[k];if(pl.lat&&km(la,lo,pl.lat,pl.lon)<=pl.km)n.add(k)}
+  if(await shrineNear(la,lo))n.add("shrine");
+  for(const k of n)if(!nearPlaces.has(k)&&running)guide(`你在<em>${DATA["jp:"+k].k}</em>附近！它出現在畫面上了`);
+  nearPlaces=n;
+}
+let geoWatch=null;
+function checkGeo(){
+  if(FORCE_JP)setJapan(true);
+  if(!navigator.geolocation||geoWatch!==null)return;
+  geoWatch=navigator.geolocation.watchPosition(onPos,()=>{if(!FORCE_JP)geoState="denied"},{maximumAge:60000,timeout:20000});
+}
 
 /* ---------- 開始 ---------- */
 $("#go").addEventListener("click",async()=>{
@@ -661,12 +759,7 @@ $("#go").addEventListener("click",async()=>{
   $("#goTxt").textContent="召喚中…"; go.insertAdjacentHTML("afterbegin",'<span class="spin"></span>'); go.querySelector("svg").style.display="none";
   try{const u=new SpeechSynthesisUtterance(" ");u.volume=0;speechSynthesis.speak(u)}catch(e){}
   try{
-    const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1280},height:{ideal:720}},audio:false});
-    video.srcObject=stream; await video.play();
-    const s=stream.getVideoTracks()[0].getSettings();
-    const touch=matchMedia("(pointer:coarse)").matches;
-    mirror = s.facingMode==="user" || (!s.facingMode && !touch);
-    video.classList.toggle("mirror",mirror);
+    await startCam(scene==="body"?"user":"environment");
   }catch(e){
     resetGo(); $("#err").textContent= location.protocol==="file:"&&/iPhone|iPad/.test(navigator.userAgent)
       ?"請用網址開啟（https），手機不能直接開檔案"
@@ -679,16 +772,93 @@ $("#go").addEventListener("click",async()=>{
   }catch(e){resetGo();$("#err").textContent="AI 模型載入失敗，請確認網路後重試";return}
   $("#start").classList.add("out");
   running=true; loop(); checkGeo();
+  if(scene==="body")setScene("body");
 });
 function resetGo(){const go=$("#go");go.disabled=false;go.querySelector(".spin")?.remove();go.querySelector("svg").style.display="";$("#goTxt").textContent="打開鏡頭，召喚付喪神"}
+
+/* ---------- 相機 ---------- */
+let facing="environment";
+async function startCam(f){
+  facing=f;
+  video.srcObject?.getTracks().forEach(t=>t.stop());
+  const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:f},width:{ideal:1280},height:{ideal:720}},audio:false});
+  video.srcObject=stream; await video.play();
+  const st=stream.getVideoTracks()[0].getSettings();
+  const touch=matchMedia("(pointer:coarse)").matches;
+  mirror = st.facingMode==="user" || (!st.facingMode && (!touch || f==="user"));
+  video.classList.toggle("mirror",mirror);
+}
+async function flipCam(){
+  if(!running)return;
+  try{await startCam(facing==="user"?"environment":"user");guide(facing==="user"?"換成前鏡頭，照照自己吧":"換成後鏡頭，去照朋友吧！")}catch(e){guide("沒辦法切換鏡頭")}
+}
+
+/* ---------- 身體辨識（MediaPipe，進身體模式才載入） ---------- */
+let pose=null, poseLoading=null, rateKey=null, rateLast=0;
+async function loadPose(){
+  if(pose)return pose;
+  if(poseLoading)return poseLoading;
+  poseLoading=(async()=>{
+    const V="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
+    const mp=await import(V+"/vision_bundle.mjs");
+    const files=await mp.FilesetResolver.forVisionTasks(V+"/wasm");
+    const opt=d=>({baseOptions:{modelAssetPath:"https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task",delegate:d},runningMode:"VIDEO",numPoses:1});
+    try{pose=await mp.PoseLandmarker.createFromOptions(files,opt("GPU"))}catch(e){pose=await mp.PoseLandmarker.createFromOptions(files,opt("CPU"))}
+    return pose;
+  })();
+  try{return await poseLoading}catch(e){poseLoading=null;throw e}
+}
+function mapPt(x,y){
+  const vw=innerWidth,vh=innerHeight,iw=video.videoWidth,ih=video.videoHeight;
+  const s=Math.max(vw/iw,vh/ih),ox=(vw-iw*s)/2,oy=(vh-ih*s)/2;
+  let X=x*iw*s+ox;const Y=y*ih*s+oy;
+  if(mirror)X=vw-X;
+  return {X,Y};
+}
+const PAIR={eye:[2,5],ear:[7,8],shoulder:[11,12],elbow:[13,14],wrist:[15,16],pinky:[17,18],index:[19,20],thumb:[21,22],waist:[23,24],knee:[25,26],ankle:[27,28],heel:[29,30],foot:[31,32]};
+function bodyItems(lm){
+  const ok=i=>lm[i]&&(lm[i].visibility??1)>.6&&lm[i].x>0&&lm[i].x<1&&lm[i].y>0&&lm[i].y<1;
+  const mid=(a,b,t=.5)=>({x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t});
+  const side=([l,r])=>{const L=ok(l),Rr=ok(r);if(!L&&!Rr)return null;if(L&&Rr)return (lm[l].visibility??1)>=(lm[r].visibility??1)?l:r;return L?l:r};
+  const pts={};
+  for(const k in PAIR){const i=side(PAIR[k]);if(i!=null)pts[k]=lm[i]}
+  if(ok(0)){pts.nose=lm[0];
+    if(ok(2)&&ok(5)){const em=mid(lm[2],lm[5]);pts.head={x:em.x,y:em.y-(lm[0].y-em.y)*3.2}}
+    const e=side([7,8]);if(e!=null)pts.face=mid(lm[0],lm[e],.55)}
+  if(ok(9)&&ok(10))pts.mouth=mid(lm[9],lm[10]);
+  const sh=ok(11)&&ok(12)?mid(lm[11],lm[12]):null, hp=ok(23)&&ok(24)?mid(lm[23],lm[24]):null;
+  if(sh&&pts.mouth)pts.neck=mid(pts.mouth,sh,.6);
+  if(sh&&hp){pts.chest=mid(sh,hp,.25);pts.belly=mid(sh,hp,.68)}
+  {const i=side([11,12]);const j=i===11?13:14;if(i!=null&&ok(j))pts.arm=mid(lm[i],lm[j])}
+  {const i=side([15,16]);if(i!=null){const f=i===15?[17,19,21]:[18,20,22];const v=f.filter(ok).map(n=>lm[n]);if(v.length)pts.hand={x:(lm[i].x+v.reduce((a,b)=>a+b.x,0))/(v.length+1),y:(lm[i].y+v.reduce((a,b)=>a+b.y,0))/(v.length+1)}}}
+  const cx=innerWidth/2,cy=innerHeight*.45,items=[];
+  for(const k in pts){
+    if(!DATA["body:"+k])continue;
+    const {X,Y}=mapPt(pts[k].x,pts[k].y);
+    items.push({key:"body:"+k,X:X-8,Y:Y-8,W:16,H:16,score:1-Math.hypot(X-cx,Y-cy)/Math.hypot(cx,cy)});
+  }
+  // 顏值判定：看得到臉就判定一次，人離開 3 秒後重新判定
+  if(pts.head||pts.nose){
+    const now=performance.now();
+    if(!rateKey||now-rateLast>3000)rateKey="rate:"+(Math.random()*RATES.length|0);
+    rateLast=now;
+    const h=pts.head||pts.nose,{X,Y}=mapPt(h.x,h.y);
+    items.push({key:rateKey,X:X-8,Y:Y-30,W:16,H:16,score:5,force:true});
+  }
+  return items;
+}
 
 /* ---------- 偵測迴圈 ---------- */
 async function loop(){
   if(!running)return;
   if(video.readyState>=2 && !document.hidden){
-    try{ render(await model.detect(video,15,.55)); }catch(e){}
+    try{
+      if(scene==="body"){
+        if(pose){const r=pose.detectForVideo(video,performance.now());placeItems(r.landmarks?.[0]?bodyItems(r.landmarks[0]):[])}
+      }else render(await model.detect(video,15,.55));
+    }catch(e){}
   }
-  setTimeout(()=>requestAnimationFrame(loop),110);
+  setTimeout(()=>requestAnimationFrame(loop),scene==="body"?70:110);
 }
 function mapBox([x,y,w,h]){
   const vw=innerWidth,vh=innerHeight,iw=video.videoWidth,ih=video.videoHeight;
@@ -702,14 +872,22 @@ function makeTag(key){
   const box=document.createElement("div");box.className="box";
   const el=document.createElement("button");el.className="yk";
   const jpx=key.startsWith("jp:");if(jpx)el.classList.add("jpx");
-  el.innerHTML=`<span class="tag">${jpx?'<span class="lim">日本限定</span>':""}<img class="av" src="${avURL(key)}" alt=""><span class="k jp">${d.k}</span><span class="sub"><span class="r jp">${d.r}</span><span class="z">${d.zh}</span></span>${found.has(key)?"":'<span class="bub">!</span>'}</span>`;
-  el.addEventListener("click",e=>{e.stopPropagation();openCard(key)});
+  const rt=isRate(key);if(rt)el.classList.add("rt");
+  el.innerHTML=`<span class="tag">${jpx?'<span class="lim">日本限定</span>':rt?'<span class="lim gold">顏值判定</span>':""}<img class="av" src="${avURL(key)}" alt=""><span class="k jp">${d.k}</span><span class="sub"><span class="r jp">${d.r}</span><span class="z">${d.zh}</span></span>${found.has(key)||rt?"":'<span class="bub">!</span>'}</span>`;
+  el.addEventListener("click",e=>{e.stopPropagation();if(rt){say(d.ja,key);guide(`<em>${d.k}</em>（${d.zh}）：${d.jz}`)}else openCard(key)});
   $("#labels").append(box,el);
   const o={box,el,last:0};tags.set(key,o);return o;
 }
 function render(preds){
+  const items=[];
+  for(const p of preds){ let k=p.class==="person"?"person@"+scene:p.class; if(inJapan&&DATA["jp:"+k])k="jp:"+k; if(!DATA[k])continue; items.push({key:k,...mapBox(p.bbox),score:p.score}) }
+  placeItems(items);
+}
+function placeItems(items){
   const now=performance.now(),best=new Map();
-  for(const p of preds){ let k=p.class==="person"?"person@"+scene:p.class; if(inJapan&&DATA["jp:"+k])k="jp:"+k; if(!DATA[k])continue; const b=best.get(k); if(!b||p.score>b.score)best.set(k,p) }
+  // 附近的地標、神社：固定浮在畫面上方
+  if(scene!=="body") for(const pk of nearPlaces) items.push({key:"jp:"+pk,X:innerWidth/2-8,Y:innerHeight*.3,W:16,H:16,score:9,force:true});
+  for(const it of items){const b=best.get(it.key);if(!b||it.score>b.score)best.set(it.key,it)}
   // 穩定過濾：同一個東西要連續被看到 2 次才出現，沒看到就慢慢扣分
   for(const k of best.keys()) streak.set(k,Math.min(4,(streak.get(k)||0)+1));
   for(const k of streak.keys()) if(!best.has(k)) streak.set(k,Math.max(0,streak.get(k)-1));
@@ -718,11 +896,11 @@ function render(preds){
   const isOn=k=>tags.get(k)?.el.classList.contains("on")?1:0;
   let shown=0;
   for(const [key,p] of [...best].sort((a,b)=>(isOn(b[0])-isOn(a[0]))||(b[1].score-a[1].score))){
-    if(!isOn(key) && streak.get(key)<2) continue;
+    if(!isOn(key) && !p.force && streak.get(key)<2) continue;
     if(shown>=3){tags.get(key)?.el.classList.remove("on");continue}
     shown++;
     const o=tags.get(key)||makeTag(key);
-    const {X,Y,W,H}=mapBox(p.bbox);
+    const {X,Y,W,H}=p;
     o.box.style.transform=`translate(${X}px,${Y}px)`;o.box.style.width=W+"px";o.box.style.height=H+"px";
     const ew=o.el.offsetWidth||150, eh=o.el.offsetHeight||44;
     let tx=X+W/2-ew/2, ty=Y-eh-8;
@@ -735,12 +913,12 @@ function render(preds){
     if(!seenSession.has(key)){
       seenSession.add(key);
       const g=GHOSTS[GH[key]];
-      if(!current) guide(isJP(key)&&!found.has(key)?`日本限定 <em>${g.n}</em> 出現！點它挑戰`:found.has(key)?`又見到 <em>${g.n}</em> 了！「${DATA[key].k}」`:`發現了 <em>${g.n}</em>！是「${DATA[key].k}」喔`);
-      if(autoSpeak && !current && now-lastAuto>2200){lastAuto=now;say(DATA[key].r,key)}
+      if(!current) guide(isRate(key)?`顏值判定：<em>${DATA[key].k}</em>（${DATA[key].zh}）`:isJP(key)&&!found.has(key)?`日本限定 <em>${g.n}</em> 出現！點它挑戰`:found.has(key)?`又見到 <em>${g.n}</em> 了！「${DATA[key].k}」`:`發現了 <em>${g.n}</em>！是「${DATA[key].k}」喔`);
+      if(autoSpeak && !current && now-lastAuto>2200){lastAuto=now;say(isRate(key)?DATA[key].ja:DATA[key].r,key)}
     }
   }
   for(const [key,o] of tags){
-    if(now-o.last>900){o.box.classList.remove("on");o.el.classList.remove("on")}
+    if(now-o.last>900){o.box.classList.remove("on");o.el.classList.remove("on");if(isRate(key)&&now-o.last>3000)seenSession.delete(key)}
   }
 }
 
@@ -768,7 +946,7 @@ function openCard(key){
     void st.offsetWidth;setTimeout(()=>{st.classList.add("hit");navigator.vibrate?.(30)},300);
     guide(`收服了 <em>${g.n}</em>！單字存進單字本了`);
   }
-  say(d.ja,key);
+  say([d.r,d.ja],key);
 }
 function flash(el){if(!el)return;el.classList.add("say");setTimeout(()=>el.classList.remove("say"),1300)}
 function sayChip(key,i){const w=(WORDS[key]||[])[i];if(!w)return;flash($("#cW").children[i]);say(w[1],key)}
@@ -870,6 +1048,7 @@ document.querySelectorAll(".dtabs button").forEach(b=>b.addEventListener("click"
 $("#dexBtn").addEventListener("click",()=>openDex("yo"));
 $("#bookBtn").addEventListener("click",()=>openDex("wd"));
 $("#autoBtn").addEventListener("click",toggleAuto);
+$("#flipBtn").addEventListener("click",flipCam);
 function toggleAuto(){autoSpeak=!autoSpeak;try{localStorage.setItem("tsukumo-auto",autoSpeak?"1":"0")}catch(e){}refreshAuto();guide(autoSpeak?"新發現的單字，我會自動唸出來":"好，先安靜不唸了")}
 
 /* ---------- 撮影 ---------- */
@@ -916,14 +1095,23 @@ $("#saveBtn").addEventListener("click",async()=>{
 });
 
 /* ---------- 場景 ---------- */
-function setScene(sc,quiet){
-  scene=sc;try{localStorage.setItem("tsukumo-scene",sc)}catch(e){}
+async function setScene(sc,quiet){
+  const prev=scene;scene=sc;try{localStorage.setItem("tsukumo-scene",sc)}catch(e){}
   document.querySelectorAll("#scene button").forEach(b=>b.classList.toggle("on",b.dataset.s===sc));
+  document.body.classList.toggle("bodymode",sc==="body");
+  for(const [k,o] of tags){o.el.classList.remove("on");o.box.classList.remove("on")}
+  if(sc==="body"){
+    if(!quiet)guide("身體模式：鏡頭對準哪裡，就學哪個部位！");
+    if(running&&facing!=="user")try{await startCam("user")}catch(e){}
+    if(running&&!pose){guide("喚醒身體付喪神中…");try{await loadPose();guide("準備好了！對準手、臉、肩膀看看")}catch(e){guide("身體辨識載入失敗，請確認網路後再試一次")}}
+    return;
+  }
+  if(prev==="body"&&running&&facing!=="environment")try{await startCam("environment")}catch(e){}
   if(!quiet){guide(`換到${SCENE_ZH[sc]}了，人會變成「<em>${DATA["person@"+sc].k}</em>」`);if(sc==="street")setTimeout(safety,900)}
 }
 document.querySelectorAll("#scene button").forEach(b=>b.addEventListener("click",()=>setScene(b.dataset.s)));
 setScene(scene,true);
-function cycleScene(){const a=["home","shop","street"];setScene(a[(a.indexOf(scene)+1)%3])}
+function cycleScene(){const a=["home","shop","street","body"];setScene(a[(a.indexOf(scene)+1)%3])}
 
 /* ---------- 走路安全提醒：每 3 分鐘一次 ---------- */
 let safeT;
@@ -947,9 +1135,10 @@ addEventListener("keydown",e=>{
   }
   if(e.code==="Space"){e.preventDefault(); if(current)say(DATA[current].ja,current); else if(lastTouched&&tags.get(lastTouched)?.el.classList.contains("on"))openCard(lastTouched)}
   else if(k==="w"&&current)say(DATA[current].r,current);
-  else if(/^[1-4]$/.test(k)&&current)sayChip(current,+k-1);
+  else if(/^[1-5]$/.test(k)&&current)sayChip(current,+k-1);
   else if(k==="a")toggleAuto();
   else if(k==="s")cycleScene();
+  else if(k==="f")flipCam();
   else if(k==="p")takePhoto();
   else if(k==="b")($("#dex").classList.contains("on")&&dexTab==="yo"?closeSheet("#dex"):openDex("yo"));
   else if(k==="v")($("#dex").classList.contains("on")&&dexTab==="wd"?closeSheet("#dex"):openDex("wd"));
