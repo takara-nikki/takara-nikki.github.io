@@ -592,7 +592,7 @@ const $ = s => document.querySelector(s);
 /* ---------- 狀態 ---------- */
 let model=null, video=$("#cam"), running=false, mirror=false;
 let autoSpeak=true, lastAuto=0, current=null, lastTouched=null;
-const tags=new Map(), seenSession=new Set();
+const tags=new Map(), seenSession=new Set(), streak=new Map();
 let scene="home";
 try{const sc=localStorage.getItem("tsukumo-scene");if(["home","shop","street"].includes(sc))scene=sc}catch(e){}
 const SCENE_ZH={home:"家裡",shop:"店裡",street:"街上"};
@@ -674,8 +674,8 @@ $("#go").addEventListener("click",async()=>{
     return;
   }
   try{
-    $("#goTxt").textContent="喚醒付喪神中…";
-    model=await cocoSsd.load({base:"lite_mobilenet_v2"});
+    $("#goTxt").textContent="喚醒付喪神中…第一次會久一點";
+    model=await cocoSsd.load({base:"mobilenet_v2"});
   }catch(e){resetGo();$("#err").textContent="AI 模型載入失敗，請確認網路後重試";return}
   $("#start").classList.add("out");
   running=true; loop(); checkGeo();
@@ -686,7 +686,7 @@ function resetGo(){const go=$("#go");go.disabled=false;go.querySelector(".spin")
 async function loop(){
   if(!running)return;
   if(video.readyState>=2 && !document.hidden){
-    try{ render(await model.detect(video,15,.5)); }catch(e){}
+    try{ render(await model.detect(video,15,.55)); }catch(e){}
   }
   setTimeout(()=>requestAnimationFrame(loop),110);
 }
@@ -710,8 +710,12 @@ function makeTag(key){
 function render(preds){
   const now=performance.now(),best=new Map();
   for(const p of preds){ let k=p.class==="person"?"person@"+scene:p.class; if(inJapan&&DATA["jp:"+k])k="jp:"+k; if(!DATA[k])continue; const b=best.get(k); if(!b||p.score>b.score)best.set(k,p) }
+  // 穩定過濾：同一個東西要連續被看到 2 次才出現，沒看到就慢慢扣分
+  for(const k of best.keys()) streak.set(k,Math.min(4,(streak.get(k)||0)+1));
+  for(const k of streak.keys()) if(!best.has(k)) streak.set(k,Math.max(0,streak.get(k)-1));
   const TOP=$("#scene").getBoundingClientRect().bottom+8, BOT=$("#guide").getBoundingClientRect().top-8, placed=[];
   for(const [key,p] of [...best].sort((a,b)=>b[1].score-a[1].score)){
+    if(!tags.get(key)?.el.classList.contains("on") && streak.get(key)<2) continue;
     const o=tags.get(key)||makeTag(key);
     const {X,Y,W,H}=mapBox(p.bbox);
     o.box.style.transform=`translate(${X}px,${Y}px)`;o.box.style.width=W+"px";o.box.style.height=H+"px";
