@@ -714,8 +714,13 @@ function render(preds){
   for(const k of best.keys()) streak.set(k,Math.min(4,(streak.get(k)||0)+1));
   for(const k of streak.keys()) if(!best.has(k)) streak.set(k,Math.max(0,streak.get(k)-1));
   const TOP=$("#scene").getBoundingClientRect().bottom+8, BOT=$("#guide").getBoundingClientRect().top-8, placed=[];
-  for(const [key,p] of [...best].sort((a,b)=>b[1].score-a[1].score)){
-    if(!tags.get(key)?.el.classList.contains("on") && streak.get(key)<2) continue;
+  // 一次最多 3 個：已經顯示的優先保留，避免跳來跳去
+  const isOn=k=>tags.get(k)?.el.classList.contains("on")?1:0;
+  let shown=0;
+  for(const [key,p] of [...best].sort((a,b)=>(isOn(b[0])-isOn(a[0]))||(b[1].score-a[1].score))){
+    if(!isOn(key) && streak.get(key)<2) continue;
+    if(shown>=3){tags.get(key)?.el.classList.remove("on");continue}
+    shown++;
     const o=tags.get(key)||makeTag(key);
     const {X,Y,W,H}=mapBox(p.bbox);
     o.box.style.transform=`translate(${X}px,${Y}px)`;o.box.style.width=W+"px";o.box.style.height=H+"px";
