@@ -3,323 +3,338 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0d1a">
+<meta name="theme-color" content="#efe7d8">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="付喪神">
 <title>タカラ付喪神</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Noto+Serif+JP:wght@500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#0b0d1a; --ink2:#151935; --paper:#f3ead8; --mute:rgba(243,234,216,.6);
-  --gold:#d9b46a; --gold-soft:rgba(217,180,106,.38); --shu:#d8452f; --shu-d:#a3301f; --lamp:#ffb45c;
+  --paper:#f1e9da; --paper2:#e6dcc8; --paper3:#fbf7ef;
+  --ink:#3b3632; --ink2:#5d5752; --mute:#8b8278; --line:rgba(93,87,82,.28);
+  --shu:#c4432f; --shu2:#a8341f; --lamp:#efa04c;
   --ease:cubic-bezier(.22,1,.36,1); --spring:cubic-bezier(.34,1.56,.64,1);
-  --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .25  0 0 0 0 .2  0 0 0 .32 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  --fiber:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.012 .2' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .45  0 0 0 0 .38  0 0 0 0 .3  0 0 0 .22 -.04'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
+  --paperbg:var(--grain),var(--fiber),linear-gradient(180deg,#f5eee2,#ebe2d0);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
-.cl{display:inline-block;max-width:100%}
-html,body{height:100%;background:var(--ink);color:var(--paper);font-family:"Noto Sans TC",-apple-system,"PingFang TC",sans-serif;overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
+html,body{height:100%;background:#2a2622;color:var(--ink);font-family:"Noto Serif TC","Noto Serif JP",serif;overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
 .jp{font-family:"Noto Serif JP","Hiragino Mincho ProN",serif}
+.brush{font-family:"Yuji Syuku","Noto Serif JP",serif;font-weight:400}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.cl{display:inline-block;max-width:100%}
+kbd{display:none;min-width:17px;padding:1px 5px;border-radius:5px;background:#4a4440;color:#f5eee2;font:600 10.5px/1.35 -apple-system,sans-serif;text-align:center;box-shadow:inset 0 -2px 0 rgba(0,0,0,.35)}
+@media (hover:hover) and (pointer:fine){kbd{display:inline-block}}
 
-/* camera */
-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
+/* 和紙面板＋墨框 */
+.paper{background:var(--paperbg);background-size:200px,400px,auto;color:var(--ink)}
+.frame{position:relative;border-radius:22px;box-shadow:0 0 0 2px var(--paper3) inset,0 18px 40px rgba(20,14,8,.42)}
+.frame::after{content:"";position:absolute;inset:-4px;border-radius:26px;border:4.5px solid var(--ink2);filter:url(#rough);pointer-events:none}
+.frame::before{content:"";position:absolute;inset:6px;border-radius:17px;border:1px solid var(--line);pointer-events:none}
+.plum{position:absolute;width:26px;height:26px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.25));pointer-events:none;z-index:2}
+.cloud{position:absolute;pointer-events:none;z-index:2;opacity:.92}
+
+/* 相機 */
+video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;background:#1c1916}
 video.mirror{transform:scaleX(-1)}
-#vignette{position:fixed;inset:0;pointer-events:none;background:radial-gradient(130% 95% at 50% 45%,transparent 50%,rgba(6,7,16,.78) 100%),linear-gradient(180deg,rgba(11,13,26,.55),transparent 22%,transparent 72%,rgba(11,13,26,.7))}
-#labels{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+#edge{position:fixed;inset:0;pointer-events:none;z-index:3;box-shadow:inset 0 0 0 7px #efe7d8,inset 0 0 0 10px var(--ink2),inset 0 0 60px 20px rgba(40,32,24,.45)}
+#labels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:2}
 
-/* detection box: corner brackets */
-.box{position:absolute;left:0;top:0;border-radius:6px;opacity:0;
-  transition:transform .32s var(--ease),width .32s var(--ease),height .32s var(--ease),opacity .35s;
-  --c:var(--lamp);
+/* 偵測框（橘色角括） */
+.box{position:absolute;left:0;top:0;opacity:0;--c:var(--lamp);transition:transform .32s var(--ease),width .32s var(--ease),height .32s var(--ease),opacity .35s;
   background:
-    linear-gradient(var(--c),var(--c)) left top/20px 2px,linear-gradient(var(--c),var(--c)) left top/2px 20px,
-    linear-gradient(var(--c),var(--c)) right top/20px 2px,linear-gradient(var(--c),var(--c)) right top/2px 20px,
-    linear-gradient(var(--c),var(--c)) left bottom/20px 2px,linear-gradient(var(--c),var(--c)) left bottom/2px 20px,
-    linear-gradient(var(--c),var(--c)) right bottom/20px 2px,linear-gradient(var(--c),var(--c)) right bottom/2px 20px;
-  background-repeat:no-repeat;filter:drop-shadow(0 0 6px rgba(255,180,92,.55))}
-.box.on{opacity:1}
+    linear-gradient(var(--c),var(--c)) left top/22px 3px,linear-gradient(var(--c),var(--c)) left top/3px 22px,
+    linear-gradient(var(--c),var(--c)) right top/22px 3px,linear-gradient(var(--c),var(--c)) right top/3px 22px,
+    linear-gradient(var(--c),var(--c)) left bottom/22px 3px,linear-gradient(var(--c),var(--c)) left bottom/3px 22px,
+    linear-gradient(var(--c),var(--c)) right bottom/22px 3px,linear-gradient(var(--c),var(--c)) right bottom/3px 22px;
+  background-repeat:no-repeat;border-radius:6px;filter:drop-shadow(0 0 5px rgba(239,160,76,.6))}
+.box.on{opacity:.9}
 
-/* floating tag */
-.tag{position:absolute;left:0;top:0;pointer-events:auto;opacity:0;
-  transition:transform .32s var(--ease),opacity .35s;
-  display:flex;align-items:center;gap:10px;padding:8px 14px 8px 10px;border-radius:999px;
-  background:rgba(11,13,26,.62);-webkit-backdrop-filter:blur(16px) saturate(150%);backdrop-filter:blur(16px) saturate(150%);
-  box-shadow:inset 0 0 0 1px rgba(217,180,106,.32),inset 0 1px 0 rgba(255,255,255,.12),0 10px 26px rgba(0,0,0,.35),0 0 18px rgba(255,180,92,.18)}
-.tag.on{opacity:1}
-/* 付喪神小臉 */
-/* 平常靜止，只有唸日文時才動 */
-.yo{overflow:visible;filter:drop-shadow(0 4px 8px rgba(0,0,0,.35))}
-.yo *{transform-box:fill-box}
-.yo .body{stroke:rgba(255,255,255,.4);stroke-width:1}
-.yo .eyes{fill:#1b1f3d;transform-origin:center}
-.yo .ck{fill:rgba(216,69,47,.5)}
-.yo .mouth{fill:#7a1f12;transform-origin:center;transform:scaleY(.45)}
-.yo .arm,.yo .foot{stroke:#f3ead8;stroke-width:2.2;fill:none;stroke-linecap:round}
-.yo .arm.l{transform-origin:100% 100%}
-.yo .arm.r{transform-origin:0% 100%}
-.talking .yo .eyes{animation:blink 1.6s infinite}
-.talking .yo .arm.l{animation:wl .45s ease-in-out infinite}
-.talking .yo .arm.r{animation:wr .45s ease-in-out infinite .2s}
-@keyframes bob{50%{transform:translateY(-4px) rotate(-3deg)}}
-@keyframes blink{0%,90%,100%{transform:scaleY(1)}94%{transform:scaleY(.1)}}
-@keyframes wl{50%{transform:rotate(-28deg)}}
-@keyframes wr{50%{transform:rotate(28deg)}}
-/* 說話中：嘴巴開合、手揮快、身體彈 */
-.talking .yo{animation:bounce .32s ease-in-out infinite alternate}
-.talking .yo .mouth{animation:talk .15s ease-in-out infinite alternate}
-@keyframes talk{from{transform:scaleY(.3)}to{transform:scaleY(1.35) scaleX(1.1)}}
-@keyframes bounce{from{transform:translateY(0) scale(1,1)}to{transform:translateY(-3px) scale(1.05,.95)}}
-.tag .yo{width:38px;height:42px;margin:-14px -2px -8px -6px}
-.tag.talking{box-shadow:inset 0 0 0 1px rgba(255,180,92,.75),inset 0 1px 0 rgba(255,255,255,.12),0 10px 26px rgba(0,0,0,.35),0 0 26px rgba(255,180,92,.45)}
-.word .yo{width:84px;height:92px;margin:-10px -4px -4px -6px}
-#card.on .word .yo{animation:popin .6s var(--spring) both}
-#card.on.talking .word .yo{animation:bounce .32s ease-in-out infinite alternate}
-@keyframes popin{from{transform:scale(.2) translateY(30px);opacity:0}}
-.tag .k{font-size:22px;font-weight:700;line-height:1;letter-spacing:.02em;white-space:nowrap}
-.tag .sub{display:flex;flex-direction:column;gap:2px;line-height:1.1;white-space:nowrap}
-.tag .r{font-size:11.5px;color:var(--gold);letter-spacing:.06em}
-.tag .z{font-size:11px;color:var(--mute)}
-.tag .dot{position:absolute;top:-3px;right:-3px;width:10px;height:10px;border-radius:50%;background:var(--shu);box-shadow:0 0 0 2px var(--ink),0 0 10px var(--shu)}
-.tag:active{transform:var(--t) scale(.95)!important}
+/* 妖怪＋標籤 */
+.yk{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;pointer-events:auto;opacity:0;transition:transform .32s var(--ease),opacity .35s}
+.yk.on{opacity:1}
+.yk .spr{width:var(--s,96px);height:auto;filter:drop-shadow(0 8px 10px rgba(20,14,8,.35));animation:float 3.2s ease-in-out infinite;transform-origin:50% 90%}
+.yk .bub{position:absolute;top:-4px;right:-10px;width:30px;height:30px;border-radius:50%;background:var(--shu);color:#fff;font:900 18px/30px "Noto Serif JP",serif;text-align:center;box-shadow:0 0 0 2.5px #fbf7ef,0 4px 10px rgba(0,0,0,.3);animation:pop .5s var(--spring) both}
+.yk .bub::after{content:"";position:absolute;left:4px;bottom:-5px;border:6px solid transparent;border-top-color:var(--shu);transform:rotate(25deg)}
+.tag{margin-top:-6px;display:flex;align-items:center;gap:8px;padding:6px 14px 6px 12px;border-radius:999px;white-space:nowrap;
+  background:rgba(52,47,43,.86);color:#f5eee2;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 0 0 1.5px rgba(251,247,239,.7),0 8px 18px rgba(0,0,0,.3)}
+.tag .k{font-size:19px;font-weight:700;line-height:1}
+.tag .sub{display:flex;flex-direction:column;line-height:1.15}
+.tag .r{font-size:10.5px;color:#f3c98c;letter-spacing:.05em}
+.tag .z{font-size:10.5px;color:rgba(245,238,226,.7)}
+.yk:active .spr{transform:scale(.94)}
+@keyframes float{50%{transform:translateY(-6px) rotate(-2deg)}}
+@keyframes pop{from{transform:scale(0)}}
+/* 說話中：彈跳＋發光 */
+.talking .spr{animation:talk .3s ease-in-out infinite alternate!important;filter:drop-shadow(0 0 14px rgba(255,214,150,.95)) drop-shadow(0 8px 10px rgba(20,14,8,.3))!important}
+.yk.talking .tag{box-shadow:0 0 0 1.5px var(--lamp),0 0 18px rgba(239,160,76,.6)}
+@keyframes talk{from{transform:translateY(0) scale(1,1) rotate(-2deg)}to{transform:translateY(-6px) scale(1.05,.95) rotate(2deg)}}
 
-/* top bar */
-#top{position:fixed;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top) + 12px) 16px 0;display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:5}
-.brand{display:flex;align-items:center;gap:10px;min-width:0}
-.brand .mk{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(180deg,#e2563f,var(--shu-d));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(0,0,0,.28),0 0 0 1px rgba(217,180,106,.55),0 6px 16px rgba(216,69,47,.35);font-family:"Noto Serif JP",serif;font-weight:900;font-size:20px;color:#fff3e4}
-.brand b{display:block;font-family:"Noto Serif JP",serif;font-weight:900;font-size:17px;letter-spacing:.04em;white-space:nowrap}
-.brand small{display:block;font-size:11px;color:var(--mute);white-space:nowrap}
-.pills{display:flex;gap:8px}
-.pill{height:38px;padding:0 13px;border-radius:999px;display:flex;align-items:center;gap:7px;font-size:13px;white-space:nowrap;
-  background:rgba(11,13,26,.55);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1),inset 0 1px 0 rgba(255,255,255,.1)}
-.pill.off{color:var(--mute)}
-.pill.off .wave{opacity:0}
-.pill b{font-weight:700;color:var(--gold)}
-.pill:active{transform:scale(.95)}
+/* 頂部 */
+#top{position:fixed;left:0;right:0;top:0;z-index:5;padding:calc(env(safe-area-inset-top) + 16px) 18px 0;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:8px;padding:5px 14px 5px 8px;border-radius:16px}
+.brand b{font-size:26px;line-height:1;color:var(--ink);letter-spacing:.02em}
+.seal{display:grid;place-items:center;width:24px;height:30px;border-radius:4px;background:var(--shu);color:#fbf1e4;font:700 9px/1.05 "Noto Serif JP",serif;writing-mode:vertical-rl;letter-spacing:.05em;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35)}
+.pbtn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:40px;padding:0 14px;border-radius:14px;font-size:14px;font-weight:700;color:var(--ink);white-space:nowrap;
+  box-shadow:0 0 0 2px var(--ink2),0 0 0 3.5px rgba(251,247,239,.6),0 6px 14px rgba(20,14,8,.28);transition:transform .35s var(--spring),box-shadow .3s}
+.pbtn:active{transform:scale(.95)}
+.pbtn.on{box-shadow:0 0 0 2px #d98a3a,0 0 0 4px rgba(239,160,76,.35),0 0 20px rgba(239,160,76,.55)}
+.pbtn.off{color:var(--mute)}
+.pbtn.off .wave{opacity:0}
+#scene{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 70px);z-index:5;display:flex;gap:4px;padding:4px;border-radius:14px;
+  box-shadow:0 0 0 2px var(--ink2),0 6px 14px rgba(20,14,8,.25)}
+#scene button{height:30px;padding:0 11px;border-radius:10px;font-size:13px;font-weight:700;color:var(--ink2);display:flex;align-items:center;gap:5px;white-space:nowrap;transition:background .3s,color .3s}
+#scene button.on{background:var(--ink);color:#f5eee2}
+#scene svg.i{width:15px;height:15px}
+#scene kbd{align-self:center;margin:0 4px}
 
-/* bottom hint */
-#hint{position:fixed;left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom) + 18px);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:4;pointer-events:none;transition:opacity .4s}
-#hint p{font-size:13px;color:var(--paper);padding:9px 16px;border-radius:999px;background:rgba(11,13,26,.55);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);white-space:nowrap}
-.keys{display:none;flex-wrap:wrap;justify-content:center;gap:6px 12px;font-size:11.5px;color:var(--mute)}
-.keys span{white-space:nowrap}
-@media (hover:hover) and (pointer:fine){.keys{display:flex}}
-kbd{display:inline-block;min-width:20px;padding:2px 6px;margin-right:4px;border-radius:5px;background:#1c2142;color:var(--paper);font:600 11px/1.3 -apple-system,sans-serif;text-align:center;box-shadow:inset 0 -2px 0 rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.08)}
-#scan{position:fixed;left:0;right:0;height:120px;top:-120px;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(255,180,92,.09) 80%,rgba(255,180,92,.35));animation:scan 3.6s var(--ease) infinite;opacity:.8}
-@keyframes scan{to{transform:translateY(calc(100vh + 120px))}}
+/* 幽猫導覽 */
+#guide{position:fixed;left:18px;right:18px;bottom:calc(env(safe-area-inset-bottom) + 108px);z-index:5;max-width:440px;margin:0 auto;display:flex;align-items:center;gap:6px;min-height:58px;padding:8px 34px 8px 74px;border-radius:18px;transition:transform .4s var(--spring)}
+#guide .cat{position:absolute;left:-6px;bottom:-4px;width:76px;filter:drop-shadow(0 4px 6px rgba(20,14,8,.3))}
+#guide.say .cat{animation:talk .3s ease-in-out 4 alternate}
+#guide.bump{transform:scale(1.03)}
+#gTxt{font-size:15px;font-weight:700;line-height:1.45;text-wrap:balance}
+#gTxt em{font-style:normal;color:var(--shu)}
+#guide .tri{position:absolute;right:14px;bottom:12px;width:0;height:0;border:6px solid transparent;border-top:8px solid var(--ink2);animation:blink 1.2s ease-in-out infinite}
+@keyframes blink{50%{transform:translateY(3px);opacity:.4}}
 
-/* sheets */
-#scrim{position:fixed;inset:0;z-index:8;background:rgba(6,7,16,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s}
+/* 底部操作列 */
+#ctrl{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 16px);z-index:5;display:flex;align-items:center;justify-content:center;gap:26px}
+#ctrl .pbtn{width:92px;height:46px;font-size:15px}
+#ctrl .pbtn b{color:var(--shu);font-size:13px}
+#shut{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,#4c4641,#2f2a26);color:#f5eee2;
+  box-shadow:0 0 0 4px #f3ecdf,0 0 0 6.5px var(--ink2),0 10px 24px rgba(20,14,8,.45);transition:transform .35s var(--spring)}
+#shut svg{width:30px;height:30px}
+#shut:active{transform:scale(.9)}
+#shut{position:relative}#shut kbd{position:absolute;top:-2px;right:-6px}
+#flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:30;transition:opacity .45s}
+#flash.on{opacity:.85;transition:none}
+
+/* 遮罩與面板 */
+#scrim{position:fixed;inset:0;z-index:8;background:rgba(30,24,18,.35);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);opacity:0;pointer-events:none;transition:opacity .3s}
 #scrim.on{opacity:1;pointer-events:auto}
-.sheet{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 12px);z-index:9;max-width:460px;margin:0 auto;border-radius:28px;padding:22px 22px 18px;
-  background:linear-gradient(180deg,rgba(28,32,64,.9),rgba(13,15,31,.94));-webkit-backdrop-filter:blur(24px) saturate(150%);backdrop-filter:blur(24px) saturate(150%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 0 0 1px rgba(217,180,106,.22),0 30px 60px rgba(0,0,0,.5),0 0 40px rgba(255,180,92,.08);
-  transform:translateY(30px) scale(.92);opacity:0;pointer-events:none;transition:transform .45s var(--spring),opacity .25s;overflow:hidden}
-.sheet::before{content:"";position:absolute;inset:0;background-image:var(--grain);opacity:.07;mix-blend-mode:overlay;pointer-events:none}
+.sheet{position:fixed;left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom) + 16px);z-index:9;max-width:460px;margin:0 auto;padding:22px 22px 18px;
+  transform:translateY(30px) scale(.94);opacity:0;pointer-events:none;transition:transform .45s var(--spring),opacity .25s}
 .sheet.on{transform:none;opacity:1;pointer-events:auto}
-.x{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.07);color:var(--mute)}
-.who{font-size:12px;color:var(--gold);letter-spacing:.12em;display:flex;align-items:center;gap:8px}
-.who::before{content:"";width:6px;height:6px;transform:rotate(45deg);background:var(--gold)}
-.word{display:flex;align-items:flex-end;gap:12px;margin:10px 0 4px}
-.word .k{font-size:56px;font-weight:900;line-height:1;letter-spacing:.02em;white-space:nowrap}
-.word .k.m{font-size:36px}.word .k.l{font-size:27px}.word .k.xl{font-size:23px}
-.word .meta{flex:none}
-.word .meta{padding-bottom:6px}
-.word .r{font-size:17px;color:var(--gold);letter-spacing:.08em}
-.word .z{font-size:14px;color:var(--mute);margin-top:2px}
-.rule{position:relative;height:1px;margin:16px 0;background:linear-gradient(90deg,transparent,var(--gold-soft) 12%,var(--gold-soft) 88%,transparent)}
-.rule::before,.rule::after{content:"";position:absolute;top:-3px;width:7px;height:7px;transform:rotate(45deg);background:var(--gold)}
-.rule::before{left:8%}.rule::after{right:8%}
-.quote{font-size:16.5px;line-height:1.65;letter-spacing:.02em;text-wrap:balance}
-.quote-zh{font-size:13.5px;color:var(--mute);margin-top:6px;line-height:1.6;text-wrap:balance}
-.acts{display:grid;grid-template-columns:1fr 1.3fr;gap:10px;margin-top:16px}
-.vocab{margin-top:14px}
-.vlabel{font-size:11.5px;color:var(--gold);letter-spacing:.1em;display:flex;align-items:center;gap:8px;margin-bottom:8px;white-space:nowrap}
-.vlabel::before{content:"";width:5px;height:5px;transform:rotate(45deg);background:var(--gold)}
-.vlabel small{color:var(--mute);letter-spacing:.04em;font-size:11px}
+.x{position:absolute;top:14px;right:14px;z-index:3;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:var(--ink2);box-shadow:0 0 0 1.5px var(--line)}
+.no{display:inline-block;padding:3px 11px;border-radius:999px;background:var(--ink);color:#f5eee2;font:700 11px/1.4 -apple-system,sans-serif;letter-spacing:.06em}
+.rule{position:relative;height:1px;margin:14px 0;background:linear-gradient(90deg,transparent,var(--line) 10%,var(--line) 90%,transparent)}
+
+/* 卡片 */
+.chead{display:flex;align-items:center;gap:10px;padding-right:40px}
+.who{font-size:13px;color:var(--ink2);font-weight:700;white-space:nowrap}
+.who small{font-size:11px;color:var(--mute);margin-left:4px;font-weight:500}
+.cbody{display:flex;align-items:flex-end;gap:10px;margin-top:6px}
+.word{flex:1;min-width:0;padding-bottom:6px}
+.word .k{font-size:50px;font-weight:900;line-height:1.05;white-space:nowrap;letter-spacing:.01em}
+.word .k.m{font-size:36px}.word .k.l{font-size:28px}.word .k.xl{font-size:24px}
+.word .rp{display:inline-block;margin-top:6px;padding:2px 10px;border-radius:999px;background:rgba(93,87,82,.12);color:var(--ink2);font-size:13px;letter-spacing:.06em}
+.word .z{display:inline-block;margin-left:8px;font-size:14px;color:var(--mute)}
+#cSpr{width:118px;flex:none;margin:-34px -4px -6px 0;filter:drop-shadow(0 10px 12px rgba(20,14,8,.3))}
+#card.on #cSpr{animation:popin .6s var(--spring) both}
+#card.on.talking #cSpr{animation:talk .3s ease-in-out infinite alternate}
+@keyframes popin{from{transform:scale(.3) translateY(30px);opacity:0}}
+.quote{font-size:16.5px;line-height:1.7;font-weight:700}
+.quote-zh{font-size:13.5px;color:var(--mute);margin-top:4px;line-height:1.6}
+.vlabel{display:flex;align-items:center;gap:8px;margin:14px 0 8px;font-size:12px;font-weight:700;color:var(--shu);white-space:nowrap}
+.vlabel small{color:var(--mute);font-weight:500;font-size:11.5px}
+.vlabel kbd{margin:0 0 0 1px}
 .chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.chip{display:flex;align-items:center;gap:9px;min-width:0;text-align:left;padding:8px 10px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
-  box-shadow:inset 0 0 0 1px rgba(217,180,106,.22),inset 0 1px 0 rgba(255,255,255,.08);transition:transform .35s var(--spring),box-shadow .25s}
-.chip b{font-family:"Noto Serif JP",serif;font-size:18px;font-weight:700;white-space:nowrap;line-height:1.15}
+.chip{display:flex;align-items:center;gap:9px;min-width:0;text-align:left;padding:8px 10px;border-radius:12px;background:rgba(251,247,239,.7);box-shadow:0 0 0 1.5px var(--line),0 2px 0 rgba(93,87,82,.12);transition:transform .35s var(--spring),box-shadow .25s}
+.chip b{font-size:18px;font-weight:700;white-space:nowrap;line-height:1.15}
 .chip b.l{font-size:15px}
-.chip .rz{min-width:0;flex:1 1 auto;overflow:hidden;display:flex;flex-direction:column;gap:1px;line-height:1.2}
-.chip .rz i{font-style:normal;font-size:10.5px;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip .rz{min-width:0;flex:1 1 auto;overflow:hidden;display:flex;flex-direction:column;line-height:1.2}
+.chip .rz i{font-style:normal;font-size:10.5px;color:var(--shu2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chip .rz span{font-size:10.5px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chip kbd{margin:0 0 0 auto;display:none;min-width:17px;padding:1px 4px;font-size:10px}
-.vlabel kbd{display:none;margin:0 0 0 2px;font-size:10px;padding:0 4px}
-@media (hover:hover) and (pointer:fine){.vlabel kbd{display:inline-block}}
 .chip:active{transform:scale(.95)}
-.chip.say,.wrow.say{box-shadow:inset 0 0 0 1px rgba(255,180,92,.85),0 0 16px rgba(255,180,92,.3)}
-.seg{display:inline-flex;padding:4px;border-radius:999px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
-.seg button{height:34px;padding:0 15px;border-radius:999px;font-size:14px;font-weight:700;color:var(--mute);white-space:nowrap;display:flex;align-items:center;gap:6px;transition:background .3s,color .3s}
-.seg button.on{color:#1b1608;background:linear-gradient(180deg,#f6e3b4,var(--gold))}
-.seg kbd{display:none;margin:0;min-width:16px;padding:0 4px;font-size:10px}
-@media (hover:hover) and (pointer:fine){.seg kbd{display:inline-block}}
-.wlist{margin-top:14px;max-height:52vh;overflow:auto;display:flex;flex-direction:column;gap:6px}
-.wrow{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);text-align:left;transition:box-shadow .25s}
-.wrow b{font-family:"Noto Serif JP",serif;font-size:19px;white-space:nowrap}
-.wrow span{font-size:12.5px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wrow span i{font-style:normal;color:var(--gold);margin-right:7px}
-.wrow em{font-style:normal;font-size:11px;color:rgba(243,234,216,.42);white-space:nowrap}
-.empty{padding:30px 0;text-align:center;font-size:13px;color:var(--mute)}
-.btn{height:50px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:700;transition:transform .35s var(--spring)}
+.chip.say,.wrow.say{box-shadow:0 0 0 2px #d98a3a,0 0 14px rgba(239,160,76,.45)}
+.acts{display:grid;grid-template-columns:1fr 1.3fr;gap:10px;margin-top:16px}
+.btn{height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:700;transition:transform .35s var(--spring)}
 .btn:active{transform:scale(.95)}
-.btn.ghost{background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
-.btn.main{color:#fff6ea;background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0) 50%),linear-gradient(180deg,#e2563f,var(--shu-d));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -2px 0 rgba(0,0,0,.25),0 0 0 1px rgba(217,180,106,.55),0 10px 24px rgba(216,69,47,.35)}
-.btn kbd{margin:0 0 0 2px;opacity:.85;display:none}
-@media (hover:hover) and (pointer:fine){.btn kbd{display:inline-block}}
-.stamp{position:absolute;top:12px;right:58px;width:58px;height:58px;border-radius:14px;border:3px solid var(--shu);color:var(--shu);display:grid;place-items:center;
-  font-family:"Noto Serif JP",serif;font-weight:900;font-size:11px;line-height:1.1;text-align:center;transform:rotate(-12deg) scale(2.4);opacity:0;mix-blend-mode:screen;
-  box-shadow:inset 0 0 0 2px rgba(216,69,47,.35)}
-.stamp span{font-size:24px;display:block}
+.btn.ghost{box-shadow:0 0 0 2px var(--ink2)}
+.btn.main{color:#fbf1e4;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0) 50%),linear-gradient(180deg,#cf5038,var(--shu2));box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(0,0,0,.2),0 0 0 2px #7d2a1a,0 8px 18px rgba(168,52,31,.3)}
+.btn kbd{margin-left:2px}
+.stamp{position:absolute;top:64px;right:118px;width:56px;height:56px;border-radius:12px;border:3px solid var(--shu);color:var(--shu);display:grid;place-items:center;
+  font:900 10.5px/1.1 "Noto Serif JP",serif;text-align:center;transform:rotate(-12deg) scale(2.4);opacity:0;mix-blend-mode:multiply;z-index:3}
+.stamp span{font-size:22px;display:block}
 .stamp.hit{animation:stamp .5s var(--spring) forwards}
-@keyframes stamp{60%{opacity:.95;transform:rotate(-12deg) scale(.92)}100%{opacity:.9;transform:rotate(-12deg) scale(1)}}
+@keyframes stamp{60%{opacity:.95;transform:rotate(-12deg) scale(.92)}100%{opacity:.85;transform:rotate(-12deg) scale(1)}}
 
-/* collection */
-#dex h3{font-family:"Noto Serif JP",serif;font-size:20px;font-weight:900;letter-spacing:.04em}
-#dex .cnt{font-size:12.5px;color:var(--mute);margin-top:4px}
-.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:16px;max-height:52vh;overflow:auto;padding-bottom:4px}
-.cell{aspect-ratio:1;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);color:rgba(243,234,216,.22);font-size:20px;font-family:"Noto Serif JP",serif}
-.cell small{font-family:"Noto Sans TC",sans-serif;font-size:9.5px;color:var(--mute);white-space:nowrap}
-.cell.got{color:var(--paper);background:linear-gradient(180deg,rgba(217,180,106,.14),rgba(217,180,106,.03));box-shadow:inset 0 0 0 1px rgba(217,180,106,.35)}
+/* 圖鑑 */
+.dhead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-right:44px}
+.dtabs{display:flex;gap:6px}
+.dtabs button{height:36px;padding:0 13px;border-radius:12px;display:flex;align-items:center;gap:6px;font-size:15px;font-weight:700;color:var(--ink2);white-space:nowrap;box-shadow:0 0 0 1.5px var(--line)}
+.dtabs button.on{background:var(--ink);color:#f5eee2;box-shadow:none}
+.dtabs svg.i{width:17px;height:17px}
+.cnt{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink2);font-weight:700;white-space:nowrap}
+.cnt img{width:22px}
+.filt{display:flex;gap:8px;margin:14px -22px 0;padding:2px 22px 4px;overflow-x:auto;scrollbar-width:none;-webkit-mask:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 30px),transparent)}
+.filt::-webkit-scrollbar{display:none}
+.filt button{flex:none;position:relative;height:42px;min-width:42px;padding:0 4px;border-radius:12px;display:grid;place-items:center;box-shadow:0 0 0 1.5px var(--line);font-size:13px;font-weight:700;color:var(--ink2)}
+.filt button.all{padding:0 12px}
+.filt button img{width:32px;height:32px;object-fit:contain}
+.filt button.on{background:rgba(239,160,76,.18);box-shadow:0 0 0 2px #d98a3a}
+.filt button.on::after{content:"";position:absolute;top:-6px;left:-6px;width:14px;height:14px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><g fill='%23c4432f'><circle cx='12' cy='6' r='4.4'/><circle cx='17.7' cy='10.2' r='4.4'/><circle cx='15.5' cy='17' r='4.4'/><circle cx='8.5' cy='17' r='4.4'/><circle cx='6.3' cy='10.2' r='4.4'/></g><circle cx='12' cy='12' r='2.6' fill='%23f3d9a0'/></svg>") center/contain no-repeat}
+.dsub{margin-top:10px;font-size:12.5px;color:var(--mute);white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;max-height:44vh;overflow:auto;padding:2px 2px 6px}
+.cell{position:relative;aspect-ratio:1/1.08;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:rgba(93,87,82,.07);box-shadow:inset 0 0 0 1.5px var(--line)}
+.cell img{width:58%;height:52%;object-fit:contain}
+.cell .kk{font-size:clamp(11px,3.6vw,15px);font-weight:700;white-space:nowrap;max-width:92%;overflow:hidden}
+.cell small{font-size:10px;color:var(--mute);white-space:nowrap}
+.cell.got{background:rgba(251,247,239,.85);box-shadow:inset 0 0 0 1.5px rgba(93,87,82,.35),0 2px 0 rgba(93,87,82,.12)}
 .cell.got:active{transform:scale(.94)}
-.cell .kk{font-size:clamp(11px,4.2vw,20px);font-weight:700;white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:clip}
+.cell:not(.got) img{filter:brightness(0);opacity:.16}
+.cell .q{position:absolute;top:28%;left:50%;transform:translate(-50%,-50%);font:700 18px/1 -apple-system,sans-serif;color:rgba(93,87,82,.5)}
+.wlist{margin-top:10px;max-height:46vh;overflow:auto;display:flex;flex-direction:column;gap:6px;padding:2px}
+.wrow{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:9px 12px;border-radius:12px;background:rgba(251,247,239,.75);box-shadow:0 0 0 1.5px var(--line);text-align:left;transition:box-shadow .25s}
+.wrow b{font-size:19px;white-space:nowrap}
+.wrow span{font-size:12.5px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wrow span i{font-style:normal;color:var(--shu2);margin-right:7px}
+.wrow img{width:30px}
+.empty{padding:30px 0;text-align:center;font-size:13px;color:var(--mute)}
 
-/* start screen */
-#start{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;text-align:center;
-  background:radial-gradient(60% 45% at 50% 40%,rgba(255,170,80,.22),transparent 70%),radial-gradient(80% 60% at 80% 100%,rgba(216,69,47,.16),transparent 70%),linear-gradient(180deg,#0d1024,#07080f);transition:opacity .6s,transform .6s var(--ease)}
-#start::before{content:"";position:absolute;inset:0;background-image:var(--grain);opacity:.08;mix-blend-mode:overlay;pointer-events:none}
+/* 撮影結果 */
+#photo .pv{display:block;width:100%;max-height:56vh;object-fit:contain;border-radius:12px;box-shadow:0 0 0 1.5px var(--line),0 10px 24px rgba(20,14,8,.25);background:#2a2622}
+#photo h3{font-size:19px;font-weight:900;margin-bottom:12px}
+
+/* 安全提醒 */
+.safe{position:fixed;left:18px;right:18px;top:calc(env(safe-area-inset-top) + 116px);z-index:13;max-width:420px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:16px;
+  background:#fbefe6;box-shadow:0 0 0 2.5px var(--shu),0 14px 30px rgba(20,14,8,.35);transform:translateY(-14px) scale(.96);opacity:0;pointer-events:none;transition:transform .5s var(--spring),opacity .3s}
+.safe.on{opacity:1;transform:none}
+.safe svg{width:30px;height:30px;color:var(--shu);flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.safe b{display:block;font-size:16px;font-weight:900;color:var(--shu2);white-space:nowrap}
+.safe small{display:block;font-size:12.5px;color:var(--ink2);white-space:nowrap}
+
+/* 開場 */
+#start{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;text-align:center;transition:opacity .6s,transform .6s var(--ease)}
 #start.out{opacity:0;transform:scale(1.04);pointer-events:none}
-.lantern{width:120px;height:150px;margin-bottom:26px;filter:drop-shadow(0 0 40px rgba(255,170,80,.55));animation:sway 4.5s ease-in-out infinite;transform-origin:50% 0}
-@keyframes sway{50%{transform:rotate(3deg)}}
-#start h1{font-family:"Noto Serif JP",serif;font-weight:900;font-size:40px;letter-spacing:.06em;background:linear-gradient(180deg,#fff3dc,#e7b86d);-webkit-background-clip:text;background-clip:text;color:transparent}
-#start .lead{margin-top:10px;font-size:15px;color:var(--mute)}
-#go{margin-top:34px;height:56px;padding:0 28px;border-radius:999px;font-size:16px;font-weight:700;color:#fff6ea;display:flex;align-items:center;gap:10px;
-  background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0) 50%),linear-gradient(180deg,#e2563f,var(--shu-d));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -2px 0 rgba(0,0,0,.25),0 0 0 1px rgba(217,180,106,.6),0 14px 34px rgba(216,69,47,.45);transition:transform .35s var(--spring)}
+.title{position:relative;display:flex;align-items:flex-start;gap:10px}
+.title h1{font-size:76px;line-height:1;color:var(--ink);letter-spacing:.04em;text-shadow:0 2px 0 rgba(255,255,255,.4)}
+.title .seal{width:30px;height:46px;font-size:12px;margin-top:8px}
+.parade{display:flex;align-items:flex-end;justify-content:center;gap:2px;margin:26px 0 8px;height:110px}
+.parade img{width:56px;filter:drop-shadow(0 6px 8px rgba(20,14,8,.25));animation:float 3.2s ease-in-out infinite}
+.parade img:nth-child(2){width:66px;animation-delay:-.6s}.parade img:nth-child(3){width:80px;animation-delay:-1.2s}.parade img:nth-child(4){width:66px;animation-delay:-1.8s}.parade img:nth-child(5){animation-delay:-2.4s}
+#start .lead{font-size:16px;color:var(--ink2);font-weight:700}
+#go{margin-top:26px;height:56px;padding:0 28px;border-radius:999px;font-size:16px;font-weight:700;color:#f5eee2;display:flex;align-items:center;gap:10px;background:radial-gradient(circle at 50% 30%,#4c4641,#2f2a26);
+  box-shadow:0 0 0 3px #f3ecdf,0 0 0 5.5px var(--ink2),0 14px 30px rgba(20,14,8,.35);transition:transform .35s var(--spring)}
 #go:active{transform:scale(.95)}
 #go[disabled]{opacity:.75}
-#note{margin-top:16px;font-size:12px;color:rgba(243,234,216,.42)}
-#err{margin-top:14px;font-size:13px;color:#ff9b86;min-height:18px}
+#safeNote{margin-top:22px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--shu2);padding:8px 14px;border-radius:999px;background:rgba(196,67,47,.08);box-shadow:inset 0 0 0 1.5px rgba(196,67,47,.4);white-space:nowrap}
+#safeNote svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#note{margin-top:14px;font-size:12px;color:var(--mute)}
+#err{margin-top:12px;font-size:13px;color:var(--shu2);min-height:18px;font-weight:700}
 .spin{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
-
-#scene{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 62px);z-index:5;background:rgba(11,13,26,.55);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
-#scene button{height:32px;padding:0 12px;font-size:13px}
-#scene svg.i{width:15px;height:15px}
-.safe{position:fixed;left:16px;right:16px;top:calc(env(safe-area-inset-top) + 112px);z-index:13;max-width:420px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:18px;
-  background:rgba(58,14,10,.74);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:inset 0 0 0 1px rgba(255,130,100,.55),inset 0 1px 0 rgba(255,255,255,.12),0 14px 32px rgba(0,0,0,.4),0 0 24px rgba(216,69,47,.3);
-  transform:translateY(-14px) scale(.96);opacity:0;pointer-events:none;transition:transform .5s var(--spring),opacity .3s}
-.safe.on{opacity:1;transform:none}
-.safe svg{width:30px;height:30px;color:#ffb09c;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.safe b{display:block;font-family:"Noto Serif JP",serif;font-size:16px;font-weight:900;white-space:nowrap}
-.safe small{display:block;font-size:12.5px;color:rgba(255,232,222,.82);white-space:nowrap}
-#safeNote{margin-top:18px;display:flex;align-items:center;gap:8px;font-size:13px;color:#ffc2b2;padding:9px 14px;border-radius:999px;background:rgba(216,69,47,.14);box-shadow:inset 0 0 0 1px rgba(255,130,100,.35);white-space:nowrap}
-#safeNote svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 64px);transform:translate(-50%,-10px);opacity:0;z-index:12;padding:9px 16px;border-radius:999px;font-size:13px;white-space:nowrap;
-  background:rgba(11,13,26,.7);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px rgba(217,180,106,.35);transition:all .35s var(--ease);pointer-events:none}
-.toast.on{opacity:1;transform:translate(-50%,0)}
 </style>
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+  <symbol id="plum" viewBox="0 0 24 24"><g fill="#c4432f" stroke="#fbf7ef" stroke-width="1.2"><circle cx="12" cy="6" r="4.4"/><circle cx="17.7" cy="10.2" r="4.4"/><circle cx="15.5" cy="17" r="4.4"/><circle cx="8.5" cy="17" r="4.4"/><circle cx="6.3" cy="10.2" r="4.4"/></g><circle cx="12" cy="12" r="2.6" fill="#f3d9a0"/><g fill="#a8341f"><circle cx="12" cy="9.6" r=".7"/><circle cx="14.2" cy="11.4" r=".7"/><circle cx="13.3" cy="14" r=".7"/><circle cx="10.7" cy="14" r=".7"/><circle cx="9.8" cy="11.4" r=".7"/></g></symbol>
+  <symbol id="cloud" viewBox="0 0 120 60"><path d="M6 52c-6-10 2-22 14-20 2-12 18-18 28-9 6-10 24-10 28 3 12-4 24 6 20 18 10 0 16 8 12 14H8z" fill="#6c6660" opacity=".85"/><path d="M22 44c2-7 10-9 15-4M48 34c4-6 13-6 16 1M78 40c4-4 11-2 12 4" fill="none" stroke="#efe7d8" stroke-width="2.2" stroke-linecap="round" opacity=".7"/><path d="M14 50c4-4 10-4 13 0 3-5 11-5 14-1" fill="none" stroke="#efe7d8" stroke-width="1.8" stroke-linecap="round" opacity=".5"/></symbol>
+</svg>
+
 <video id="cam" playsinline muted autoplay></video>
-<div id="vignette"></div>
-<div id="scan"></div>
 <div id="labels"></div>
+<div id="edge"></div>
 
 <header id="top">
-  <div class="brand">
-    <div class="mk">付</div>
-    <div><b>タカラ付喪神</b><small>身邊的日文妖怪</small></div>
-  </div>
-  <div class="pills">
-    <button class="pill" id="autoBtn" title="自動唸出新發現的單字 (A)">
-      <svg class="i" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="wave" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
-      <span id="autoTxt">自動唸</span>
-    </button>
-    <button class="pill" id="dexBtn" title="圖鑑 (B)">
-      <svg class="i" viewBox="0 0 24 24"><path d="M5 4.5h10.5a3 3 0 0 1 3 3v12H8a3 3 0 0 1-3-3z"/><path d="M5 16.5a3 3 0 0 1 3-3h10.5"/></svg>
-      <span><b id="cnt">0</b>/<span id="tot">0</span></span>
-    </button>
-  </div>
+  <div class="brand paper frame"><b class="brush">付喪神</b><span class="seal">タカラ</span></div>
+  <button class="pbtn paper" id="autoBtn" title="自動唸出新發現的單字">
+    <svg class="i" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="wave" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
+    <span id="autoTxt">自動唸</span><kbd>A</kbd>
+  </button>
 </header>
 
-<div class="seg" id="scene">
+<div id="scene" class="paper">
   <button data-s="home"><svg class="i" viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5v8.5H4z"/><path d="M10 19.5v-5h4v5"/></svg>家裡</button>
   <button data-s="shop"><svg class="i" viewBox="0 0 24 24"><path d="M4 9.5 5.5 5h13L20 9.5"/><path d="M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5.5 12v7.5h13V12M10 19.5v-4h4v4"/></svg>店裡</button>
   <button data-s="street"><svg class="i" viewBox="0 0 24 24"><path d="M8 4 5 20M16 4l3 16M12 5v2.5M12 11v2.5M12 17v2.5"/></svg>街上</button>
+  <kbd>S</kbd>
 </div>
 
 <div class="safe" id="safe">
   <svg viewBox="0 0 24 24"><path d="M12 3.5 2.5 20h19z"/><path d="M12 10v4.5M12 17.2v.3"/></svg>
-  <div><b>歩きスマホは危ないよ！</b><small>走路請看路，停下來再掃</small></div>
+  <div><b class="jp">歩きスマホは危ないよ！</b><small>走路請看路，停下來再掃</small></div>
 </div>
 
-<div id="hint">
-  <p id="hintTxt">鏡頭慢慢掃過四周，點標籤聽付喪神說話</p>
-  <div class="keys"><span><kbd>空白</kbd>聽它說話</span><span><kbd>A</kbd>自動唸</span><span><kbd>B</kbd>圖鑑</span><span><kbd>V</kbd>單字本</span><span><kbd>S</kbd>換場景</span><span><kbd>Esc</kbd>關閉</span></div>
+<div id="guide" class="paper frame">
+  <img class="cat" src="ghosts/yuneko.webp" alt="">
+  <p id="gTxt">鏡頭慢慢掃過四周，點妖怪聽它說日文！</p>
+  <span class="tri"></span>
 </div>
+
+<nav id="ctrl">
+  <button class="pbtn paper" id="dexBtn"><svg class="i" viewBox="0 0 24 24"><path d="M4 5.5c3-1.3 5.7-1 8 1 2.3-2 5-2.3 8-1v13c-3-1.3-5.7-1-8 1-2.3-2-5-2.3-8-1z"/><path d="M12 6.5v13"/></svg><span class="jp">図鑑</span><b id="cnt">0</b><kbd>B</kbd></button>
+  <button id="shut" aria-label="撮影"><svg class="i" viewBox="0 0 24 24"><path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.4"/></svg><kbd>P</kbd></button>
+  <button class="pbtn paper" id="bookBtn"><svg class="i" viewBox="0 0 24 24"><path d="M6 4.5h11a2 2 0 0 1 2 2v13H8a2 2 0 0 1-2-2z"/><path d="M6 17.5a2 2 0 0 1 2-2h11"/><path d="M10 8.5h5M10 11.5h3"/></svg>單字<kbd>V</kbd></button>
+</nav>
+<div id="flash"></div>
 
 <div id="scrim"></div>
 
-<section class="sheet" id="card">
+<section class="sheet paper frame" id="card">
+  <svg class="cloud" style="left:-22px;top:-20px;width:96px;height:48px"><use href="#cloud"/></svg>
+  <svg class="plum" style="right:-9px;bottom:-9px"><use href="#plum"/></svg>
   <button class="x" data-close aria-label="關閉"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  <div class="who jp" id="cWho"></div>
-  <div class="word">
-    <span id="cYo"></span>
-    <div class="k jp" id="cK"></div>
-    <div class="meta"><div class="r jp" id="cR"></div><div class="z" id="cZ"></div></div>
+  <div class="chead"><span class="no" id="cNo"></span><span class="who jp" id="cWho"></span></div>
+  <div class="cbody">
+    <div class="word"><div class="k jp" id="cK"></div><span class="rp jp" id="cR"></span><span class="z" id="cZ"></span></div>
+    <img id="cSpr" alt="">
   </div>
   <div class="rule"></div>
   <p class="quote jp" id="cQ"></p>
   <p class="quote-zh" id="cQz"></p>
-  <div class="vocab"><div class="vlabel">N4 單字<small>點一下聽發音</small><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div><div class="chips" id="cW"></div></div>
+  <div class="vlabel">N4 單字<small>點一下聽發音</small><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></div>
+  <div class="chips" id="cW"></div>
   <div class="acts">
-    <button class="btn ghost" id="sayWord">
-      <svg class="i" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/></svg>唸單字<kbd>W</kbd>
-    </button>
-    <button class="btn main" id="sayLine">
-      <svg class="i" viewBox="0 0 24 24"><path d="M5 6.5h14v9H11l-4 3.5v-3.5H5z"/><path d="M9 11h6"/></svg>聽它說話<kbd>空白</kbd>
-    </button>
+    <button class="btn ghost" id="sayWord"><svg class="i" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/></svg>唸單字<kbd>W</kbd></button>
+    <button class="btn main" id="sayLine"><svg class="i" viewBox="0 0 24 24"><path d="M5 6.5h14v9H11l-4 3.5v-3.5H5z"/><path d="M9 11h6"/></svg>聽它說話<kbd>空白</kbd></button>
   </div>
   <div class="stamp" id="stamp"><div><span>宝</span>收服</div></div>
 </section>
 
-<section class="sheet" id="dex">
+<section class="sheet paper frame" id="dex">
+  <svg class="plum" style="left:-9px;bottom:-9px"><use href="#plum"/></svg>
   <button class="x" data-close aria-label="關閉"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  <div class="seg"><button data-tab="yo">付喪神圖鑑<kbd>B</kbd></button><button data-tab="wd">收服單字本<kbd>V</kbd></button></div>
-  <p class="cnt" id="dexCnt"></p>
+  <div class="dhead">
+    <div class="dtabs">
+      <button data-tab="yo"><svg class="i" viewBox="0 0 24 24"><path d="M4 5.5c3-1.3 5.7-1 8 1 2.3-2 5-2.3 8-1v13c-3-1.3-5.7-1-8 1-2.3-2-5-2.3-8-1z"/><path d="M12 6.5v13"/></svg><span class="jp">図鑑</span></button>
+      <button data-tab="wd">單字本</button>
+    </div>
+    <span class="cnt"><img src="ghosts/yuneko.webp" alt=""><span id="dexCnt"></span></span>
+  </div>
+  <div class="filt" id="filt"></div>
+  <p class="dsub" id="dsub"></p>
   <div class="grid" id="grid"></div>
   <div class="wlist" id="wlist" hidden></div>
 </section>
 
-<div class="toast" id="toast"></div>
+<section class="sheet paper frame" id="photo">
+  <svg class="cloud" style="right:-20px;top:-20px;width:96px;height:48px;transform:scaleX(-1)"><use href="#cloud"/></svg>
+  <button class="x" data-close aria-label="關閉"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <h3>撮影完成</h3>
+  <img class="pv" id="pv" alt="">
+  <div class="acts">
+    <button class="btn ghost" data-close>再拍一張</button>
+    <button class="btn main" id="saveBtn"><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>儲存／分享</button>
+  </div>
+</section>
 
-<div id="start">
-  <svg class="lantern" viewBox="0 0 120 150">
-    <defs>
-      <radialGradient id="lg" cx="50%" cy="48%" r="55%"><stop offset="0" stop-color="#ffe2a6"/><stop offset=".55" stop-color="#ff9a45"/><stop offset="1" stop-color="#c9361f"/></radialGradient>
-    </defs>
-    <line x1="60" y1="0" x2="60" y2="18" stroke="#d9b46a" stroke-width="1.5"/>
-    <rect x="40" y="16" width="40" height="10" rx="3" fill="#1b1f3d" stroke="#d9b46a"/>
-    <ellipse cx="60" cy="76" rx="46" ry="52" fill="url(#lg)"/>
-    <g stroke="rgba(120,30,15,.45)" stroke-width="1.2" fill="none">
-      <path d="M18 56q42 8 84 0M15 76q45 8 90 0M18 96q42 8 84 0"/>
-      <path d="M60 24v104"/>
-    </g>
-    <text x="60" y="90" text-anchor="middle" font-family="Noto Serif JP,serif" font-weight="900" font-size="34" fill="#7a1f12" opacity=".85">宝</text>
-    <rect x="40" y="124" width="40" height="10" rx="3" fill="#1b1f3d" stroke="#d9b46a"/>
-    <path d="M52 134v12M60 134v15M68 134v12" stroke="#d8452f" stroke-width="2" stroke-linecap="round"/>
-  </svg>
-  <h1>タカラ付喪神</h1>
+<div id="start" class="paper">
+  <div class="title"><h1 class="brush">付喪神</h1><span class="seal">タカラ</span></div>
+  <div class="parade">
+    <img src="ghosts/tourou.webp" alt=""><img src="ghosts/fushigami.webp" alt=""><img src="ghosts/yuneko.webp" alt=""><img src="ghosts/kasabou.webp" alt=""><img src="ghosts/chahai.webp" alt="">
+  </div>
   <p class="lead">身邊的東西，其實都會說日文</p>
-  <button id="go">
-    <svg class="i" viewBox="0 0 24 24"><path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.4"/></svg>
-    <span id="goTxt">打開鏡頭，召喚付喪神</span>
-  </button>
+  <button id="go"><svg class="i" viewBox="0 0 24 24"><path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.4"/></svg><span id="goTxt">打開鏡頭，召喚付喪神</span></button>
   <p id="safeNote"><svg viewBox="0 0 24 24"><path d="M12 3.5 2.5 20h19z"/><path d="M12 10v4.5M12 17.2v.3"/></svg>走路時不要一直看手機，停下來再掃</p>
   <p id="err"></p>
   <p id="note">需要允許使用相機・iPhone 請用 Safari 開啟</p>
@@ -413,7 +428,6 @@ const DATA = {
   "pizza":{k:"ピザ",r:"ぴざ",zh:"披薩",ja:"パイナップルをのせるかどうかで、けんかしないでね。",jz:"不要為了加不加鳳梨吵架喔。"},
   "donut":{k:"ドーナツ",r:"どーなつ",zh:"甜甜圈",ja:"真ん中の穴は、カロリーゼロだよ。",jz:"中間的洞是零卡喔。"}
 };
-const KEYS = Object.keys(DATA);
 /* N4 相關單字：[漢字, 讀音, 中文] */
 const WORDS = {
   "person@home":[["手伝う","てつだう","幫忙"],["両親","りょうしん","父母"],["留守","るす","不在家"]],
@@ -500,6 +514,28 @@ const WORDS = {
   "donut":[["穴","あな","洞"],["真ん中","まんなか","正中間"],["お菓子","おかし","點心"]]
 };
 const ALL_WORDS = new Set(Object.values(WORDS).flat().map(w=>w[0]));
+
+/* ---------- 10 隻妖怪 ---------- */
+const GHOSTS = {
+  yuneko:{n:"幽猫",r:"ゆうねこ"}, tourou:{n:"燈籠怪",r:"とうろうかい"}, fushigami:{n:"符紙鬼",r:"ふしがみ"},
+  tsunotsuno:{n:"角角怪",r:"つのつのかい"}, dokugan:{n:"獨眼怪",r:"どくがんかい"}, chahai:{n:"茶杯鬼",r:"ちゃはいき"},
+  hyakume:{n:"百目怪",r:"ひゃくめかい"}, kage:{n:"影子怪",r:"かげのかい"}, kasabou:{n:"傘帽鬼",r:"かさぼうき"}, enja:{n:"煙蛇",r:"えんじゃ"}
+};
+const GROUP = {
+  yuneko:["cat","teddy bear","couch","bed"],
+  tourou:["clock","traffic light","microwave","oven","toaster","hair drier","fire hydrant"],
+  fushigami:["person@home","person@shop","person@street","stop sign","parking meter"],
+  tsunotsuno:["dog","horse","sheep","cow","elephant","bear","zebra","giraffe","bird"],
+  dokugan:["tv","laptop","cell phone"],
+  chahai:["cup","bowl","bottle","wine glass","fork","knife","spoon","banana","apple","orange","cake","sandwich","broccoli","carrot","hot dog","pizza","donut"],
+  hyakume:["keyboard","mouse","remote","book"],
+  kage:["chair","dining table","refrigerator","toilet","sink","potted plant","vase","bench"],
+  kasabou:["car","motorcycle","airplane","bus","train","truck","boat","bicycle","umbrella","suitcase","backpack","handbag"],
+  enja:["tie","scissors","toothbrush","baseball bat","tennis racket","skateboard","surfboard","skis","snowboard","kite","frisbee","baseball glove","sports ball"]
+};
+const GH = {}; for(const g in GROUP) for(const k of GROUP[g]) GH[k]=g;
+const KEYS = Object.keys(DATA).sort((a,b)=>Object.keys(GROUP).indexOf(GH[a])-Object.keys(GROUP).indexOf(GH[b]));
+const sprURL = k => `ghosts/${GH[k]}.webp`;
 const $ = s => document.querySelector(s);
 
 /* ---------- 狀態 ---------- */
@@ -510,7 +546,7 @@ let scene="home";
 try{const sc=localStorage.getItem("tsukumo-scene");if(["home","shop","street"].includes(sc))scene=sc}catch(e){}
 const SCENE_ZH={home:"家裡",shop:"店裡",street:"街上"};
 let found=new Set();
-try{found=new Set(JSON.parse(localStorage.getItem("tsukumo-found")||"[]"))}catch(e){}
+try{found=new Set(JSON.parse(localStorage.getItem("tsukumo-found")||"[]").map(k=>k==="person"?"person@home":k).filter(k=>DATA[k]))}catch(e){}
 try{const a=localStorage.getItem("tsukumo-auto"); if(a!==null) autoSpeak=a==="1"}catch(e){}
 function saveFound(){try{localStorage.setItem("tsukumo-found",JSON.stringify([...found]))}catch(e){}}
 
@@ -527,7 +563,7 @@ function setTalking(key){
   document.querySelectorAll(".talking").forEach(el=>el.classList.remove("talking"));
   talkKey=key;
   if(!key)return;
-  tags.get(key)?.tag.classList.add("talking");
+  tags.get(key)?.el.classList.add("talking");
   if(current===key)$("#card").classList.add("talking");
 }
 function say(text,key){
@@ -535,33 +571,21 @@ function say(text,key){
   speechSynthesis.cancel();
   const u=new SpeechSynthesisUtterance(text);
   u.lang="ja-JP"; if(jaVoice)u.voice=jaVoice;
-  u.rate=.9; u.pitch=key?pitchOf(key):1;
+  u.rate=.9; u.pitch=key?pitchOf(GH[key]||key):1;
   u.onstart=()=>setTalking(key);
   u.onend=u.onerror=()=>{if(talkKey===key)setTalking(null)};
   speechSynthesis.speak(u);
-  setTalking(key); // iOS 有時 onstart 會晚到
+  setTalking(key);
 }
 
-/* 付喪神小臉 SVG：每隻顏色依名字自動不同 */
-function hueOf(key){let h=0;for(const c of key)h=(h*17+c.charCodeAt(0))%360;return h}
-function yoSVG(key,id){
-  const h=hueOf(key);
-  return `<svg class="yo" viewBox="0 0 44 48" style="--d:-${(h%10)/10}s">
-    <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="hsl(${h} 75% 84%)"/><stop offset="1" stop-color="hsl(${h} 55% 56%)"/></linearGradient></defs>
-    <path class="arm l" d="M9.5 27Q4 25 2.5 19"/><path class="arm r" d="M34.5 27Q40 25 41.5 19"/>
-    <path class="foot" d="M17.5 41.5v4M26.5 41.5v4"/>
-    <path class="body" d="M22 6c9 0 14 7 14 17 0 11-6 19-14 19S8 34 8 23C8 13 13 6 22 6z" fill="url(#${id})"/>
-    <path d="M14.5 13.5q3.5-3.8 8.5-4" stroke="rgba(255,255,255,.75)" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <g class="eyes"><ellipse cx="17" cy="22" rx="2.2" ry="2.8"/><ellipse cx="27" cy="22" rx="2.2" ry="2.8"/></g>
-    <ellipse class="ck" cx="13.5" cy="27.5" rx="2.4" ry="1.4"/><ellipse class="ck" cx="30.5" cy="27.5" rx="2.4" ry="1.4"/>
-    <ellipse class="mouth" cx="22" cy="30.5" rx="2.6" ry="2.2"/>
-  </svg>`;
+/* ---------- 幽猫導覽 ---------- */
+let gT;
+function guide(html){
+  const g=$("#guide");$("#gTxt").innerHTML=html;
+  g.classList.remove("say","bump");void g.offsetWidth;g.classList.add("say","bump");
+  clearTimeout(gT);gT=setTimeout(()=>g.classList.remove("bump"),260);
 }
-
-/* ---------- UI 小工具 ---------- */
-let toastT;
-function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("on");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("on"),1800)}
-function refreshCount(){$("#cnt").textContent=found.size;$("#tot").textContent=KEYS.length}
+function refreshCount(){$("#cnt").textContent=found.size}
 function refreshAuto(){$("#autoBtn").classList.toggle("off",!autoSpeak);$("#autoTxt").textContent=autoSpeak?"自動唸":"靜音"}
 refreshCount(); refreshAuto();
 
@@ -569,7 +593,6 @@ refreshCount(); refreshAuto();
 $("#go").addEventListener("click",async()=>{
   const go=$("#go"); go.disabled=true; $("#err").textContent="";
   $("#goTxt").textContent="召喚中…"; go.insertAdjacentHTML("afterbegin",'<span class="spin"></span>'); go.querySelector("svg").style.display="none";
-  // iOS：先在點擊當下解鎖語音
   try{const u=new SpeechSynthesisUtterance(" ");u.volume=0;speechSynthesis.speak(u)}catch(e){}
   try{
     const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1280},height:{ideal:720}},audio:false});
@@ -590,7 +613,6 @@ $("#go").addEventListener("click",async()=>{
   }catch(e){resetGo();$("#err").textContent="AI 模型載入失敗，請確認網路後重試";return}
   $("#start").classList.add("out");
   running=true; loop();
-  setTimeout(()=>{$("#hint").style.opacity=".85"},4000);
 });
 function resetGo(){const go=$("#go");go.disabled=false;go.querySelector(".spin")?.remove();go.querySelector("svg").style.display="";$("#goTxt").textContent="打開鏡頭，召喚付喪神"}
 
@@ -598,14 +620,10 @@ function resetGo(){const go=$("#go");go.disabled=false;go.querySelector(".spin")
 async function loop(){
   if(!running)return;
   if(video.readyState>=2 && !document.hidden){
-    try{
-      const preds=await model.detect(video,15,.5);
-      render(preds);
-    }catch(e){}
+    try{ render(await model.detect(video,15,.5)); }catch(e){}
   }
   setTimeout(()=>requestAnimationFrame(loop),110);
 }
-
 function mapBox([x,y,w,h]){
   const vw=innerWidth,vh=innerHeight,iw=video.videoWidth,ih=video.videoHeight;
   const s=Math.max(vw/iw,vh/ih),ox=(vw-iw*s)/2,oy=(vh-ih*s)/2;
@@ -613,63 +631,65 @@ function mapBox([x,y,w,h]){
   if(mirror)X=vw-X-W;
   return {X,Y,W,H};
 }
-
 function makeTag(key){
   const d=DATA[key];
   const box=document.createElement("div");box.className="box";
-  const tag=document.createElement("button");tag.className="tag";
-  tag.innerHTML=`${yoSVG(key,"g"+KEYS.indexOf(key))}<span class="k jp">${d.k}</span><span class="sub"><span class="r jp">${d.r}</span><span class="z">${d.zh}</span></span>${found.has(key)?"":'<span class="dot"></span>'}`;
-  tag.addEventListener("click",e=>{e.stopPropagation();openCard(key)});
-  $("#labels").append(box,tag);
-  const o={box,tag,last:0};tags.set(key,o);return o;
+  const el=document.createElement("button");el.className="yk";
+  el.innerHTML=`<img class="spr" src="${sprURL(key)}" alt="">${found.has(key)?"":'<span class="bub">!</span>'}<span class="tag"><span class="k jp">${d.k}</span><span class="sub"><span class="r jp">${d.r}</span><span class="z">${d.zh}</span></span></span>`;
+  el.addEventListener("click",e=>{e.stopPropagation();openCard(key)});
+  $("#labels").append(box,el);
+  const o={box,el,last:0};tags.set(key,o);return o;
 }
-
 function render(preds){
   const now=performance.now(),best=new Map();
   for(const p of preds){ const k=p.class==="person"?"person@"+scene:p.class; if(!DATA[k])continue; const b=best.get(k); if(!b||p.score>b.score)best.set(k,p) }
-  const TOP=$("#scene").getBoundingClientRect().bottom+10, BOT=innerHeight-110, placed=[];
+  const TOP=$("#scene").getBoundingClientRect().bottom+8, BOT=$("#guide").getBoundingClientRect().top-8, placed=[];
   for(const [key,p] of [...best].sort((a,b)=>b[1].score-a[1].score)){
     const o=tags.get(key)||makeTag(key);
     const {X,Y,W,H}=mapBox(p.bbox);
     o.box.style.transform=`translate(${X}px,${Y}px)`;o.box.style.width=W+"px";o.box.style.height=H+"px";
-    // 標籤放在框上緣中央，限制在畫面內
-    const tw=o.tag.offsetWidth||150,th=o.tag.offsetHeight||48;
-    let tx=X+W/2-tw/2, ty=Y-th-10;
-    if(ty<TOP) ty=Y+12;
-    tx=Math.max(10,Math.min(innerWidth-tw-10,tx));
-    // 自動錯開：跟已放好的標籤重疊就往下移
-    for(let n=0;n<6;n++){const h=placed.find(r=>tx<r.x+r.w+6&&tx+tw+6>r.x&&ty<r.y+r.h+6&&ty+th+6>r.y);if(!h)break;ty=h.y+h.h+8}
-    ty=Math.max(TOP,Math.min(BOT-th,ty));placed.push({x:tx,y:ty,w:tw,h:th});
-    const t=`translate(${tx}px,${ty}px)`;o.tag.style.setProperty("--t",t);o.tag.style.transform=t;
-    o.box.classList.add("on");o.tag.classList.add("on");o.last=now;lastTouched=key;
+    const sz=Math.round(Math.max(64,Math.min(120,Math.min(W,H)*.55)));
+    if(o.sz!==sz){o.sz=sz;o.el.style.setProperty("--s",sz+"px")}
+    const ew=o.el.offsetWidth||140, eh=o.el.offsetHeight||sz+40;
+    let tx=X+W/2-ew/2, ty=Y+H*.45-eh/2;
+    tx=Math.max(20,Math.min(innerWidth-ew-22,tx));
+    for(let n=0;n<6;n++){const h=placed.find(r=>tx<r.x+r.w+4&&tx+ew+4>r.x&&ty<r.y+r.h+4&&ty+eh+4>r.y);if(!h)break;ty=h.y+h.h+6}
+    ty=Math.max(TOP,Math.min(BOT-eh,ty));placed.push({x:tx,y:ty,w:ew,h:eh});
+    o.el.style.transform=`translate(${tx}px,${ty}px)`;
+    o.box.classList.add("on");o.el.classList.add("on");o.last=now;lastTouched=key;
     if(!seenSession.has(key)){
       seenSession.add(key);
-      if(autoSpeak && !current && now-lastAuto>2200){lastAuto=now;say(d0(key).r,key)}
+      const g=GHOSTS[GH[key]];
+      if(!current) guide(found.has(key)?`又見到 <em>${g.n}</em> 了！「${DATA[key].k}」`:`發現了 <em>${g.n}</em>！是「${DATA[key].k}」喔`);
+      if(autoSpeak && !current && now-lastAuto>2200){lastAuto=now;say(DATA[key].r,key)}
     }
   }
   for(const [key,o] of tags){
-    if(now-o.last>900){o.box.classList.remove("on");o.tag.classList.remove("on")}
+    if(now-o.last>900){o.box.classList.remove("on");o.el.classList.remove("on")}
   }
 }
-const d0=k=>DATA[k];
 
 /* ---------- 卡片 ---------- */
 function openCard(key){
-  const d=DATA[key];current=key;
-  $("#cWho").textContent=d.t||`${d.k}の付喪神`;
-  $("#cYo").innerHTML=yoSVG(key,"gc");
+  const d=DATA[key],g=GHOSTS[GH[key]];current=key;
+  $("#cNo").textContent="No."+String(KEYS.indexOf(key)+1).padStart(2,"0");
+  $("#cWho").innerHTML=`${g.n}<small>${g.r}</small>`;
+  $("#cSpr").src=sprURL(key);
   $("#card").classList.remove("talking");
-  $("#cK").textContent=d.k;$("#cK").className="k jp"+(d.k.length>=6?" xl":d.k.length>=5?" l":d.k.length>=3?" m":"");$("#cR").textContent=d.r;$("#cZ").textContent=d.zh;
-  $("#cQ").innerHTML=d.ja.split(/(?<=[。、！？…])/).map(c=>`<span class="cl">${c}</span>`).join("");$("#cQz").textContent=d.jz;
-  $("#cW").innerHTML=(WORDS[key]||[]).map((w,i)=>`<button class="chip" data-i="${i}"><b class="jp${w[0].length>=4?" l":""}">${w[0]}</b><span class="rz"><i class="jp">${w[1]}</i><span>${w[2]}</span></span><kbd>${i+1}</kbd></button>`).join("");
+  $("#cK").textContent=d.k;$("#cK").className="k jp"+(d.k.length>=6?" xl":d.k.length>=5?" l":d.k.length>=3?" m":"");
+  $("#cR").textContent=d.r;$("#cZ").textContent=d.zh;
+  $("#cQ").innerHTML=d.ja.split(/(?<=[。、！？…])/).map(c=>`<span class="cl">${c}</span>`).join("");
+  $("#cQz").textContent=d.jz;
+  $("#cW").innerHTML=(WORDS[key]||[]).map((w,i)=>`<button class="chip" data-i="${i}"><b class="jp${w[0].length>=4?" l":""}">${w[0]}</b><span class="rz"><i class="jp">${w[1]}</i><span>${w[2]}</span></span></button>`).join("");
   $("#cW").querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>sayChip(key,+c.dataset.i)));
   const st=$("#stamp");st.classList.remove("hit");
-  closeSheet("#dex",true);
+  closeSheet("#dex",true);closeSheet("#photo",true);
   $("#scrim").classList.add("on");$("#card").classList.add("on");
   if(!found.has(key)){
     found.add(key);saveFound();refreshCount();
-    tags.get(key)?.tag.querySelector(".dot")?.remove();
-    void st.offsetWidth;setTimeout(()=>{st.classList.add("hit");navigator.vibrate?.(30)},260);
+    tags.get(key)?.el.querySelector(".bub")?.remove();
+    void st.offsetWidth;setTimeout(()=>{st.classList.add("hit");navigator.vibrate?.(30)},300);
+    guide(`收服了 <em>${g.n}</em>！單字存進單字本了`);
   }
   say(d.ja,key);
 }
@@ -678,47 +698,104 @@ function sayChip(key,i){const w=(WORDS[key]||[])[i];if(!w)return;flash($("#cW").
 function closeSheet(sel,keepScrim){
   $(sel).classList.remove("on");
   if(sel==="#card"){current=null;speechSynthesis?.cancel()}
-  if(!keepScrim && !$(".sheet.on"))$("#scrim").classList.remove("on");
+  if(!keepScrim && !document.querySelector(".sheet.on"))$("#scrim").classList.remove("on");
 }
+function closeAll(){["#card","#dex","#photo"].forEach(s=>closeSheet(s))}
 document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>closeSheet("#"+b.closest(".sheet").id)));
-$("#scrim").addEventListener("click",()=>{closeSheet("#card");closeSheet("#dex")});
+$("#scrim").addEventListener("click",closeAll);
 $("#sayWord").addEventListener("click",()=>current&&say(DATA[current].r,current));
 $("#sayLine").addEventListener("click",()=>current&&say(DATA[current].ja,current));
 
-/* ---------- 圖鑑 ---------- */
-let dexTab="yo";
+/* ---------- 圖鑑 / 單字本 ---------- */
+let dexTab="yo", dexFilt="all";
+$("#filt").innerHTML=`<button class="all" data-g="all">全部</button>`+Object.keys(GROUP).map(g=>`<button data-g="${g}" title="${GHOSTS[g].n}"><img src="ghosts/${g}.webp" alt="${GHOSTS[g].n}"></button>`).join("");
+$("#filt").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{dexFilt=b.dataset.g;openDex()}));
 function openDex(tab){
-  closeSheet("#card",true);
+  closeSheet("#card",true);closeSheet("#photo",true);
   if(tab)dexTab=tab;
-  document.querySelectorAll(".seg button").forEach(b=>b.classList.toggle("on",b.dataset.tab===dexTab));
+  document.querySelectorAll(".dtabs button").forEach(b=>b.classList.toggle("on",b.dataset.tab===dexTab));
+  document.querySelectorAll("#filt button").forEach(b=>b.classList.toggle("on",b.dataset.g===dexFilt));
+  const keys=KEYS.filter(k=>dexFilt==="all"||GH[k]===dexFilt);
   const isYo=dexTab==="yo";
   $("#grid").hidden=!isYo;$("#wlist").hidden=isYo;
-  if(!isYo){renderWords();$("#scrim").classList.add("on");$("#dex").classList.add("on");return}
-  $("#dexCnt").textContent=`已收服 ${found.size} 隻，共 ${KEYS.length} 隻`;
-  $("#grid").innerHTML=KEYS.map(k=>found.has(k)
-    ?`<button class="cell got" data-k="${k}"><span class="kk jp">${DATA[k].k}</span><small>${DATA[k].zh}</small></button>`
-    :`<div class="cell">？<small>${DATA[k].zh}</small></div>`).join("");
-  $("#grid").querySelectorAll(".got").forEach(c=>c.addEventListener("click",()=>openCard(c.dataset.k)));
+  const g=GHOSTS[dexFilt];
+  if(isYo){
+    const got=keys.filter(k=>found.has(k)).length;
+    $("#dexCnt").textContent=`${found.size} / ${KEYS.length}`;
+    $("#dsub").textContent=g?`${g.n}（${g.r}）收服 ${got} / ${keys.length}`:`全部的付喪神・收服 ${got} / ${keys.length}`;
+    $("#grid").innerHTML=keys.map(k=>found.has(k)
+      ?`<button class="cell got" data-k="${k}"><img src="${sprURL(k)}" alt=""><span class="kk jp">${DATA[k].k}</span><small>${DATA[k].zh}</small></button>`
+      :`<div class="cell"><img src="${sprURL(k)}" alt=""><span class="q">?</span><span class="kk" style="color:rgba(93,87,82,.35)">？</span><small>${DATA[k].zh}</small></div>`).join("");
+    $("#grid").querySelectorAll(".got").forEach(c=>c.addEventListener("click",()=>openCard(c.dataset.k)));
+  }else renderWords(keys,g);
   $("#scrim").classList.add("on");$("#dex").classList.add("on");
 }
-$("#dexBtn").addEventListener("click",()=>openDex());
-document.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>openDex(b.dataset.tab)));
-function renderWords(){
+function renderWords(keys,g){
   const book=new Map();
-  for(const k of KEYS){if(!found.has(k))continue;for(const w of WORDS[k]||[])if(!book.has(w[0]))book.set(w[0],{w,k})}
-  $("#dexCnt").textContent=`已收集 ${book.size} 個 N4 單字，共 ${ALL_WORDS.size} 個`;
-  if(!book.size){$("#wlist").innerHTML='<div class="empty">還沒收服付喪神，去房間掃一掃吧</div>';return}
-  $("#wlist").innerHTML=[...book.values()].map(({w,k})=>`<button class="wrow" data-k="${k}" data-r="${w[1]}"><b class="jp">${w[0]}</b><span><i class="jp">${w[1]}</i>${w[2]}</span><em class="jp">${DATA[k].k}</em></button>`).join("");
+  for(const k of keys){if(!found.has(k))continue;for(const w of WORDS[k]||[])if(!book.has(w[0]))book.set(w[0],{w,k})}
+  const total=new Set(keys.flatMap(k=>(WORDS[k]||[]).map(w=>w[0]))).size;
+  $("#dexCnt").textContent=`${found.size} / ${KEYS.length}`;
+  $("#dsub").textContent=`${g?g.n+"的":"已收集的"} N4 單字 ${book.size} / ${total}`;
+  if(!book.size){$("#wlist").innerHTML='<div class="empty">還沒收服付喪神，去四周掃一掃吧</div>';return}
+  $("#wlist").innerHTML=[...book.values()].map(({w,k})=>`<button class="wrow" data-k="${k}" data-r="${w[1]}"><b class="jp">${w[0]}</b><span><i class="jp">${w[1]}</i>${w[2]}</span><img src="${sprURL(k)}" alt=""></button>`).join("");
   $("#wlist").querySelectorAll(".wrow").forEach(r=>r.addEventListener("click",()=>{flash(r);say(r.dataset.r,r.dataset.k)}));
 }
+document.querySelectorAll(".dtabs button").forEach(b=>b.addEventListener("click",()=>openDex(b.dataset.tab)));
+$("#dexBtn").addEventListener("click",()=>openDex("yo"));
+$("#bookBtn").addEventListener("click",()=>openDex("wd"));
 $("#autoBtn").addEventListener("click",toggleAuto);
-function toggleAuto(){autoSpeak=!autoSpeak;try{localStorage.setItem("tsukumo-auto",autoSpeak?"1":"0")}catch(e){}refreshAuto();toast(autoSpeak?"新發現的單字會自動唸出來":"已關閉自動唸")}
+function toggleAuto(){autoSpeak=!autoSpeak;try{localStorage.setItem("tsukumo-auto",autoSpeak?"1":"0")}catch(e){}refreshAuto();guide(autoSpeak?"新發現的單字，我會自動唸出來":"好，先安靜不唸了")}
+
+/* ---------- 撮影 ---------- */
+let photoBlob=null, photoURL=null;
+const imgCache={};
+function loadImg(src){return imgCache[src]||(imgCache[src]=new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src}))}
+function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+async function takePhoto(){
+  if(!running||!video.videoWidth)return;
+  const f=$("#flash");f.classList.add("on");requestAnimationFrame(()=>requestAnimationFrame(()=>f.classList.remove("on")));
+  const dpr=Math.min(3,devicePixelRatio||2),W=innerWidth,H=innerHeight;
+  const cv=document.createElement("canvas");cv.width=W*dpr;cv.height=H*dpr;const c=cv.getContext("2d");c.scale(dpr,dpr);
+  const iw=video.videoWidth,ih=video.videoHeight,s=Math.max(W/iw,H/ih);
+  c.save();if(mirror){c.translate(W,0);c.scale(-1,1)}c.drawImage(video,(W-iw*s)/2,(H-ih*s)/2,iw*s,ih*s);c.restore();
+  for(const [key,o] of tags){
+    if(!o.el.classList.contains("on"))continue;
+    const sp=o.el.querySelector(".spr").getBoundingClientRect(), tg=o.el.querySelector(".tag").getBoundingClientRect();
+    const im=await loadImg(sprURL(key));
+    if(im){c.save();c.shadowColor="rgba(20,14,8,.35)";c.shadowBlur=10;c.shadowOffsetY=6;c.drawImage(im,sp.x,sp.y,sp.width,sp.height);c.restore()}
+    c.fillStyle="rgba(52,47,43,.88)";rr(c,tg.x,tg.y,tg.width,tg.height,tg.height/2);c.fill();
+    c.strokeStyle="rgba(251,247,239,.7)";c.lineWidth=1.5;c.stroke();
+    const d=DATA[key];c.textBaseline="middle";
+    c.fillStyle="#f5eee2";c.font='700 19px "Noto Serif JP",serif';c.fillText(d.k,tg.x+12,tg.y+tg.height/2);
+    const kw=c.measureText(d.k).width;
+    c.font='500 10.5px "Noto Serif JP",serif';c.fillStyle="#f3c98c";c.fillText(d.r,tg.x+20+kw,tg.y+tg.height/2-6);
+    c.fillStyle="rgba(245,238,226,.75)";c.fillText(d.zh,tg.x+20+kw,tg.y+tg.height/2+7);
+  }
+  // 浮水印
+  c.fillStyle="rgba(241,233,218,.92)";rr(c,W-148,H-58,132,40,12);c.fill();
+  c.strokeStyle="#5d5752";c.lineWidth=2;c.stroke();
+  c.fillStyle="#3b3632";c.font='26px "Yuji Syuku","Noto Serif JP",serif';c.textBaseline="middle";c.fillText("付喪神",W-138,H-37);
+  c.fillStyle="#c4432f";rr(c,W-50,H-52,22,28,3);c.fill();
+  c.fillStyle="#fbf1e4";c.font='700 8px "Noto Serif JP",serif';["タ","カ","ラ"].forEach((t,i)=>c.fillText(t,W-43,H-45+i*8.5));
+  cv.toBlob(b=>{
+    photoBlob=b;if(photoURL)URL.revokeObjectURL(photoURL);photoURL=URL.createObjectURL(b);$("#pv").src=photoURL;
+    closeSheet("#card",true);closeSheet("#dex",true);$("#scrim").classList.add("on");$("#photo").classList.add("on");
+  },"image/jpeg",.92);
+}
+$("#shut").addEventListener("click",takePhoto);
+$("#saveBtn").addEventListener("click",async()=>{
+  if(!photoBlob)return;
+  const name=`tsukumogami-${new Date().toISOString().slice(0,19).replace(/[-:T]/g,"")}.jpg`;
+  const file=new File([photoBlob],name,{type:"image/jpeg"});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:"タカラ付喪神"});return}catch(e){if(e.name==="AbortError")return}}
+  const a=document.createElement("a");a.href=photoURL;a.download=name;a.click();
+});
 
 /* ---------- 場景 ---------- */
 function setScene(sc,quiet){
   scene=sc;try{localStorage.setItem("tsukumo-scene",sc)}catch(e){}
   document.querySelectorAll("#scene button").forEach(b=>b.classList.toggle("on",b.dataset.s===sc));
-  if(!quiet){const d=DATA["person@"+sc];toast(`場景：${SCENE_ZH[sc]}・人會變成「${d.k}」`);if(sc==="street")setTimeout(safety,900)}
+  if(!quiet){guide(`換到${SCENE_ZH[sc]}了，人會變成「<em>${DATA["person@"+sc].k}</em>」`);if(sc==="street")setTimeout(safety,900)}
 }
 document.querySelectorAll("#scene button").forEach(b=>b.addEventListener("click",()=>setScene(b.dataset.s)));
 setScene(scene,true);
@@ -736,16 +813,17 @@ setInterval(()=>{if(running&&!document.hidden)safety()},180000);
 
 /* ---------- 快捷鍵 ---------- */
 addEventListener("keydown",e=>{
-  if($("#start").classList.contains("out")===false && e.key!=="Enter")return;
+  if(!$("#start").classList.contains("out"))return;
   const k=e.key.toLowerCase();
-  if(e.code==="Space"){e.preventDefault(); if(current)say(DATA[current].ja,current); else if(lastTouched&&tags.get(lastTouched)?.tag.classList.contains("on"))openCard(lastTouched)}
+  if(e.code==="Space"){e.preventDefault(); if(current)say(DATA[current].ja,current); else if(lastTouched&&tags.get(lastTouched)?.el.classList.contains("on"))openCard(lastTouched)}
   else if(k==="w"&&current)say(DATA[current].r,current);
+  else if(/^[1-4]$/.test(k)&&current)sayChip(current,+k-1);
   else if(k==="a")toggleAuto();
   else if(k==="s")cycleScene();
-  else if(/^[1-4]$/.test(k)&&current)sayChip(current,+k-1);
+  else if(k==="p")takePhoto();
   else if(k==="b")($("#dex").classList.contains("on")&&dexTab==="yo"?closeSheet("#dex"):openDex("yo"));
   else if(k==="v")($("#dex").classList.contains("on")&&dexTab==="wd"?closeSheet("#dex"):openDex("wd"));
-  else if(k==="escape"){closeSheet("#card");closeSheet("#dex")}
+  else if(k==="escape")closeAll();
 });
 document.addEventListener("visibilitychange",()=>{if(document.hidden)speechSynthesis?.cancel()});
 </script>
