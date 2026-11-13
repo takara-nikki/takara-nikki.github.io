@@ -102,7 +102,8 @@ video.mirror{transform:scaleX(-1)}
 /* bottom hint */
 #hint{position:fixed;left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom) + 18px);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:4;pointer-events:none;transition:opacity .4s}
 #hint p{font-size:13px;color:var(--paper);padding:9px 16px;border-radius:999px;background:rgba(11,13,26,.55);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);white-space:nowrap}
-.keys{display:none;gap:12px;font-size:11.5px;color:var(--mute)}
+.keys{display:none;flex-wrap:wrap;justify-content:center;gap:6px 12px;font-size:11.5px;color:var(--mute)}
+.keys span{white-space:nowrap}
 @media (hover:hover) and (pointer:fine){.keys{display:flex}}
 kbd{display:inline-block;min-width:20px;padding:2px 6px;margin-right:4px;border-radius:5px;background:#1c2142;color:var(--paper);font:600 11px/1.3 -apple-system,sans-serif;text-align:center;box-shadow:inset 0 -2px 0 rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.08)}
 #scan{position:fixed;left:0;right:0;height:120px;top:-120px;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(255,180,92,.09) 80%,rgba(255,180,92,.35));animation:scan 3.6s var(--ease) infinite;opacity:.8}
@@ -122,7 +123,7 @@ kbd{display:inline-block;min-width:20px;padding:2px 6px;margin-right:4px;border-
 .who::before{content:"";width:6px;height:6px;transform:rotate(45deg);background:var(--gold)}
 .word{display:flex;align-items:flex-end;gap:12px;margin:10px 0 4px}
 .word .k{font-size:56px;font-weight:900;line-height:1;letter-spacing:.02em;white-space:nowrap}
-.word .k.m{font-size:36px}.word .k.l{font-size:27px}
+.word .k.m{font-size:36px}.word .k.l{font-size:27px}.word .k.xl{font-size:23px}
 .word .meta{flex:none}
 .word .meta{padding-bottom:6px}
 .word .r{font-size:17px;color:var(--gold);letter-spacing:.08em}
@@ -205,6 +206,18 @@ kbd{display:inline-block;min-width:20px;padding:2px 6px;margin-right:4px;border-
 .spin{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 
+#scene{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 62px);z-index:5;background:rgba(11,13,26,.55);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+#scene button{height:32px;padding:0 12px;font-size:13px}
+#scene svg.i{width:15px;height:15px}
+.safe{position:fixed;left:16px;right:16px;top:calc(env(safe-area-inset-top) + 112px);z-index:13;max-width:420px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:18px;
+  background:rgba(58,14,10,.74);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:inset 0 0 0 1px rgba(255,130,100,.55),inset 0 1px 0 rgba(255,255,255,.12),0 14px 32px rgba(0,0,0,.4),0 0 24px rgba(216,69,47,.3);
+  transform:translateY(-14px) scale(.96);opacity:0;pointer-events:none;transition:transform .5s var(--spring),opacity .3s}
+.safe.on{opacity:1;transform:none}
+.safe svg{width:30px;height:30px;color:#ffb09c;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.safe b{display:block;font-family:"Noto Serif JP",serif;font-size:16px;font-weight:900;white-space:nowrap}
+.safe small{display:block;font-size:12.5px;color:rgba(255,232,222,.82);white-space:nowrap}
+#safeNote{margin-top:18px;display:flex;align-items:center;gap:8px;font-size:13px;color:#ffc2b2;padding:9px 14px;border-radius:999px;background:rgba(216,69,47,.14);box-shadow:inset 0 0 0 1px rgba(255,130,100,.35);white-space:nowrap}
+#safeNote svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 64px);transform:translate(-50%,-10px);opacity:0;z-index:12;padding:9px 16px;border-radius:999px;font-size:13px;white-space:nowrap;
   background:rgba(11,13,26,.7);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px rgba(217,180,106,.35);transition:all .35s var(--ease);pointer-events:none}
 .toast.on{opacity:1;transform:translate(-50%,0)}
@@ -220,7 +233,7 @@ kbd{display:inline-block;min-width:20px;padding:2px 6px;margin-right:4px;border-
 <header id="top">
   <div class="brand">
     <div class="mk">付</div>
-    <div><b>タカラ付喪神</b><small>房間裡的日文妖怪</small></div>
+    <div><b>タカラ付喪神</b><small>身邊的日文妖怪</small></div>
   </div>
   <div class="pills">
     <button class="pill" id="autoBtn" title="自動唸出新發現的單字 (A)">
@@ -234,9 +247,20 @@ kbd{display:inline-block;min-width:20px;padding:2px 6px;margin-right:4px;border-
   </div>
 </header>
 
+<div class="seg" id="scene">
+  <button data-s="home"><svg class="i" viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5v8.5H4z"/><path d="M10 19.5v-5h4v5"/></svg>家裡</button>
+  <button data-s="shop"><svg class="i" viewBox="0 0 24 24"><path d="M4 9.5 5.5 5h13L20 9.5"/><path d="M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5.5 12v7.5h13V12M10 19.5v-4h4v4"/></svg>店裡</button>
+  <button data-s="street"><svg class="i" viewBox="0 0 24 24"><path d="M8 4 5 20M16 4l3 16M12 5v2.5M12 11v2.5M12 17v2.5"/></svg>街上</button>
+</div>
+
+<div class="safe" id="safe">
+  <svg viewBox="0 0 24 24"><path d="M12 3.5 2.5 20h19z"/><path d="M12 10v4.5M12 17.2v.3"/></svg>
+  <div><b>歩きスマホは危ないよ！</b><small>走路請看路，停下來再掃</small></div>
+</div>
+
 <div id="hint">
-  <p id="hintTxt">鏡頭慢慢掃過房間，點標籤聽付喪神說話</p>
-  <div class="keys"><span><kbd>空白</kbd>聽它說話</span><span><kbd>A</kbd>自動唸</span><span><kbd>B</kbd>圖鑑</span><span><kbd>V</kbd>單字本</span><span><kbd>Esc</kbd>關閉</span></div>
+  <p id="hintTxt">鏡頭慢慢掃過四周，點標籤聽付喪神說話</p>
+  <div class="keys"><span><kbd>空白</kbd>聽它說話</span><span><kbd>A</kbd>自動唸</span><span><kbd>B</kbd>圖鑑</span><span><kbd>V</kbd>單字本</span><span><kbd>S</kbd>換場景</span><span><kbd>Esc</kbd>關閉</span></div>
 </div>
 
 <div id="scrim"></div>
@@ -291,11 +315,12 @@ kbd{display:inline-block;min-width:20px;padding:2px 6px;margin-right:4px;border-
     <path d="M52 134v12M60 134v15M68 134v12" stroke="#d8452f" stroke-width="2" stroke-linecap="round"/>
   </svg>
   <h1>タカラ付喪神</h1>
-  <p class="lead">你房間裡的東西，其實都會說日文</p>
+  <p class="lead">身邊的東西，其實都會說日文</p>
   <button id="go">
     <svg class="i" viewBox="0 0 24 24"><path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.4"/></svg>
     <span id="goTxt">打開鏡頭，召喚付喪神</span>
   </button>
+  <p id="safeNote"><svg viewBox="0 0 24 24"><path d="M12 3.5 2.5 20h19z"/><path d="M12 10v4.5M12 17.2v.3"/></svg>走路時不要一直看手機，停下來再掃</p>
   <p id="err"></p>
   <p id="note">需要允許使用相機・iPhone 請用 Safari 開啟</p>
 </div>
@@ -305,7 +330,9 @@ kbd{display:inline-block;min-width:20px;padding:2px 6px;margin-right:4px;border-
 <script>
 /* ---------- 付喪神資料：k 漢字 / r 平假名 / zh 中文 / t 名號 / ja 台詞 / jz 台詞中文 ---------- */
 const DATA = {
-  "person":{k:"人間",r:"にんげん",zh:"人類",t:"部屋の付喪神たち",ja:"おや、人間だ。ここはわたしたちの部屋だよ。",jz:"喔，是人類。這裡是我們的房間喔。"},
+  "person@home":{k:"家族",r:"かぞく",zh:"家人",t:"家の付喪神たち",ja:"ご飯ができたよ。早く来ないと、冷めてしまうよ。",jz:"飯好了喔。不快點來就要涼掉了。"},
+  "person@shop":{k:"店員",r:"てんいん",zh:"店員",t:"お店の付喪神たち",ja:"いらっしゃいませ！ご注文はお決まりですか？",jz:"歡迎光臨！決定好要點什麼了嗎？"},
+  "person@street":{k:"通行人",r:"つうこうにん",zh:"路人",t:"町の付喪神たち",ja:"スマホを見ながら歩くと、ぶつかるよ！",jz:"邊看手機邊走路會撞到人喔！"},
   "cat":{k:"猫",r:"ねこ",zh:"貓",t:"猫又",ja:"わたしは猫又。しっぽが二本あるのは、ひみつだよ。",jz:"我是貓又。有兩條尾巴是秘密喔。"},
   "dog":{k:"犬",r:"いぬ",zh:"狗",t:"犬神",ja:"ワン！散歩に行かないなら、ひとりで行くよ。",jz:"汪！你不去散步，我就自己去了。"},
   "chair":{k:"椅子",r:"いす",zh:"椅子",ja:"今日はもう六時間すわっているよ。ちょっと立って！",jz:"你今天已經坐了六小時，站起來一下！"},
@@ -349,12 +376,49 @@ const DATA = {
   "toaster":{k:"トースター",r:"とーすたー",zh:"烤麵包機",ja:"パンをこがしたのは、わたしのせいじゃない。",jz:"麵包烤焦不是我的錯。"},
   "sink":{k:"流し",r:"ながし",zh:"水槽",ja:"お皿がたまっているよ。今日は洗おう。",jz:"碗盤堆起來了，今天洗一下吧。"},
   "refrigerator":{k:"冷蔵庫",r:"れいぞうこ",zh:"冰箱",ja:"開けて、何も取らないで閉めるの、やめて。",jz:"不要打開又什麼都沒拿就關上。"},
-  "toilet":{k:"トイレ",r:"といれ",zh:"馬桶",ja:"すわる前に、紙があるか確認してね。",jz:"坐下前先確認有沒有衛生紙喔。"}
+  "toilet":{k:"トイレ",r:"といれ",zh:"馬桶",ja:"すわる前に、紙があるか確認してね。",jz:"坐下前先確認有沒有衛生紙喔。"},
+  "car":{k:"車",r:"くるま",zh:"汽車",ja:"ガソリンが足りないよ。早く入れて！",jz:"油不夠了，快去加！"},
+  "motorcycle":{k:"バイク",r:"ばいく",zh:"機車",ja:"台湾には、わたしの仲間が多すぎるよ。",jz:"台灣我的同伴也太多了吧。"},
+  "airplane":{k:"飛行機",r:"ひこうき",zh:"飛機",ja:"日本まで三時間で行けるよ。乗っていく？",jz:"三小時就能到日本喔，要搭嗎？"},
+  "bus":{k:"バス",r:"ばす",zh:"公車",ja:"走らなくてもいいよ。次のバスはもうすぐ来るから。",jz:"不用跑啦，下一班馬上就來。"},
+  "train":{k:"電車",r:"でんしゃ",zh:"電車",ja:"急いで！ドアが閉まりますよ。",jz:"快點！車門要關了。"},
+  "truck":{k:"トラック",r:"とらっく",zh:"卡車",ja:"重い荷物は、わたしにまかせて。",jz:"重的東西交給我。"},
+  "boat":{k:"船",r:"ふね",zh:"船",ja:"わたしに乗ると、気分が悪くなるかもしれないよ。",jz:"搭我的話，可能會不舒服喔。"},
+  "traffic light":{k:"信号",r:"しんごう",zh:"紅綠燈",ja:"赤の時は、止まらなければなりませんよ。",jz:"紅燈時一定要停下來喔。"},
+  "fire hydrant":{k:"消火栓",r:"しょうかせん",zh:"消防栓",ja:"火事の時は、わたしががんばるよ！",jz:"火災的時候我會努力的！"},
+  "stop sign":{k:"止まれ",r:"とまれ",zh:"停止標誌",ja:"わたしを見たら、止まってください。",jz:"看到我就請停下來。"},
+  "parking meter":{k:"メーター",r:"めーたー",zh:"停車收費器",ja:"時間が過ぎたら、お金を払わなければならないよ。",jz:"時間過了就得付錢喔。"},
+  "bench":{k:"ベンチ",r:"べんち",zh:"長椅",ja:"歩き疲れた？ちょっと座っていってね。",jz:"走累了嗎？坐一下再走吧。"},
+  "bird":{k:"鳥",r:"とり",zh:"鳥",ja:"わたしは空を飛べるけど、宿題はできないよ。",jz:"我會飛，但不會寫作業。"},
+  "horse":{k:"馬",r:"うま",zh:"馬",ja:"人参をくれたら、乗せてあげるよ。",jz:"給我紅蘿蔔就讓你騎。"},
+  "sheep":{k:"羊",r:"ひつじ",zh:"羊",ja:"わたしを数えると、よく眠れるよ。一匹、二匹…",jz:"數我的話會好睡喔。一隻、兩隻…"},
+  "cow":{k:"牛",r:"うし",zh:"牛",ja:"毎日牛乳を飲んでいる？わたしのおかげだよ。",jz:"每天有喝牛奶嗎？是託我的福喔。"},
+  "elephant":{k:"象",r:"ぞう",zh:"大象",ja:"鼻が長いのは、生まれた時からです。",jz:"鼻子長是從出生就這樣了。"},
+  "bear":{k:"熊",r:"くま",zh:"熊",ja:"森で会ったら、静かに逃げてください。",jz:"在森林遇到我的話，請安靜地逃走。"},
+  "zebra":{k:"シマウマ",r:"しまうま",zh:"斑馬",ja:"白と黒、どちらが本当の色か、わたしも知らない。",jz:"白色和黑色哪個才是真的，我也不知道。"},
+  "giraffe":{k:"キリン",r:"きりん",zh:"長頸鹿",ja:"高いところの物なら、取ってあげるよ。",jz:"高處的東西我幫你拿。"},
+  "frisbee":{k:"フリスビー",r:"ふりすびー",zh:"飛盤",ja:"わたしを投げたら、犬が追いかけてくるよ。",jz:"丟出我的話，狗會追過來喔。"},
+  "skis":{k:"スキー",r:"すきー",zh:"滑雪板",ja:"雪の国へ行きたいなあ。北海道とか。",jz:"好想去下雪的地方喔，像北海道。"},
+  "snowboard":{k:"スノボ",r:"すのぼ",zh:"單板滑雪",ja:"転んでも大丈夫。雪はやわらかいから。",jz:"跌倒也沒關係，雪很軟。"},
+  "kite":{k:"凧",r:"たこ",zh:"風箏",ja:"風が強い日は、わたしの出番だよ！",jz:"風大的日子就輪到我上場！"},
+  "baseball bat":{k:"バット",r:"ばっと",zh:"球棒",ja:"ホームランを打ちたい？まず練習しよう。",jz:"想打全壘打？先練習吧。"},
+  "baseball glove":{k:"グローブ",r:"ぐろーぶ",zh:"棒球手套",ja:"ボールは全部、わたしが受けるよ。",jz:"球全部由我來接。"},
+  "skateboard":{k:"スケボー",r:"すけぼー",zh:"滑板",ja:"転ばないように、気をつけてね。",jz:"小心不要跌倒喔。"},
+  "surfboard":{k:"サーフボード",r:"さーふぼーど",zh:"衝浪板",ja:"大きい波が来たよ！準備はできた？",jz:"大浪來了！準備好了嗎？"},
+  "tennis racket":{k:"ラケット",r:"らけっと",zh:"網球拍",ja:"わたしを使う前に、準備運動をしてね。",jz:"用我之前先做暖身運動。"},
+  "sandwich":{k:"サンドイッチ",r:"さんどいっち",zh:"三明治",ja:"急いでいる朝は、わたしを食べてね。",jz:"趕時間的早上就吃我吧。"},
+  "broccoli":{k:"ブロッコリー",r:"ぶろっこりー",zh:"花椰菜",ja:"わたしは小さい木じゃないよ。野菜だよ！",jz:"我不是小樹，是蔬菜！"},
+  "carrot":{k:"人参",r:"にんじん",zh:"紅蘿蔔",ja:"馬はわたしが大好き。あなたは？",jz:"馬超愛我的。你呢？"},
+  "hot dog":{k:"ホットドッグ",r:"ほっとどっぐ",zh:"熱狗",ja:"わたしは犬じゃないよ。…たぶん。",jz:"我不是狗喔。…大概吧。"},
+  "pizza":{k:"ピザ",r:"ぴざ",zh:"披薩",ja:"パイナップルをのせるかどうかで、けんかしないでね。",jz:"不要為了加不加鳳梨吵架喔。"},
+  "donut":{k:"ドーナツ",r:"どーなつ",zh:"甜甜圈",ja:"真ん中の穴は、カロリーゼロだよ。",jz:"中間的洞是零卡喔。"}
 };
 const KEYS = Object.keys(DATA);
 /* N4 相關單字：[漢字, 讀音, 中文] */
 const WORDS = {
-  "person":[["会う","あう","見面"],["紹介","しょうかい","介紹"],["優しい","やさしい","溫柔"]],
+  "person@home":[["手伝う","てつだう","幫忙"],["両親","りょうしん","父母"],["留守","るす","不在家"]],
+  "person@shop":[["注文","ちゅうもん","點餐"],["お会計","おかいけい","結帳"],["おすすめ","おすすめ","推薦"],["込む","こむ","擁擠"]],
+  "person@street":[["交差点","こうさてん","十字路口"],["案内","あんない","帶路"],["近所","きんじょ","附近"],["会う","あう","見面"]],
   "cat":[["飼う","かう","飼養"],["眠る","ねむる","睡覺"],["触る","さわる","摸"]],
   "dog":[["連れて行く","つれていく","帶去"],["喜ぶ","よろこぶ","高興"],["世話","せわ","照顧"]],
   "chair":[["座る","すわる","坐"],["壊れる","こわれる","壞掉"],["動かす","うごかす","移動"]],
@@ -364,8 +428,8 @@ const WORDS = {
   "potted plant":[["育てる","そだてる","培養"],["植える","うえる","種植"],["葉","は","葉子"]],
   "tv":[["番組","ばんぐみ","節目"],["放送","ほうそう","播放"],["映る","うつる","映出"]],
   "laptop":[["調べる","しらべる","查詢"],["送る","おくる","寄送"],["失敗","しっぱい","失敗"]],
-  "keyboard":[["打つ","うつ","打"],["間違える","まちがえる","弄錯"],["字","じ","字"]],
-  "mouse":[["選ぶ","えらぶ","選擇"],["押す","おす","按"],["止まる","とまる","停止"]],
+  "keyboard":[["間違える","まちがえる","弄錯"],["字","じ","字"],["指","ゆび","手指"]],
+  "mouse":[["選ぶ","えらぶ","選擇"],["押す","おす","按"],["動く","うごく","動"]],
   "remote":[["探す","さがす","找"],["見つかる","みつかる","找到"],["失くす","なくす","弄丟"]],
   "cell phone":[["連絡","れんらく","聯絡"],["返事","へんじ","回覆"],["落とす","おとす","掉落"]],
   "book":[["小説","しょうせつ","小說"],["返す","かえす","歸還"],["興味","きょうみ","興趣"]],
@@ -380,7 +444,7 @@ const WORDS = {
   "suitcase":[["空港","くうこう","機場"],["予約","よやく","預約"],["出発","しゅっぱつ","出發"]],
   "umbrella":[["天気予報","てんきよほう","天氣預報"],["止む","やむ","（雨）停"],["貸す","かす","借出"]],
   "tie":[["締める","しめる","繫"],["会議","かいぎ","會議"],["社長","しゃちょう","社長"]],
-  "sports ball":[["投げる","なげる","丟"],["試合","しあい","比賽"],["勝つ","かつ","贏"]],
+  "sports ball":[["試合","しあい","比賽"],["勝つ","かつ","贏"],["負ける","まける","輸"]],
   "bicycle":[["止める","とめる","停放"],["途中","とちゅう","途中"],["交通","こうつう","交通"]],
   "bottle":[["足りる","たりる","足夠"],["運ぶ","はこぶ","搬運"],["水道","すいどう","自來水"]],
   "wine glass":[["酔う","よう","喝醉"],["気分","きぶん","心情"],["大人","おとな","大人"]],
@@ -398,7 +462,42 @@ const WORDS = {
   "toaster":[["朝ご飯","あさごはん","早餐"],["匂い","におい","味道"],["毎朝","まいあさ","每天早上"]],
   "sink":[["皿","さら","盤子"],["洗う","あらう","洗"],["汚れる","よごれる","弄髒"]],
   "refrigerator":[["冷やす","ひやす","冰鎮"],["冷たい","つめたい","冰的"],["牛乳","ぎゅうにゅう","牛奶"]],
-  "toilet":[["紙","かみ","紙"],["流す","ながす","沖"],["掃除","そうじ","打掃"]]
+  "toilet":[["紙","かみ","紙"],["流す","ながす","沖"],["掃除","そうじ","打掃"]],
+  "car":[["運転","うんてん","開車"],["駐車場","ちゅうしゃじょう","停車場"],["事故","じこ","事故"]],
+  "motorcycle":[["乗せる","のせる","載"],["危ない","あぶない","危險"],["遠く","とおく","遠處"]],
+  "airplane":[["飛ぶ","とぶ","飛"],["席","せき","座位"],["着く","つく","抵達"]],
+  "bus":[["乗り換える","のりかえる","轉乘"],["降りる","おりる","下車"],["込む","こむ","擁擠"]],
+  "train":[["閉まる","しまる","關上"],["特急","とっきゅう","特快車"],["駅","えき","車站"]],
+  "truck":[["引っ越し","ひっこし","搬家"],["運転手","うんてんしゅ","司機"],["大きな","おおきな","大的"]],
+  "boat":[["港","みなと","港口"],["島","しま","島"],["海","うみ","海"]],
+  "traffic light":[["渡る","わたる","過（馬路）"],["規則","きそく","規則"],["青","あお","綠燈／藍"]],
+  "fire hydrant":[["火事","かじ","火災"],["燃える","もえる","燃燒"],["安全","あんぜん","安全"]],
+  "stop sign":[["止まる","とまる","停下"],["確かめる","たしかめる","確認"],["必ず","かならず","一定"]],
+  "parking meter":[["払う","はらう","付錢"],["料金","りょうきん","費用"],["過ぎる","すぎる","超過"]],
+  "bench":[["公園","こうえん","公園"],["景色","けしき","風景"],["疲れる","つかれる","累"]],
+  "bird":[["空","そら","天空"],["森","もり","森林"],["鳴く","なく","鳴叫"]],
+  "horse":[["背中","せなか","背"],["速い","はやい","快"],["競争","きょうそう","競爭"]],
+  "sheep":[["数える","かぞえる","數"],["毛","け","毛"],["暖かい","あたたかい","溫暖"]],
+  "cow":[["田舎","いなか","鄉下"],["育つ","そだつ","長大"],["草","くさ","草"]],
+  "elephant":[["動物園","どうぶつえん","動物園"],["生まれる","うまれる","出生"],["力","ちから","力量"]],
+  "bear":[["逃げる","にげる","逃跑"],["静か","しずか","安靜"],["驚く","おどろく","嚇一跳"]],
+  "zebra":[["線","せん","線條"],["似る","にる","相像"],["珍しい","めずらしい","稀奇"]],
+  "giraffe":[["首","くび","脖子"],["届く","とどく","搆到"],["背","せ","身高"]],
+  "frisbee":[["投げる","なげる","丟"],["追いかける","おいかける","追"],["拾う","ひろう","撿"]],
+  "skis":[["雪","ゆき","雪"],["滑る","すべる","滑"],["寒い","さむい","冷"]],
+  "snowboard":[["転ぶ","ころぶ","跌倒"],["上手","じょうず","厲害"],["経験","けいけん","經驗"]],
+  "kite":[["糸","いと","線"],["強い","つよい","強"],["引く","ひく","拉"]],
+  "baseball bat":[["打つ","うつ","打"],["野球","やきゅう","棒球"],["練習","れんしゅう","練習"]],
+  "baseball glove":[["受ける","うける","接"],["捕まえる","つかまえる","抓住"],["選手","せんしゅ","選手"]],
+  "skateboard":[["坂","さか","坡道"],["曲がる","まがる","轉彎"],["危険","きけん","危險"]],
+  "surfboard":[["海岸","かいがん","海岸"],["泳ぐ","およぐ","游泳"],["浅い","あさい","淺"]],
+  "tennis racket":[["運動","うんどう","運動"],["汗","あせ","汗"],["続ける","つづける","持續"]],
+  "sandwich":[["簡単","かんたん","簡單"],["弁当","べんとう","便當"],["昼ご飯","ひるごはん","午餐"]],
+  "broccoli":[["野菜","やさい","蔬菜"],["残す","のこす","剩下（不吃）"],["嫌い","きらい","討厭"]],
+  "carrot":[["細い","ほそい","細"],["甘い","あまい","甜"],["畑","はたけ","田地"]],
+  "hot dog":[["売る","うる","賣"],["祭り","まつり","祭典"],["並ぶ","ならぶ","排隊"]],
+  "pizza":[["届ける","とどける","送達"],["分ける","わける","分"],["頼む","たのむ","點（餐）／拜託"]],
+  "donut":[["穴","あな","洞"],["真ん中","まんなか","正中間"],["お菓子","おかし","點心"]]
 };
 const ALL_WORDS = new Set(Object.values(WORDS).flat().map(w=>w[0]));
 const $ = s => document.querySelector(s);
@@ -407,6 +506,9 @@ const $ = s => document.querySelector(s);
 let model=null, video=$("#cam"), running=false, mirror=false;
 let autoSpeak=true, lastAuto=0, current=null, lastTouched=null;
 const tags=new Map(), seenSession=new Set();
+let scene="home";
+try{const sc=localStorage.getItem("tsukumo-scene");if(["home","shop","street"].includes(sc))scene=sc}catch(e){}
+const SCENE_ZH={home:"家裡",shop:"店裡",street:"街上"};
 let found=new Set();
 try{found=new Set(JSON.parse(localStorage.getItem("tsukumo-found")||"[]"))}catch(e){}
 try{const a=localStorage.getItem("tsukumo-auto"); if(a!==null) autoSpeak=a==="1"}catch(e){}
@@ -524,16 +626,20 @@ function makeTag(key){
 
 function render(preds){
   const now=performance.now(),best=new Map();
-  for(const p of preds){ if(!DATA[p.class])continue; const b=best.get(p.class); if(!b||p.score>b.score)best.set(p.class,p) }
-  for(const [key,p] of best){
+  for(const p of preds){ const k=p.class==="person"?"person@"+scene:p.class; if(!DATA[k])continue; const b=best.get(k); if(!b||p.score>b.score)best.set(k,p) }
+  const TOP=$("#scene").getBoundingClientRect().bottom+10, BOT=innerHeight-110, placed=[];
+  for(const [key,p] of [...best].sort((a,b)=>b[1].score-a[1].score)){
     const o=tags.get(key)||makeTag(key);
     const {X,Y,W,H}=mapBox(p.bbox);
     o.box.style.transform=`translate(${X}px,${Y}px)`;o.box.style.width=W+"px";o.box.style.height=H+"px";
     // 標籤放在框上緣中央，限制在畫面內
     const tw=o.tag.offsetWidth||150,th=o.tag.offsetHeight||48;
     let tx=X+W/2-tw/2, ty=Y-th-10;
-    if(ty<90) ty=Math.min(Y+12,innerHeight-th-120);
+    if(ty<TOP) ty=Y+12;
     tx=Math.max(10,Math.min(innerWidth-tw-10,tx));
+    // 自動錯開：跟已放好的標籤重疊就往下移
+    for(let n=0;n<6;n++){const h=placed.find(r=>tx<r.x+r.w+6&&tx+tw+6>r.x&&ty<r.y+r.h+6&&ty+th+6>r.y);if(!h)break;ty=h.y+h.h+8}
+    ty=Math.max(TOP,Math.min(BOT-th,ty));placed.push({x:tx,y:ty,w:tw,h:th});
     const t=`translate(${tx}px,${ty}px)`;o.tag.style.setProperty("--t",t);o.tag.style.transform=t;
     o.box.classList.add("on");o.tag.classList.add("on");o.last=now;lastTouched=key;
     if(!seenSession.has(key)){
@@ -553,7 +659,7 @@ function openCard(key){
   $("#cWho").textContent=d.t||`${d.k}の付喪神`;
   $("#cYo").innerHTML=yoSVG(key,"gc");
   $("#card").classList.remove("talking");
-  $("#cK").textContent=d.k;$("#cK").className="k jp"+(d.k.length>=5?" l":d.k.length>=3?" m":"");$("#cR").textContent=d.r;$("#cZ").textContent=d.zh;
+  $("#cK").textContent=d.k;$("#cK").className="k jp"+(d.k.length>=6?" xl":d.k.length>=5?" l":d.k.length>=3?" m":"");$("#cR").textContent=d.r;$("#cZ").textContent=d.zh;
   $("#cQ").innerHTML=d.ja.split(/(?<=[。、！？…])/).map(c=>`<span class="cl">${c}</span>`).join("");$("#cQz").textContent=d.jz;
   $("#cW").innerHTML=(WORDS[key]||[]).map((w,i)=>`<button class="chip" data-i="${i}"><b class="jp${w[0].length>=4?" l":""}">${w[0]}</b><span class="rz"><i class="jp">${w[1]}</i><span>${w[2]}</span></span><kbd>${i+1}</kbd></button>`).join("");
   $("#cW").querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>sayChip(key,+c.dataset.i)));
@@ -608,6 +714,26 @@ function renderWords(){
 $("#autoBtn").addEventListener("click",toggleAuto);
 function toggleAuto(){autoSpeak=!autoSpeak;try{localStorage.setItem("tsukumo-auto",autoSpeak?"1":"0")}catch(e){}refreshAuto();toast(autoSpeak?"新發現的單字會自動唸出來":"已關閉自動唸")}
 
+/* ---------- 場景 ---------- */
+function setScene(sc,quiet){
+  scene=sc;try{localStorage.setItem("tsukumo-scene",sc)}catch(e){}
+  document.querySelectorAll("#scene button").forEach(b=>b.classList.toggle("on",b.dataset.s===sc));
+  if(!quiet){const d=DATA["person@"+sc];toast(`場景：${SCENE_ZH[sc]}・人會變成「${d.k}」`);if(sc==="street")setTimeout(safety,900)}
+}
+document.querySelectorAll("#scene button").forEach(b=>b.addEventListener("click",()=>setScene(b.dataset.s)));
+setScene(scene,true);
+function cycleScene(){const a=["home","shop","street"];setScene(a[(a.indexOf(scene)+1)%3])}
+
+/* ---------- 走路安全提醒：每 3 分鐘一次 ---------- */
+let safeT;
+function safety(){
+  if(!running)return;
+  const el=$("#safe");el.classList.add("on");navigator.vibrate?.([40,60,40]);
+  if(autoSpeak&&!current)say("歩きスマホは危ないよ！");
+  clearTimeout(safeT);safeT=setTimeout(()=>el.classList.remove("on"),5000);
+}
+setInterval(()=>{if(running&&!document.hidden)safety()},180000);
+
 /* ---------- 快捷鍵 ---------- */
 addEventListener("keydown",e=>{
   if($("#start").classList.contains("out")===false && e.key!=="Enter")return;
@@ -615,6 +741,7 @@ addEventListener("keydown",e=>{
   if(e.code==="Space"){e.preventDefault(); if(current)say(DATA[current].ja,current); else if(lastTouched&&tags.get(lastTouched)?.tag.classList.contains("on"))openCard(lastTouched)}
   else if(k==="w"&&current)say(DATA[current].r,current);
   else if(k==="a")toggleAuto();
+  else if(k==="s")cycleScene();
   else if(/^[1-4]$/.test(k)&&current)sayChip(current,+k-1);
   else if(k==="b")($("#dex").classList.contains("on")&&dexTab==="yo"?closeSheet("#dex"):openDex("yo"));
   else if(k==="v")($("#dex").classList.contains("on")&&dexTab==="wd"?closeSheet("#dex"):openDex("wd"));
