@@ -404,7 +404,7 @@ ol.sp{padding-left:20px}
     <li>登入後按「Create API key」，複製金鑰</li>
     <li>貼到下面，按儲存</li>
   </ol>
-  <input id="keyIn" type="password" autocomplete="off" placeholder="貼上金鑰（AIza 開頭）">
+  <input id="keyIn" type="password" autocomplete="off" placeholder="貼上金鑰">
   <p class="sp small">金鑰只存在這支手機的瀏覽器裡，不會上傳到別的地方。畫面會傳到 Google 來辨識。</p>
   <div class="acts">
     <button class="btn ghost" id="keyClear">清除金鑰</button>
@@ -1153,7 +1153,8 @@ async function askAI(){
   guide("我看看喔…這是什麼呢？");
   try{
     const img=grabCenter();let res;
-    try{res=await gemini("gemini-flash-latest",img)}catch(e){if(e.status===404)res=await gemini("gemini-2.5-flash",img);else throw e}
+    // 先用快的 lite 版，忙碌或找不到時換另一個
+    try{res=await gemini("gemini-flash-lite-latest",img)}catch(e){if([404,429,500,503].includes(e.status))res=await gemini("gemini-flash-latest",img);else throw e}
     if(!res.k){guide("看不太出來耶，靠近一點再試一次");return}
     const w=(res.w||[]).filter(x=>Array.isArray(x)&&x.length>=3).slice(0,5).map(x=>x.slice(0,3));
     let e=AI.find(a=>a.k===res.k);
@@ -1163,7 +1164,7 @@ async function askAI(){
     openCard(e.key);
   }catch(err){
     const m=String(err.message||"");
-    guide(err.status===400&&/API key/i.test(m)||err.status===403?"金鑰好像不對，請重新設定":err.status===429?"今天問太多次了，等一下再試":"查詢失敗，請確認網路後再試");
+    guide(err.status===400&&/API key/i.test(m)||err.status===403?"金鑰好像不對，請重新設定":err.status===429?"問太多次了，等一下再試":err.status===503?"AI 現在很忙，等幾秒再試一次":"查詢失敗，請確認網路後再試");
     if(err.status===400&&/API key/i.test(m)||err.status===403)setTimeout(openKeySheet,800);
   }finally{asking=false;aim.classList.remove("on","scan");btn.classList.remove("busy")}
 }
