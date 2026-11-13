@@ -43,7 +43,6 @@ kbd{display:none;min-width:17px;padding:1px 5px;border-radius:5px;background:#4a
 /* 相機 */
 video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;background:#1c1916}
 video.mirror{transform:scaleX(-1)}
-#edge{position:fixed;inset:0;pointer-events:none;z-index:3;box-shadow:inset 0 0 0 7px #efe7d8,inset 0 0 0 10px var(--ink2),inset 0 0 60px 20px rgba(40,32,24,.45)}
 #labels{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:2}
 
 /* 偵測框（橘色角括） */
@@ -96,13 +95,12 @@ video.mirror{transform:scaleX(-1)}
 #scene kbd{align-self:center;margin:0 4px}
 
 /* 幽猫導覽 */
-#guide{position:fixed;left:18px;right:18px;bottom:calc(env(safe-area-inset-bottom) + 108px);z-index:5;max-width:440px;margin:0 auto;display:flex;align-items:center;gap:6px;min-height:58px;padding:8px 34px 8px 74px;border-radius:18px;transition:transform .4s var(--spring)}
+#guide{position:fixed;left:18px;right:18px;bottom:calc(env(safe-area-inset-bottom) + 108px);z-index:5;max-width:440px;margin:0 auto;display:flex;align-items:center;gap:6px;min-height:58px;padding:8px 18px 8px 74px;border-radius:18px;box-shadow:0 10px 24px rgba(20,14,8,.32);transition:transform .4s var(--spring)}
 #guide .cat{position:absolute;left:-6px;bottom:-4px;width:76px;filter:drop-shadow(0 4px 6px rgba(20,14,8,.3))}
 #guide.say .cat{animation:talk .3s ease-in-out 4 alternate}
 #guide.bump{transform:scale(1.03)}
 #gTxt{font-size:15px;font-weight:700;line-height:1.45;text-wrap:balance}
 #gTxt em{font-style:normal;color:var(--shu)}
-#guide .tri{position:absolute;right:14px;bottom:12px;width:0;height:0;border:6px solid transparent;border-top:8px solid var(--ink2);animation:blink 1.2s ease-in-out infinite}
 @keyframes blink{50%{transform:translateY(3px);opacity:.4}}
 
 /* 底部操作列 */
@@ -271,7 +269,6 @@ body.japan .jpb{display:flex}
 
 <video id="cam" playsinline muted autoplay></video>
 <div id="labels"></div>
-<div id="edge"></div>
 
 <header id="top">
   <div class="brand paper frame"><b class="brush">付喪神</b><span class="seal">タカラ</span></div>
@@ -294,10 +291,9 @@ body.japan .jpb{display:flex}
   <div><b class="jp">歩きスマホは危ないよ！</b><small>走路請看路，停下來再掃</small></div>
 </div>
 
-<div id="guide" class="paper frame">
-  <img class="cat" src="ghosts/yuneko.webp" alt="">
+<div id="guide" class="paper">
+  <img class="cat" src="ghosts/yuneko-s.webp" alt="">
   <p id="gTxt">鏡頭慢慢掃過四周，點妖怪聽它說日文！</p>
-  <span class="tri"></span>
 </div>
 
 <nav id="ctrl">
@@ -592,6 +588,7 @@ const isJP = k => k.startsWith("jp:");
 const JKEYS = Object.keys(DATA).filter(isJP).sort((a,b)=>Object.keys(GROUP).indexOf(GH[a])-Object.keys(GROUP).indexOf(GH[b]));
 const KEYS = Object.keys(DATA).filter(k=>!isJP(k)).sort((a,b)=>Object.keys(GROUP).indexOf(GH[a])-Object.keys(GROUP).indexOf(GH[b]));
 const sprURL = k => `ghosts/${GH[k]}.webp`;
+const avURL = k => `ghosts/${GH[k]}-s.webp`;
 const $ = s => document.querySelector(s);
 
 /* ---------- 狀態 ---------- */
@@ -707,7 +704,7 @@ function makeTag(key){
   const box=document.createElement("div");box.className="box";
   const el=document.createElement("button");el.className="yk";
   const jpx=key.startsWith("jp:");if(jpx)el.classList.add("jpx");
-  el.innerHTML=`<span class="tag">${jpx?'<span class="lim">日本限定</span>':""}<img class="av" src="${sprURL(key)}" alt=""><span class="k jp">${d.k}</span><span class="sub"><span class="r jp">${d.r}</span><span class="z">${d.zh}</span></span>${found.has(key)?"":'<span class="bub">!</span>'}</span>`;
+  el.innerHTML=`<span class="tag">${jpx?'<span class="lim">日本限定</span>':""}<img class="av" src="${avURL(key)}" alt=""><span class="k jp">${d.k}</span><span class="sub"><span class="r jp">${d.r}</span><span class="z">${d.zh}</span></span>${found.has(key)?"":'<span class="bub">!</span>'}</span>`;
   el.addEventListener("click",e=>{e.stopPropagation();openCard(key)});
   $("#labels").append(box,el);
   const o={box,el,last:0};tags.set(key,o);return o;
@@ -885,7 +882,7 @@ async function takePhoto(){
     const tg=o.el.querySelector(".tag").getBoundingClientRect(),av=o.el.querySelector(".av").getBoundingClientRect(),kr=o.el.querySelector(".k").getBoundingClientRect();
     c.fillStyle="rgba(52,47,43,.88)";rr(c,tg.x,tg.y,tg.width,tg.height,tg.height/2);c.fill();
     c.strokeStyle=key.startsWith("jp:")?"#c4432f":"rgba(251,247,239,.7)";c.lineWidth=key.startsWith("jp:")?2:1.5;c.stroke();
-    const im=await loadImg(sprURL(key));
+    const im=await loadImg(avURL(key));
     if(im){c.save();c.shadowColor="rgba(20,14,8,.35)";c.shadowBlur=5;c.shadowOffsetY=3;c.drawImage(im,av.x,av.y,av.width,av.height);c.restore()}
     const d=DATA[key];c.textBaseline="middle";
     c.fillStyle="#f5eee2";c.font='700 19px "Noto Serif JP",serif';c.fillText(d.k,kr.x,tg.y+tg.height/2);
