@@ -1992,7 +1992,7 @@ function scoreOf(r){if(r.score!=null)return r.score;let miss=r.miss||0;
 const cmt=v=>v>=90?'肉吉桑感動到哭':v>=75?'殭師父點頭了':v>=60?'客戶說：再改一版就好':'肉吉桑沉默了三秒';
 const scoreBox=v=>'<div class="score-big'+(v<PASS?' bad':'')+'"><b>'+v+'</b><small>分</small>'+(v<PASS?'<span class="stamp">不及格</span>':'')+'</div><p class="score-cmt">'+cmt(v)+'</p>';
 function startLevel(c){S._kuai=0;S.round=0;top();G[c.game](r1=>mid(r1,c))}
-function vitPop(){const d=document.createElement('div');d.className='vitpop';d.innerHTML='<div class="vp-in"><canvas width="288" height="288" aria-hidden="true"></canvas><h2>維他命發動！</h2><p>先跟體力談判成功。<br>血色回到 30。</p><small>點一下繼續</small></div>';document.body.appendChild(d);ART.icon(d.querySelector('canvas').getContext('2d'),'vit',16,16,256);window.SND&&SND.sfx('good');d.onclick=()=>{d.classList.add('out');setTimeout(()=>d.remove(),250)}}
+function vitPop(){const d=document.createElement('div');d.className='vitpop';d.innerHTML='<div class="vp-in px modal-card"><canvas width="288" height="288" aria-hidden="true"></canvas><h2>維他命發動！</h2><p>先跟體力談判成功。<br>血色回到 30。</p><small>點一下繼續</small></div>';document.body.appendChild(d);ART.icon(d.querySelector('canvas').getContext('2d'),'vit',16,16,256);window.SND&&SND.sfx('good');d.onclick=()=>{d.classList.add('out');setTimeout(()=>d.remove(),250)}}
 let filmRaf=0;
 function heroCat(cv,st){const c=cv.getContext('2d');c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,cv.width,cv.height);ART.cat(c,cv.width/2,cv.height/2+58*cv.width/160,cv.width/125,Object.assign(ART.look.me(),{stage:st,pose:st===0?null:[null,0,3,5][st]}))}
 
@@ -2289,7 +2289,7 @@ function ending(){
   '<p>'+(flaws.length?'這支影片的小缺點：'+flaws.join('、')+'。':'這支影片沒有明顯缺點。肉吉桑哭了。')+'</p>'+
   '<p class="howto">剪輯其實沒那麼可怕：先整理、再挑選、排順序、抓時機、加字幕、調顏色。照這個順序，你也能做出一支影片。</p>'+
   '<div class="end-btns"><button class="talisman" id="dex2">成就圖鑑（'+achCount()+'）</button><button class="talisman big" id="rp">再剪一次</button></div></div>';
-  heroCat($('#hc'),3);radar($('#rd'),sc);if(godNew)setTimeout(()=>{const d=document.createElement('div');d.className='vitpop';d.innerHTML='<div class="vp-in"><h2>隱藏成就解鎖！</h2><p><b style="color:#f2b24c;font-size:22px">'+GOD[1]+'</b><br>'+GOD[2]+'</p><small>點一下繼續</small></div>';document.body.appendChild(d);window.SND&&SND.sfx('fanfare');d.onclick=()=>d.remove()},1200);$('#dex2').onclick=showDex;
+  heroCat($('#hc'),3);radar($('#rd'),sc);if(godNew)setTimeout(()=>{const d=document.createElement('div');d.className='vitpop';d.innerHTML='<div class="vp-in px modal-card"><h2>隱藏成就解鎖！</h2><p><b style="color:#f2b24c;font-size:22px">'+GOD[1]+'</b><br>'+GOD[2]+'</p><small>點一下繼續</small></div>';document.body.appendChild(d);window.SND&&SND.sfx('fanfare');d.onclick=()=>d.remove()},1200);$('#dex2').onclick=showDex;
   const fc=$('#fc');if(sc[5]<60)fc.style.filter='sepia(1) saturate(2.2) brightness(.7)';
   function play(){cancelAnimationFrame(filmRaf);const t0=performance.now(),D=ART.FILM_D;let fan=false;window.SND&&SND.music('film',true);
     const loop=ts=>{if(!$('#fc')){window.SND&&SND.music('cute');return}const t=Math.min(D-0.01,(ts-t0)/1000);ART.film(fc,t,fl);$('#fb').style.width=(t/D*100)+'%';
@@ -2381,4 +2381,23 @@ body::after{content:'';position:fixed;left:0;right:0;bottom:0;height:64px;z-inde
 .result{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAA00lEQVR42u3bMRLDIAxEUU6XKqfN0XyCVGmonHEcWOntDMNQmv0IsMQYREQ/1PF6Pv45pq4kUJqzV3tkVCGD85y9p48iowTOu5AgJnRxOoqMksfgFBIiJm1r51PX/FISVl+IkJAW/Tk/9Z8WS8aq5VLyo0ruBu2dn9f4t+PtJq3FVXgHEmJjAOdPOj83MaDbOaBsDHAO6LYbuAu4C/gT1JuEEtE/NSvcKi/AeblBGaPseoHIwicxYIOYMFSOqBvkPBK8FOF0r/cDSEAKZzmPBKLb9QYhWYWdowjYngAAAABJRU5ErkJggg==)!important;background-size:min(100%,440px) auto!important;background-repeat:no-repeat!important;background-position:center 30px!important;image-rendering:pixelated}
 .cheer{background:rgba(20,16,28,.96) url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAA00lEQVR42u3bMRLDIAxEUU6XKqfN0XyCVGmonHEcWOntDMNQmv0IsMQYREQ/1PF6Pv45pq4kUJqzV3tkVCGD85y9p48iowTOu5AgJnRxOoqMksfgFBIiJm1r51PX/FISVl+IkJAW/Tk/9Z8WS8aq5VLyo0ruBu2dn9f4t+PtJq3FVXgHEmJjAOdPOj83MaDbOaBsDHAO6LYbuAu4C/gT1JuEEtE/NSvcKi/AeblBGaPseoHIwicxYIOYMFSOqBvkPBK8FOF0r/cDSEAKZzmPBKLb9QYhWYWdowjYngAAAABJRU5ErkJggg==) center/min(120vw,700px) no-repeat!important;image-rendering:pixelated}
 </style><style>.cast .illu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:6;image-rendering:auto}.cast.hasill canvas#cl,.cast.hasill canvas#cr{visibility:hidden!important}</style>
+<style id="design-spec">
+/* ===== 設計規格（統一版，放最後，蓋過前面各版殘留的樣式）=====
+   顏色：金 #f2b24c（標題、主按鈕）／青 #5fb8a8（次按鈕）／框線 #b08a5a／面板深紫／文字米白
+   外框：所有面板、彈窗都用同一種像素切角框 */
+:root{--ds-gold:#f2b24c;--ds-line:#b08a5a;--ds-panel:rgba(28,23,38,.96);--ds-text:#f6ecd6;--ds-sub:#ddcfb2}
+/* 彈窗背景：統一深色＋模糊，不再透出後面的畫面 */
+.modal,.vitpop{background:rgba(14,11,20,.82)!important;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+/* 彈窗外框：維他命等彈窗改成跟其他面板一樣 */
+.vp-in{background:var(--ds-panel)!important;box-shadow:0 5px 0 rgba(8,6,12,.28)!important}
+.modal-card{background-color:var(--ds-panel)!important}
+/* 標題：全部用金色（原本有些是舊版的磚紅色） */
+.modal-card h3,.vp-in h2,.result h2,.end h2,.dex li.got b{color:var(--ds-gold)!important}
+.modal-card h3,.vp-in h2{font-size:24px!important}
+/* 圖鑑清單：框線跟其他面板同色 */
+.dex li{border-color:rgba(176,138,90,.55)!important;color:var(--ds-sub)!important}
+.dex li.got{border-color:var(--ds-line)!important;color:var(--ds-text)!important}
+/* 彈窗、結果頁裡的主按鈕：同樣的最小寬度 */
+.modal-card .talisman,.result>.talisman,.dlg-foot .talisman{min-width:200px}
+</style>
 </body></html>
