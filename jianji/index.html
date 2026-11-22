@@ -2310,7 +2310,7 @@ rs.onclick=()=>{if(rs.dataset.arm){clearTimeout(tm);try{location.reload()}catch(
 rs.dataset.arm=1;rs.textContent='從頭開始';tm=setTimeout(()=>{delete rs.dataset.arm;rs.textContent='✕'},3000)};
 })();
 
-/* ---- 遊戲後台（測試用）：連點標題「剪吉殭師」5 次，或網址加 ?debug，或按鍵盤 ` 鍵 ---- */
+/* ---- 遊戲後台（測試用）：只在網址加 ?debug 時打開 ---- */
 (function(){
   const st=document.createElement('style');st.textContent='#dbg{position:fixed;z-index:200;inset:0;background:rgba(48,23,16,.6);display:none;align-items:center;justify-content:center;padding:10px}#dbg.on{display:flex}#dbg .pn{background:#fcf3e2;border:3px solid #83533f;border-radius:18px;width:min(420px,100%);max-height:92vh;overflow:auto;padding:12px 14px;font-size:14px;line-height:1.4}#dbg h4{margin:10px 0 6px;font-size:15px;color:#a65639}#dbg .rw{display:flex;flex-wrap:wrap;gap:6px}#dbg button{font:inherit;font-size:13px;padding:5px 9px;border:2px solid #83533f;border-radius:10px;background:#fcfaf5;color:#593f38;cursor:pointer}#dbg button:active{background:#faa76b}#dbg .x{float:right}#dbg input{font:inherit;width:4.2em;padding:3px;border:2px solid #83533f;border-radius:8px}';document.head.appendChild(st);
   const box=document.createElement('div');box.id='dbg';document.body.appendChild(box);
@@ -2351,13 +2351,11 @@ rs.dataset.arm=1;rs.textContent='從頭開始';tm=setTimeout(()=>{delete rs.data
     else if(a==='clr'){try{clearSave()}catch(x){}b.textContent='已清除 ✓'}
   });
   window.__debug=open;
-  document.addEventListener('keydown',e=>{if(e.key==='`')open()});
-  let taps=0,tt=0;document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('.sign,.logo-h')){taps++;clearTimeout(tt);tt=setTimeout(()=>taps=0,1500);if(taps>=5){taps=0;open()}}},true);
   if(/[?&]debug/.test(location.search))setTimeout(open,300);
 })();
 
-/* ---- 測試用：截圖複製按鈕（正式版拿掉） ---- */
-(function(){const b=document.createElement('button');b.id='shotbtn';b.type='button';b.textContent='📷';b.setAttribute('aria-label','截圖並複製');document.body.appendChild(b);
+/* ---- 測試用：截圖複製按鈕（只在網址加 ?debug 時出現） ---- */
+(function(){if(!/[?&]debug/.test(location.search))return;const b=document.createElement('button');b.id='shotbtn';b.type='button';b.textContent='📷';b.setAttribute('aria-label','截圖並複製');document.body.appendChild(b);
   const label=()=>{const q=s=>{const e=document.querySelector(s);return e?e.textContent.trim():''};const gh=q('.game-head h2');if(gh)return gh+'・'+q('.game-head .tag');return q('.scene-title span')||q('.shop-top h2')||q('.result h2')||q('.end h2')||(document.querySelector('.title-hero')?'首頁':'畫面')};
   const load=()=>window.html2canvas?Promise.resolve():new Promise((ok,no)=>{const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';sc.onload=ok;sc.onerror=no;document.head.appendChild(sc)});
   const show=(url,msg)=>{const d=document.createElement('div');d.className='modal shotpv';d.innerHTML='<div class="px modal-card"><h3>'+msg+'</h3><img src="'+url+'" alt="截圖"><button class="talisman" id="spx">關閉</button></div>';document.body.appendChild(d);d.querySelector('#spx').onclick=()=>d.remove()};
