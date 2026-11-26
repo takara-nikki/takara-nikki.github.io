@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>匯出通知開關｜宝物日誌</title>
+<meta name="description" content="Premiere 匯出完成會念一句吐槽、響鈴、跳出完成視窗的 Mac 小工具，免費下載。">
+<meta property="og:title" content="匯出通知開關｜Premiere 匯出完成會叫你">
+<meta property="og:description" content="去泡咖啡也不怕錯過算圖完成。Mac 免費小工具。">
+<meta property="og:image" content="https://takara-nikki.github.io/export-alarm/og.png">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0B0B1F;--panel:#1E1E1E;--head:#262626;--line:#3E3E3E;--tx:#E6E6E6;--sub:#9C9C9C;--pr:#9999FF;--prbg:#00005B;--blue:#378EF0}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 600px at 50% -10%,#1a1a6b 0%,var(--bg) 60%);color:var(--tx);font:16px/1.7 "Noto Sans TC",system-ui,sans-serif;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
+main{max-width:720px;margin:0 auto;padding:56px 16px 72px;text-align:center}
+.icon{width:132px;height:132px;filter:drop-shadow(0 18px 40px rgba(153,153,255,.35))}
+h1{font-size:34px;margin:18px 0 4px;letter-spacing:.04em}
+.tag{color:var(--pr);font:500 13px "IBM Plex Mono",monospace;letter-spacing:.2em}
+.lead{color:var(--sub);margin:8px auto 28px;max-width:30em}
+.dl{display:inline-flex;align-items:center;gap:10px;background:var(--pr);color:var(--prbg);font-weight:700;text-decoration:none;padding:14px 30px;border-radius:10px;box-shadow:0 0 0 1px rgba(255,255,255,.25) inset,0 10px 30px rgba(153,153,255,.35)}
+.dl:hover{background:#b3b3ff}
+.req{color:var(--sub);font-size:13px;margin-top:10px}
+.win{margin:44px auto 0;max-width:440px;background:var(--panel);border:1px solid var(--line);border-radius:10px;text-align:left;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.win .bar{background:var(--head);border-bottom:1px solid var(--line);height:28px;position:relative;font-size:12px;color:var(--sub);padding:5px 12px}
+.win .bar i{position:absolute;left:12px;bottom:-1px;width:58px;height:2px;background:var(--blue)}
+.win .bd{display:flex;gap:14px;padding:18px}
+.pr{flex:none;width:46px;height:46px;border-radius:9px;background:var(--prbg);border:1.5px solid var(--pr);color:var(--pr);display:grid;place-items:center;font:700 19px system-ui}
+.win b{display:block;font-size:15px}
+.win small{color:var(--sub);font-size:12.5px;display:block}
+.win .btns{display:flex;justify-content:flex-end;gap:8px;padding:0 18px 16px}
+.btn{font-size:12px;padding:5px 16px;border-radius:5px;border:1px solid var(--line);color:var(--tx)}
+.btn.p{background:var(--blue);border-color:var(--blue)}
+.cap{color:var(--sub);font-size:12px;margin-top:10px}
+h2{font-size:20px;margin:56px 0 18px}
+.steps{display:grid;gap:12px;text-align:left}
+.st{display:flex;gap:14px;background:rgba(255,255,255,.03);border:1px solid rgba(153,153,255,.18);border-radius:12px;padding:14px 16px}
+.st svg{flex:none;width:26px;height:26px;stroke:var(--pr);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-top:2px}
+.st b{display:block}
+.st span{color:var(--sub);font-size:14px}
+kbd{word-break:break-all;font:500 12px "IBM Plex Mono",monospace;background:#2a2a3a;border:1px solid #444;border-radius:4px;padding:1px 6px;color:var(--tx)}
+ul.lines{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+ul.lines li{background:rgba(153,153,255,.08);border-radius:999px;padding:6px 16px;font-size:14px}
+footer{margin-top:56px;color:var(--sub);font-size:13px}
+footer a{color:var(--pr)}
+</style>
+</head>
+<body>
+<main>
+  <img class="icon" src="icon.png" alt="匯出通知開關圖示">
+  <div class="tag">EXPORT ALARM · v2</div>
+  <h1>匯出通知開關</h1>
+  <p class="lead">Premiere 匯出完成時，念一句吐槽、響鈴<br>再跳出完成視窗，去泡咖啡也不怕錯過</p>
+  <a class="dl" href="export-alarm-v2.zip" download>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+    免費下載（660 KB）
+  </a>
+  <div class="req">Apple 晶片 Mac（M1 以上）<br>Premiere Pro／Media Encoder</div>
+
+  <div class="win" aria-label="完成視窗示意">
+    <div class="bar">匯出佇列 <span style="color:#2FB36A;margin-left:14px">● 匯出完成</span><i></i></div>
+    <div class="bd"><div class="pr">Pr</div><div><b>叮咚，片子烤好了，趁熱交給客戶吧</b><small>20261127 宣傳片_Final.mp4</small><small>05_Export</small></div></div>
+    <div class="btns"><span class="btn">在 Finder 顯示</span><span class="btn p">關掉</span></div>
+  </div>
+  <div class="cap">完成視窗示意</div>
+
+  <h2>三步驟安裝</h2>
+  <div class="steps">
+    <div class="st"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5h8v2M3 12h18"/></svg><div><b>解壓縮</b><span>zip 點兩下，會出現「匯出通知開關」</span></div></div>
+    <div class="st"><svg viewBox="0 0 24 24"><path d="M4 4l7 17 2-7 7-2z"/></svg><div><b>右鍵打開「安裝.command」</b><span>沒有 Apple 簽章，雙擊會被擋，按右鍵 →「打開」→ 再按「打開」。若跳出「指令列工具」，裝完再打開一次</span></div></div>
+    <div class="st"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg><div><b>雙擊「測試鈴聲」</b><span>有聲音、有視窗就成功了，之後在「應用程式」裡的「匯出通知開關」隨時開關</span></div></div>
+  </div>
+
+  <h2>隨機吐槽台詞</h2>
+  <ul class="lines">
+    <li>匯出完成，不要偷懶了喔</li>
+    <li>匯出完成，老闆在看你喔，快點動起來</li>
+    <li>報告，影片已經出爐，請不要再滑手機了</li>
+    <li>恭喜你，又活過了一次算圖，起來伸個懶腰吧</li>
+  </ul>
+  <p class="req">台詞可以自己改，一行一句：<br><kbd>~/Library/Application Support/BaoExportAlarm/lines.txt</kbd></p>
+
+  <footer>只偵測影片檔，字幕和音檔匯出不會響<br>不想用了，雙擊「解除安裝.command」<br>寶物日誌影像 · 免費分享，歡迎轉傳 · <a href="../">宝物日誌 App 總站</a></footer>
+</main>
+</body>
+</html>
